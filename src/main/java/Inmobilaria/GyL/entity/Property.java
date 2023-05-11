@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.Entities;
+package Inmobilaria.GyL.entity;
 
 import Inmobilaria.GyL.Enums.Status;
 import Inmobilaria.GyL.Enums.Type;
@@ -19,7 +19,7 @@ public class Property {
     @Enumerated(EnumType.STRING)
     private Status status;
     @CreationTimestamp
-    public Date createDate;
+    private Date createDate;
 
     //    @OneToMany(mappedBy = "property",fetch = FetchType.LAZY)
 //    @JsonIgnore

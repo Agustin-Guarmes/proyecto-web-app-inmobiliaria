@@ -1,7 +1,7 @@
-package Inmobilaria.GyL.Services;
+package Inmobilaria.GyL.service;
 
-import Inmobilaria.GyL.Entities.ImageUser;
-import Inmobilaria.GyL.Repositories.ImageRepository;
+import Inmobilaria.GyL.entity.ImageUser;
+import Inmobilaria.GyL.repository.ImageRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

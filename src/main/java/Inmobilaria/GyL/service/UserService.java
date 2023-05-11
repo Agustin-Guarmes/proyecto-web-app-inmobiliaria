@@ -1,10 +1,10 @@
-package Inmobilaria.GyL.Services;
+package Inmobilaria.GyL.service;
 
-import Inmobilaria.GyL.Emuns.Role;
-import Inmobilaria.GyL.Repositories.UserRepository;
+import Inmobilaria.GyL.Enums.Role;
+import Inmobilaria.GyL.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import Inmobilaria.GyL.Entities.User;
+import Inmobilaria.GyL.entity.User;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
