@@ -20,7 +20,8 @@ public class User {
     public String name;
     public String email;
     public String password;
-
+    public Long dni;
+    
     @Enumerated(EnumType.STRING)
     public Role role;
 
@@ -35,6 +36,14 @@ public class User {
     
     public Long getId() {
         return id;
+    }
+
+    public Long getDni() {
+        return dni;
+    }
+
+    public void setDni(Long dni) {
+        this.dni = dni;
     }
 
     public void setId(Long id) {
