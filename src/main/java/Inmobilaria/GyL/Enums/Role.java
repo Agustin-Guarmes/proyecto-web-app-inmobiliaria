@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.Emuns;
+package Inmobilaria.GyL.Enums;
 
 public enum Role {
     ADMIN,

@@ -1,6 +1,6 @@
 package Inmobilaria.GyL.Entities;
 
-import Inmobilaria.GyL.Emuns.Role;
+import Inmobilaria.GyL.Enums.Role;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
