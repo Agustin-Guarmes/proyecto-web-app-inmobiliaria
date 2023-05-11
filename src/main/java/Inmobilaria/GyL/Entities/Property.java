@@ -33,6 +33,9 @@ public class Property {
     @JsonIgnore
     private List<ImageProperty> images;
 
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    private List<Offer> offers;
+
     public Property() {
     }
 
