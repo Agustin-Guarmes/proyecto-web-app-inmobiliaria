@@ -12,7 +12,7 @@
 	<artifactId>GyL</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>GyL</name>
-	<description>Inmobilaria p royecto integrador EGG</description>
+	<description>Inmobilaria proyecto integrador EGG</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
