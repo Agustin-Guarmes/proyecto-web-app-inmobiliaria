@@ -20,10 +20,6 @@ public class Property {
     private Status status;
     @CreationTimestamp
     private Date createDate;
-
-    //    @OneToMany(mappedBy = "property",fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private List<Offer> offers;
     @Enumerated(EnumType.STRING)
     private Type type;
     private Integer surface;
@@ -34,6 +30,7 @@ public class Property {
     private List<ImageProperty> images;
 
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Offer> offers;
 
     public Property() {
