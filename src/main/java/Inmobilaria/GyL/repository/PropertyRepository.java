@@ -1,13 +1,8 @@
 package Inmobilaria.GyL.repository;
 
 import Inmobilaria.GyL.entity.Property;
-<<<<<<< HEAD
-import Inmobilaria.GyL.Enums.Status;
-import Inmobilaria.GyL.Enums.Type;
-=======
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
->>>>>>> 17791e52cfdcc2a7f3f66334130ebe9919e69072
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
