@@ -2,7 +2,7 @@ package Inmobilaria.GyL.service;
 
 import Inmobilaria.GyL.entity.ImageUser;
 import Inmobilaria.GyL.entity.User;
-import Inmobilaria.GyL.Enums.Role;
+import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.repository.UserRepository;
 import java.time.Instant;
 import java.util.ArrayList;
