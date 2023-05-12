@@ -1,20 +1,28 @@
 package Inmobilaria.GyL.service;
 
 import Inmobilaria.GyL.entity.ImageUser;
-import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.Role;
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.repository.UserRepository;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
-public class UserService{ 
+public class UserService implements UserDetailsService{ 
+
     @Autowired
     private UserRepository userRepository;
     
@@ -25,10 +33,11 @@ public class UserService{
         User user = new User();
 
         user.setEmail(email);
-        user.setPassword(password);
+
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setName(name);
         user.setRole(Role.CLIENT);
-        user.setCreateDate(Date.from(Instant.MIN));
+
 
         userRepository.save(user);
     }
@@ -63,5 +72,31 @@ public class UserService{
     @Transactional
     public void deleteUser(Long id){
         userRepository.deleteById(id);
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
+        User user = userRepository.findByEmail(email);
+
+        if (user != null) {
+
+            List<GrantedAuthority> permissions = new ArrayList();
+
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + user.getRole().toString());
+
+            permissions.add(p);
+
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+
+            HttpSession session = attr.getRequest().getSession(true);
+
+            session.setAttribute("userSession", user);
+
+            return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), permissions);
+
+        } else {
+            return null;
+        }
     }
 }
