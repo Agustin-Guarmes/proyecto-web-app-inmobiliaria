@@ -1,7 +1,7 @@
 package Inmobilaria.GyL.service;
 
 import Inmobilaria.GyL.entity.ImageUser;
-import Inmobilaria.GyL.Enums.Role;
+import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.repository.UserRepository;
 import java.util.ArrayList;
@@ -19,6 +19,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
+
+
 
 @Service
 public class UserService implements UserDetailsService{ 
@@ -26,19 +29,22 @@ public class UserService implements UserDetailsService{
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired 
+    private ImageService imageService;
     
     @Transactional
-    public void createUser(String email, String password, String name) {
+    public void createUser(String email, String password, String name,MultipartFile icon) throws Exception {
 
         User user = new User();
 
         user.setEmail(email);
-
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setName(name);
         user.setRole(Role.CLIENT);
 
-
+        ImageUser image = imageService.submitImg(icon);
+        user.setIcon(image);
+        
         userRepository.save(user);
     }
 
@@ -54,7 +60,7 @@ public class UserService implements UserDetailsService{
     }
 
     @Transactional
-    public void modifyUser(Long id,String name,String password,ImageUser icon){
+    public void modifyUser(Long id,String name,String password,MultipartFile icon){
     
         Optional<User> response= userRepository.findById(id);
         if(response.isPresent()){ 
@@ -63,7 +69,15 @@ public class UserService implements UserDetailsService{
           
             user.setName(name);
             user.setPassword(password);
-            user.setIcon(icon); 
+            
+            String idImage = null;
+            
+            if (user.getIcon() != null) {
+                idImage = user.getIcon().getId();
+            }
+            
+            ImageUser image = imageService.updateImg(icon, idImage);
+            user.setIcon(image); 
             
             userRepository.save(user);
         }

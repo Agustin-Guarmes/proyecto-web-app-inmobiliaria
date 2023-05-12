@@ -1,6 +1,6 @@
 package Inmobilaria.GyL.entity;
 
-import Inmobilaria.GyL.Enums.AppointmentState;
+import Inmobilaria.GyL.enums.AppointmentState;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
