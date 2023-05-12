@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.service2;
+package Inmobilaria.GyL.service;
 
 import Inmobilaria.GyL.entity.ImageUser;
 import Inmobilaria.GyL.repository.ImageRepository;

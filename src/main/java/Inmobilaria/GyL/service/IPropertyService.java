@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.service2;
+package Inmobilaria.GyL.service;
 
 public interface IPropertyService {
 }

@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.service2;
+package Inmobilaria.GyL.service;
 
 import Inmobilaria.GyL.entity.ImageUser;
 import Inmobilaria.GyL.entity.User;
@@ -14,12 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService  { 
+public class UserService{ 
     @Autowired
     private UserRepository userRepository;
     
     
-     @Transactional
+    @Transactional
     public void createUser(String email, String password, String name) {
 
         User user = new User();
