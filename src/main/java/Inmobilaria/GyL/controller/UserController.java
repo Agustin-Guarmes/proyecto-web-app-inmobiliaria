@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.Controllers;
+package Inmobilaria.GyL.controller;
 
 import org.springframework.stereotype.Controller;
 

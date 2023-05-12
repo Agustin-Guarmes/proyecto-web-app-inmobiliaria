@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.Entities;
+package Inmobilaria.GyL.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;

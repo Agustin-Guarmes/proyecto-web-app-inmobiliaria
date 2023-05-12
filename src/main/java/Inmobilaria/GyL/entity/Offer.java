@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.Entities;
+package Inmobilaria.GyL.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 

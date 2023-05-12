@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.Entities;
+package Inmobilaria.GyL.entity;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;

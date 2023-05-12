@@ -19,7 +19,7 @@ public class UserService  {
     private UserRepository userRepository;
     
     
-     @Transactional
+    @Transactional
     public void createUser(String email, String password, String name) {
 
         User user = new User();

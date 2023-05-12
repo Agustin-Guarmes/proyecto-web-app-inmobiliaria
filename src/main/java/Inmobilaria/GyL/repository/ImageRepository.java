@@ -1,6 +1,6 @@
-package Inmobilaria.GyL.Repositories;
+package Inmobilaria.GyL.repository;
 
-import Inmobilaria.GyL.Entities.ImageUser;
+import Inmobilaria.GyL.entity.ImageUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
