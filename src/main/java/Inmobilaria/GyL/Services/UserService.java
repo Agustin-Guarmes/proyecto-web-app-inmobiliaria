@@ -1,6 +1,6 @@
 package Inmobilaria.GyL.Services;
 
-import Inmobilaria.GyL.Emuns.Role;
+import Inmobilaria.GyL.Enums.Role;
 import Inmobilaria.GyL.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
