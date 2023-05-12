@@ -11,18 +11,18 @@ public class ImageProperty {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    public String id;
+    private String id;
 
-    public String mime;
+    private String mime;
 
-    public String name;
+    private String name;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    public Property property;
+    private Property property;
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    public byte[] container;
+    private byte[] container;
 
     public ImageProperty() {
     }

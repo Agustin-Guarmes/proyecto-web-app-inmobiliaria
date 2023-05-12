@@ -10,22 +10,22 @@ import java.util.Date;
 public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
     @CreationTimestamp
-    public Date creationDate;
+    private Date creationDate;
 
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "id")
-    public Property property;
+    private Property property;
 
     @OneToOne
-    public User user;
+    private User user;
 
     @NotNull(message = ("Price is required"))
-    public Double price;
+    private Double price;
 
-    public Boolean state;
+    private Boolean state;
 
     public Offer(Long id, Date creationDate, Property property, User user, Double price, Boolean state) {
         this.id = id;
