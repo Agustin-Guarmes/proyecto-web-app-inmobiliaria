@@ -1,25 +1,26 @@
-package Inmobilaria.GyL.Service;
+package Inmobilaria.GyL.service;
 
-import Inmobilaria.GyL.Entities.ImageUser;
-import Inmobilaria.GyL.Entities.User;
 import Inmobilaria.GyL.Enums.Role;
-import Inmobilaria.GyL.Repositories.UserRepository;
+import Inmobilaria.GyL.entity.ImageUser;
+import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
-public class UserService  { 
+public class UserService  {
     @Autowired
     private UserRepository userRepository;
-    
-    
-     @Transactional
+
+
+    @Transactional
     public void createUser(String email, String password, String name) {
 
         User user = new User();
@@ -45,21 +46,21 @@ public class UserService  {
     }
 
     @Transactional
-    public void modifyUser(Long id,String name,String email,String password,ImageUser icon){
-    
+    public void modifyUser(Long id, String name, String email, String password, ImageUser icon){
+
         Optional<User> response= userRepository.findById(id);
-        if(response.isPresent()){ 
-            
-            User user=response.get(); 
-          
+        if(response.isPresent()){
+
+            User user=response.get();
+
             user.setName(name);
             user.setPassword(password);
-            user.setIcon(icon); 
-            
+            user.setIcon(icon);
+
             userRepository.save(user);
         }
-    } 
-    
+    }
+
     @Transactional
     public void deleteUser(Long id){
         userRepository.deleteById(id);
