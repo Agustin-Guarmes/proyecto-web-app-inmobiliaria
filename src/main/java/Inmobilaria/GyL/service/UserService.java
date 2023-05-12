@@ -1,12 +1,13 @@
 package Inmobilaria.GyL.service;
 
 import Inmobilaria.GyL.entity.ImageUser;
-import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.Enums.Role;
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 public class UserService implements UserDetailsService{ 
@@ -74,7 +76,7 @@ public class UserService implements UserDetailsService{
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
         User user = userRepository.findByEmail(email);
 
         if (user != null) {
@@ -91,10 +93,10 @@ public class UserService implements UserDetailsService{
 
             session.setAttribute("userSession", user);
 
-            return new User(user.getName(), user.getPassword(), permissions);
+            return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), permissions);
 
         } else {
             return null;
         }
-
+    }
 }
