@@ -1,6 +1,6 @@
-package Inmobilaria.GyL.Enums;
+package Inmobilaria.GyL.enums;
 
-public enum Type {
+public enum PropertyType {
 //    HOUSE,APARTMENT,CABIN,DUPLEX,TRIPLEX,PH,GARAGE,WAREHOUSE
     CASA,DEPARTAMENTO,CABAÑA,DUPLEX,TRIPLEX,PH,COCHERA,DEPOSITO,CHALET,PISO,TERRENO,OFICINA,LOTE,COMERCIO,CAMPO;
 }

@@ -1,7 +1,7 @@
-package Inmobilaria.GyL.Entities;
+package Inmobilaria.GyL.entity;
 
-import Inmobilaria.GyL.Enums.Status;
-import Inmobilaria.GyL.Enums.Type;
+import Inmobilaria.GyL.enums.PropertyStatus;
+import Inmobilaria.GyL.enums.PropertyType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -17,15 +17,11 @@ public class Property {
     private String address;
     private String location;
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private PropertyStatus status;
     @CreationTimestamp
-    public Date createDate;
-
-    //    @OneToMany(mappedBy = "property",fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private List<Offer> offers;
+    private Date createDate;
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private PropertyType type;
     private Integer surface;
     private Double price;
     private String description;
@@ -34,12 +30,13 @@ public class Property {
     private List<ImageProperty> images;
 
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Offer> offers;
 
     public Property() {
     }
 
-    public Property(String address, String location, Status status, Date createDate, Type type, Integer surface, Double price, String description, List<ImageProperty> images) {
+    public Property(String address, String location, PropertyStatus status, Date createDate, PropertyType type, Integer surface, Double price, String description, List<ImageProperty> images) {
         this.address = address;
         this.location = location;
         this.status = status;
@@ -71,11 +68,11 @@ public class Property {
         this.location = location;
     }
 
-    public Status getStatus() {
+    public PropertyStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(PropertyStatus status) {
         this.status = status;
     }
 
@@ -83,11 +80,11 @@ public class Property {
         return createDate;
     }
 
-    public Type getType() {
+    public PropertyType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(PropertyType type) {
         this.type = type;
     }
 

@@ -1,6 +1,6 @@
-package Inmobilaria.GyL.Repositories;
+package Inmobilaria.GyL.repository;
 
-import Inmobilaria.GyL.Entities.User;
+import Inmobilaria.GyL.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

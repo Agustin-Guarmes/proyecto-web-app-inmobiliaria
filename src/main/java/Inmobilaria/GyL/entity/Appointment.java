@@ -1,6 +1,6 @@
-package Inmobilaria.GyL.Entities;
+package Inmobilaria.GyL.entity;
 
-import Inmobilaria.GyL.Enums.AppointmentState;
+import Inmobilaria.GyL.enums.AppointmentState;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -12,21 +12,21 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = ("Appointment Date is required"))
-    public Date appointmentDate;
+    private Date appointmentDate;
 
     @OneToOne
-    public User owner;
+    private User owner;
 
     @OneToOne
-    public User client;
+    private User client;
 
     @Enumerated(EnumType.STRING)
-    public AppointmentState state;
+    private AppointmentState state;
 
     public Appointment(Long id, Date appointmentDate, User owner, User client, AppointmentState state) {
         this.id = id;
