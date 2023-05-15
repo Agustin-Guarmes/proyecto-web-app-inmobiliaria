@@ -1,6 +1,6 @@
-package Inmobilaria.GyL.Entities;
+package Inmobilaria.GyL.entity;
 
-import Inmobilaria.GyL.Enums.Role;
+import Inmobilaria.GyL.enums.Role;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,25 +16,34 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
-    public String name;
-    public String email;
-    public String password;
-
+    private Long id;
+    private String name;
+    private String email;
+    private String password;
+    private Long dni;
+    
     @Enumerated(EnumType.STRING)
-    public Role role;
+    private Role role;
 
     @CreationTimestamp
-    public Date createDate;
+    private Date createDate;
 
     @OneToOne
-    public ImageUser icon;
+    private ImageUser icon;
 
     public User() {
     }
     
     public Long getId() {
         return id;
+    }
+
+    public Long getDni() {
+        return dni;
+    }
+
+    public void setDni(Long dni) {
+        this.dni = dni;
     }
 
     public void setId(Long id) {

@@ -1,4 +1,4 @@
-package Inmobilaria.GyL.Entities;
+package Inmobilaria.GyL.entity;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -14,15 +14,15 @@ public class ImageUser {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    public String id;
+    private String id;
 
-    public String mime;
+    private String mime;
 
-    public String name;
+    private String name;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    public byte[] container;
+    private byte[] container;
 
     public ImageUser() {
     }
