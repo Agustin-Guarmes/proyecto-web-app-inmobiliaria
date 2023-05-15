@@ -3,6 +3,7 @@ package Inmobilaria.GyL.entity;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -33,7 +34,28 @@ public class Property {
     @JsonIgnore
     private List<Offer> offers;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Property() {
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
     }
 
     public Property(String address, String location, PropertyStatus status, Date createDate, PropertyType type, Integer surface, Double price, String description, List<ImageProperty> images) {
