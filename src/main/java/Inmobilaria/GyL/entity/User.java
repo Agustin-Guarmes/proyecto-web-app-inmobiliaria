@@ -2,13 +2,10 @@ package Inmobilaria.GyL.entity;
 
 import Inmobilaria.GyL.enums.Role;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import java.util.List;
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -31,9 +28,21 @@ public class User {
     @OneToOne
     private ImageUser icon;
 
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Property> properties;
+
     public User() {
     }
-    
+
+    public List<Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
+    }
+
     public Long getId() {
         return id;
     }
