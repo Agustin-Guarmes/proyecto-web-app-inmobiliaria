@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <div>
+            <h2>Login</h2>
+            <form th:action="@{/usuario/logincheck}" method="POST">
+                <div>
+                    <input type="email" name="email">
+                    <label for="email">Email</label>
+                </div>
+                <div>
+                    <input type="password" name="password">
+                    <label for="password">Password</label>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <div>
+            <h2>Registrar</h2>
+            <form th:action="@{/usuario/registrar}" method="POST" enctype="multipart/form-data">
+                <div>
+                    <input type="text" name="name" id="name">
+                    <label for="name">Nombre</label>
+                </div>
+                <div>
+                    <input type="email" name="email" id="email">
+                    <label for="email">Email</label>
+                </div>
+                <div>
+                    <input type="number" name="dni" id="dni">
+                    <label for="dni">DNI</label>
+                </div>
+                <div>
+                    <input type="password" name="password" id="password">
+                    <label for="password">Contraseña</label>
+                </div>
+                <div>
+                    <input type="file" name="icon">
+                    <label for="icon">Elegir imagen</label>
+                </div>                        
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

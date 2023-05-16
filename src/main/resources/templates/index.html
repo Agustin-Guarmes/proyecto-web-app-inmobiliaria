@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Se ingreso!</h1>
+   
+        <table class="table table-dark" sec:authorize="hasRole('ADMIN')">
+            <thead>
+                <tr>
+                    <th scope="col">Id del user</th>
+                    <th scope="col">Nombre del user</th>
+                </tr>
+            </thead>
+            <tbody th:each="user : ${users}"> 
+                <tr>
+                    <th scope="row" th:text="${user.id}"></th>
+                    <td th:text="${user.name}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

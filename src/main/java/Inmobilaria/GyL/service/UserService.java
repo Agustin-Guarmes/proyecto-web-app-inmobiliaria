@@ -5,6 +5,7 @@ import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.repository.UserRepository;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
@@ -33,14 +34,16 @@ public class UserService implements UserDetailsService{
     private ImageService imageService;
     
     @Transactional
-    public void createUser(String email, String password, String name,MultipartFile icon) throws Exception {
+    public void createUser(String email, String password, String name, Long dni,MultipartFile icon) throws Exception {
 
         User user = new User();
 
         user.setEmail(email);
         user.setPassword(new BCryptPasswordEncoder().encode(password));
+        user.setCreateDate(new Date());
         user.setName(name);
         user.setRole(Role.CLIENT);
+        user.setDni(dni);
 
         ImageUser image = imageService.submitImg(icon);
         user.setIcon(image);
