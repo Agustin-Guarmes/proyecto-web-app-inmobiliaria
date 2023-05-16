@@ -1,9 +1,11 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.repository.UserRepository;
 import Inmobilaria.GyL.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +22,24 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private UserRepository userRepository;
+    
     @GetMapping("/")
     public String index(ModelMap model){
         
         List <User> users = userService.listUsers();
+        
+        model.put("users", users);
+        
+        return "index.html";
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/listaPersonalizada")
+    public String searchUsers(@RequestParam String word,ModelMap model){
+        
+        List<User> users = userRepository.findByName(word);
         
         model.put("users", users);
         
@@ -44,7 +60,7 @@ public class UserController {
     public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, MultipartFile icon){
         try {
             userService.createUser(email, password, name, dni, icon);
-            return "index.html";
+            return "redirect:/usuario/";
         } catch (Exception ex) {
             ex.getMessage();
             return "redirect:/usuario/registro";
