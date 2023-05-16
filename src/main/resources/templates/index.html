@@ -1,10 +1,5 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html lang="es" xmlns:th="http://www.thymeleaf.orq" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
@@ -12,20 +7,28 @@ and open the template in the editor.
     </head>
     <body>
         <h1>Se ingreso!</h1>
-   
-        <table class="table table-dark" sec:authorize="hasRole('ADMIN')">
-            <thead>
-                <tr>
-                    <th scope="col">Id del user</th>
-                    <th scope="col">Nombre del user</th>
-                </tr>
-            </thead>
-            <tbody th:each="user : ${users}"> 
-                <tr>
-                    <th scope="row" th:text="${user.id}"></th>
-                    <td th:text="${user.name}"></td>
-                </tr>
-            </tbody>
-        </table>
+        <div clas="adminTable" sec:authorize="hasRole('ADMIN')">
+            <form method="GET" th:action="@{/usuario/listaPersonalizada}">
+                <input type="text" name="word"/>
+                <buttom type="submit">Enviar</buttom>
+            </form>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Id del user</th>
+                        <th scope="col">Nombre del user</th>
+                        <th scope="col">Email del user</th>
+                    </tr>
+                </thead>
+                <tbody th:each="user : ${users}"> 
+                    <tr>
+                        <th scope="row" th:text="${user.id}"></th>
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </body>
 </html>
