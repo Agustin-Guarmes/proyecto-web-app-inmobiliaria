@@ -14,50 +14,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Controller
 @RequestMapping("/usuario")
 public class UserController {
- 
+
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private UserRepository userRepository;
-    
+
+    @GetMapping("/propiedades")
+    public String propiedades() {
+        return "properties.html";
+    }
+
     @GetMapping("/")
-    public String index(ModelMap model){
-        
-        List <User> users = userService.listUsers();
-        
-        model.put("users", users);
-        
+    public String index() {
         return "index.html";
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listaPersonalizada")
-    public String searchUsers(@RequestParam String word,ModelMap model){
-        
-        List<User> users = userRepository.findByName(word);
-        
+    public String listUsers(ModelMap model) {
+
+        List<User> users = userService.listUsers();
+
         model.put("users", users);
-        
-        return "index.html";
+
+        return "into.html";
     }
-    
-    @GetMapping("/ingresar")
-    public String login(){
-        return "user.html";
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/listaPersonalizadaBusqueda")
+    public String searchUsers(@RequestParam String word, ModelMap model) {
+
+        List<User> users = userRepository.findByName(word);
+
+        model.put("users", users);
+
+        return "into.html";
     }
-    
-    @GetMapping("/registro")
-    public String register(){
-        return "user.html";
-    }
-    
+
     @PostMapping("/registrar")
+<<<<<<< HEAD
     public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon){
+=======
+    public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, MultipartFile icon) {
+>>>>>>> 0ebd2e75df6319b327bbdaaefb175f5adb034019
         try {
             userService.createUser(email, password, name, dni, role, icon);
             return "redirect:/usuario/";
