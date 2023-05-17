@@ -57,11 +57,8 @@ public class UserController {
     }
 
     @PostMapping("/registrar")
-<<<<<<< HEAD
+
     public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon){
-=======
-    public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, MultipartFile icon) {
->>>>>>> 0ebd2e75df6319b327bbdaaefb175f5adb034019
         try {
             userService.createUser(email, password, name, dni, role, icon);
             return "redirect:/usuario/";
