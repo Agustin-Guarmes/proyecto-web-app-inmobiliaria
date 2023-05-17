@@ -2,6 +2,7 @@ package Inmobilaria.GyL.entity;
 
 import Inmobilaria.GyL.enums.Role;
 import java.util.Date;
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,8 +13,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.List;
-import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity
