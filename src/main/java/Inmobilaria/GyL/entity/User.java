@@ -4,9 +4,17 @@ import Inmobilaria.GyL.enums.Role;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.CreationTimestamp;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 
 @Entity
 public class User {
@@ -18,11 +26,11 @@ public class User {
     private String email;
     private String password;
     private Long dni;
-    
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @CreationTimestamp
+    @Temporal(TemporalType.DATE)
     private Date createDate;
 
     @OneToOne
@@ -106,6 +114,5 @@ public class User {
     public void setIcon(ImageUser icon) {
         this.icon = icon;
     }
-    
-    
+
 }

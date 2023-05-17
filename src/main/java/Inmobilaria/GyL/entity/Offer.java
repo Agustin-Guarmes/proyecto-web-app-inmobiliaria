@@ -79,5 +79,14 @@ public class Offer {
 
     public void setState(Boolean state) {
         this.state = state;
+    } 
+
+    public User getUser() {
+        return user;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
 }
