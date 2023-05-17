@@ -1,4 +1,5 @@
 package Inmobilaria.GyL.service;
 
-public interface IPropertyService {
+public interface IPropertyService { 
+    
 }
