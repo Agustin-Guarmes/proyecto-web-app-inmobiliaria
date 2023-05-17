@@ -57,9 +57,9 @@ public class UserController {
     }
     
     @PostMapping("/registrar")
-    public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, MultipartFile icon){
+    public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon){
         try {
-            userService.createUser(email, password, name, dni, icon);
+            userService.createUser(email, password, name, dni, role, icon);
             return "redirect:/usuario/";
         } catch (Exception ex) {
             ex.getMessage();

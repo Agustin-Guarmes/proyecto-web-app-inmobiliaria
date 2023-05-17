@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService{
     private ImageService imageService;
     
     @Transactional
-    public void createUser(String email, String password, String name, Long dni,MultipartFile icon) throws Exception {
+    public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws Exception {
 
         User user = new User();
 
