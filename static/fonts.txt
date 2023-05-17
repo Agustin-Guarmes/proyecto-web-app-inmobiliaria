@@ -1,3 +1,0 @@
-font-family: 'Bebas Neue', sans-serif;
-font-family: 'Lobster', cursive;
-font-family: 'Pacifico', cursive;
