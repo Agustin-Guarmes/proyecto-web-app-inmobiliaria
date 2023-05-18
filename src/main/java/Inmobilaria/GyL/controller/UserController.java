@@ -29,10 +29,7 @@ public class UserController {
         return "properties.html";
     }
 
-    @GetMapping("/")
-    public String index() {
-        return "index.html";
-    }
+  
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listaPersonalizada")
