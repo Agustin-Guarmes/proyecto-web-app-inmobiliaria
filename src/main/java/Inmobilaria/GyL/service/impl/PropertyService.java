@@ -1,6 +1,7 @@
 package Inmobilaria.GyL.service.impl;
 
 import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
 import Inmobilaria.GyL.repository.PropertyRepository;
@@ -24,8 +25,9 @@ public class PropertyService implements IPropertyService {
         this.ips = ips;
     }
 
-    public void createProperty(String address, String location, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs) throws IOException {
+    public void createProperty(User user, String address, String location, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs) throws IOException {
         Property property = new Property();
+        property.setUser(user);
         property.setAddress(address);
         property.setLocation(location);
         property.setStatus(PropertyStatus.valueOf(status));

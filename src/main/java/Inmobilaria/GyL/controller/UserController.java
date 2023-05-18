@@ -3,7 +3,13 @@ package Inmobilaria.GyL.controller;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.repository.UserRepository;
 import Inmobilaria.GyL.service.UserService;
+import Inmobilaria.GyL.service.impl.PropertyService;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,6 +26,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PropertyService propertyService;
 
     @Autowired
     private UserRepository userRepository;
@@ -57,14 +66,36 @@ public class UserController {
     }
 
     @PostMapping("/registrar")
-
-    public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon){
+    public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon) {
         try {
+            System.out.println(role);
             userService.createUser(email, password, name, dni, role, icon);
             return "redirect:/usuario/";
         } catch (Exception ex) {
             ex.getMessage();
             return "redirect:/usuario/registro";
         }
+    }
+
+    @GetMapping("/formularioPropiedad")
+    public String formProperty() {
+        return "formProperty.html";
+    }
+
+    @PostMapping("/agregarPropiedad")
+    public String addProperty(@RequestParam Long idUser, @RequestParam String address, @RequestParam String location, @RequestParam String status, @RequestParam String type, @RequestParam int surface, @RequestParam double price, @RequestParam String description, @RequestParam MultipartFile[] files) {
+
+        try {
+            propertyService.createProperty(userService.getOne(idUser), address, location, status, type, surface, price, description, Arrays.asList(files));
+
+        } catch (IOException ex) {
+            ex.getMessage();
+        }
+        return "index.html";
+    }
+    
+    @GetMapping("/")
+    public String listProperties(){
+        return "user.html";
     }
 }

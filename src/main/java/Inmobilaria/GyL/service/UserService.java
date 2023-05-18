@@ -40,6 +40,9 @@ public class UserService implements UserDetailsService {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setCreateDate(new Date());
         user.setName(name);
+        
+        /*user.setRole(Role.valueOf(name));*/
+        
         switch (role) {
             case "cliente":
                 user.setRole(Role.CLIENT);
@@ -47,12 +50,10 @@ public class UserService implements UserDetailsService {
             case "propietario":
                 user.setRole(Role.ENTITY);
                 break;
-            case "clientePropietario":
-                user.setRole(Role.BOTHROLE);
-                break;
             default:
                 user.setRole(Role.CLIENT);
         }
+        
         
         user.setDni(dni);
 
