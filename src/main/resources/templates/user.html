@@ -50,5 +50,26 @@
             </form>
         </div>
     </main>
+    
+    <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Id del user</th>
+                        <th scope="col">Nombre del user</th>
+                        <th scope="col">Email del user</th>
+                        <th scope="col">Imagen del user</th>
+                    </tr>
+                </thead>
+                <tbody th:each="user : ${users}"> 
+                    <tr>
+                        <th scope="row" th:text="${user.id}"></th>
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td>
+                            <img th:src="@{/image/profile/__${user.id}__}" style="width: 100px; height: 100px;">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 </body>
 </html>

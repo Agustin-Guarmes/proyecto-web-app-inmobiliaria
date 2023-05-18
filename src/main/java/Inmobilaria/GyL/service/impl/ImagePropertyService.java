@@ -26,6 +26,7 @@ public class ImagePropertyService {
                 img.setName(file.getName());
                 img.setContainer(file.getBytes());
                 img.setProperty(property);
+                ipr.save(img);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }

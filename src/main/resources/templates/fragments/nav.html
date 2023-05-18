@@ -21,6 +21,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Alquilar propiedades</a></li>
                         <li><a class="dropdown-item" href="#">Comprar propiedades</a></li>
+                        <li sec:authorize="hasRole('ENTITY')" ><a class="dropdown-item" th:href="@{/usuario/formularioPropiedad}" >Agregar propiedades</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
