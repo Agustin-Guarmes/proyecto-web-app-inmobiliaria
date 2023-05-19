@@ -94,8 +94,8 @@ public class UserController {
         return "index.html";
     }
     
-    @GetMapping("/")
+/*    @GetMapping("/")
     public String listProperties(){
         return "user.html";
-    }
+    }*/
 }
