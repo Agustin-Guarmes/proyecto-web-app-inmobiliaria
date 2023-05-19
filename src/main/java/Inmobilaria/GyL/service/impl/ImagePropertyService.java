@@ -51,4 +51,8 @@ public class ImagePropertyService {
         }
         return null;
     }
+
+    public ImageProperty findById(String id){
+        return ipr.findById(id).get();
+    }
 }

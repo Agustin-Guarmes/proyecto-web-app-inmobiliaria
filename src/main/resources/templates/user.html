@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.orq" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="es" xmlns:th="http://www.thymeleaf.orq">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,69 +7,73 @@
     <title>Document</title>
 </head>
 <body>
-    <main>
-        <div>
-            <h2>Login</h2>
-            <form th:action="@{/usuario/logincheck}" method="POST">
-                <div>
-                    <input type="email" name="email">
-                    <label for="email">Email</label>
-                </div>
-                <div>
-                    <input type="password" name="password">
-                    <label for="password">Password</label>
-                </div>
-                <button type="submit">Login</button>
-            </form>
-        </div>
+<!--    <main>-->
+<!--        <div>-->
+<!--            <h2>Login</h2>-->
+<!--            <form th:action="@{/usuario/logincheck}" method="POST">-->
+<!--                <div>-->
+<!--                    <input type="email" name="email">-->
+<!--                    <label for="email">Email</label>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <input type="password" name="password">-->
+<!--                    <label for="password">Password</label>-->
+<!--                </div>-->
+<!--                <button type="submit">Login</button>-->
+<!--            </form>-->
+<!--        </div>-->
 
-        <div>
-            <h2>Registrar</h2>
-            <form th:action="@{/usuario/registrar}" method="POST" enctype="multipart/form-data">
-                <div>
-                    <input type="text" name="name" id="name">
-                    <label for="name">Nombre</label>
-                </div>
-                <div>
-                    <input type="email" name="email" id="email">
-                    <label for="email">Email</label>
-                </div>
-                <div>
-                    <input type="number" name="dni" id="dni">
-                    <label for="dni">DNI</label>
-                </div>
-                <div>
-                    <input type="password" name="password" id="password">
-                    <label for="password">Contraseña</label>
-                </div>
-                <div>
-                    <input type="file" name="icon">
-                    <label for="icon">Elegir imagen</label>
-                </div>                        
-                <button type="submit">Registrar</button>
-            </form>
-        </div>
-    </main>
-    
-    <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Id del user</th>
-                        <th scope="col">Nombre del user</th>
-                        <th scope="col">Email del user</th>
-                        <th scope="col">Imagen del user</th>
-                    </tr>
-                </thead>
-                <tbody th:each="user : ${users}"> 
-                    <tr>
-                        <th scope="row" th:text="${user.id}"></th>
-                        <td th:text="${user.name}"></td>
-                        <td th:text="${user.email}"></td>
-                        <td>
-                            <img th:src="@{/image/profile/__${user.id}__}" style="width: 100px; height: 100px;">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+<!--        <div>-->
+<!--            <h2>Registrar</h2>-->
+<!--            <form th:action="@{/usuario/registrar}" method="POST" enctype="multipart/form-data">-->
+<!--                <div>-->
+<!--                    <input type="text" name="name" id="name">-->
+<!--                    <label for="name">Nombre</label>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <input type="email" name="email" id="email">-->
+<!--                    <label for="email">Email</label>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <input type="number" name="dni" id="dni">-->
+<!--                    <label for="dni">DNI</label>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <input type="password" name="password" id="password">-->
+<!--                    <label for="password">Contraseña</label>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <input type="file" name="icon" id="icon">-->
+<!--                    <label for="icon">Elegir imagen</label>-->
+<!--                </div>                        -->
+<!--                <button type="submit">Registrar</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </main>-->
+
+<table class="table table-dark">
+    <thead>
+    <tr>
+        <th scope="col">Id del user</th>
+        <th scope="col">Nombre del user</th>
+        <th scope="col">Email del user</th>
+        <th scope="col">Imagen del user</th>
+    </tr>
+    </thead>
+    <tbody th:each="property : ${properties}">
+    <tr>
+        <th scope="row" th:text="${property.id}"></th>
+        <td th:text="${property.address}"></td>
+        <td th:text="${property.price}"></td>
+        <td>
+            <img th:each="img :${property.images}" th:src="@{/image/propiedades/__${img.id}__}"
+                 style="width: 100px; height: 100px;">
+        </td>
+        <td>
+            <button><a th:href="@{/propiedades/modificar/__${property.id}__}">Modificar</a></button>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
+    @Query("SELECT p FROM Property p WHERE p.user.id = ?1")
+    List<Property> findByUser(Long id);
     @Query("SELECT p FROM Property p WHERE p.type = ?1")
     List<Property> findByType(PropertyType type);
 

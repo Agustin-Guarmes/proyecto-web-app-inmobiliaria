@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.orq">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div>
+    <h2>Registrar</h2>
+    <form th:action="@{/propiedades/modificar}" method="POST">
+        <input type="number" name="id" hidden th:value="${property.id}">
+        <div>
+            <input type="text" name="address" id="name" th:value="${property.address}">
+            <label for="name">Direccion</label>
+        </div>
+        <div>
+            <input type="number" name="price" id="email" th:value="${property.price}">
+            <label for="email">Precio</label>
+        </div>
+        <div>
+            <input type="number" name="surface" id="dni" th:value="${property.surface}">
+            <label for="dni">Superficie</label>
+        </div>
+        <button type="submit">Modificar</button>
+    </form>
+</div>
+</body>
+</html>
