@@ -1,5 +1,6 @@
 package Inmobilaria.GyL.service.impl;
 
+import Inmobilaria.GyL.entity.Appointment;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.PropertyStatus;
@@ -81,4 +82,10 @@ public class PropertyService implements IPropertyService {
         updatedProperty.setPrice(price);
         updatedProperty.setDescription(description);
     }
+
+    public List<Appointment> findAllByProperty(Long id) {
+        List<Appointment> appointments = pr.findAllAppointmentsByProperty(id);
+        return appointments;
+    }
+
 }

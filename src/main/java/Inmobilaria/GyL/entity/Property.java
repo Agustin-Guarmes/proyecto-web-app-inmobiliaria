@@ -39,6 +39,10 @@ public class Property {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
+    @OneToMany(mappedBy = "property",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Appointment> appointments;
+
     public User getUser() {
         return user;
     }

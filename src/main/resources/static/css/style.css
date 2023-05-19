@@ -149,3 +149,12 @@
     max-width: 100%;
     margin-bottom: 10px;
 }
+
+.line2 {
+    height: 3px;
+    background-color: rgba(0, 206, 172, 0.966);
+    width: 30%;
+    display: center;
+    justify-content:center
+}
+
