@@ -16,12 +16,14 @@ public class PropertyController {
     @GetMapping("/modificar/{id}")
     public String updateProperty(@PathVariable Long id, ModelMap model) {
         model.put("property", propertyService.findById(id));
+        model.put("idUser",id);
         return "updateProperty.html";
     }
 
-    @PostMapping("/modificar")
-    public String modifyProperty(@RequestParam Long id, @RequestParam String address, @RequestParam Double price, @RequestParam int surface) {
+    @PostMapping("/modificar/{idUser}")
+    public String modifyProperty(@PathVariable Long idUser, @RequestParam Long id, @RequestParam String address, @RequestParam Double price, @RequestParam int surface) {
         propertyService.updateProperty(id, address, surface, price);
-        return "redirect:/usuario/propiedades/1";
+
+        return "redirect:/usuario/propiedades/" + idUser;
     }
 }

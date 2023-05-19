@@ -82,19 +82,21 @@ public class UserService implements UserDetailsService {
 
             User user = response.get();
 
-            user.setName(name);
-            user.setPassword(password);
+            if(new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 
-            String idImage = null;
+                user.setName(name);
 
-            if (user.getIcon() != null) {
-                idImage = user.getIcon().getId();
+                String idImage = null;
+
+                if (user.getIcon() != null) {
+                    idImage = user.getIcon().getId();
+                }
+
+                ImageUser image = imageService.updateImg(icon, idImage);
+                user.setIcon(image);
+
+                userRepository.save(user);
             }
-
-            ImageUser image = imageService.updateImg(icon, idImage);
-            user.setIcon(image);
-
-            userRepository.save(user);
         }
     }
 

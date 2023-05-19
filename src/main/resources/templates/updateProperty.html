@@ -9,7 +9,7 @@
 <body>
 <div>
     <h2>Registrar</h2>
-    <form th:action="@{/propiedades/modificar}" method="POST">
+    <form th:action="@{/propiedades/modificar/__${session.userSession.id}__}" method="POST">
         <input type="number" name="id" hidden th:value="${property.id}">
         <div>
             <input type="text" name="address" id="name" th:value="${property.address}">

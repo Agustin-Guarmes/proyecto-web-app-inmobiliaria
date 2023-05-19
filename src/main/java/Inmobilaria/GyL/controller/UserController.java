@@ -73,6 +73,19 @@ public class UserController {
         }
     }
 
+    @GetMapping("/perfil")
+    public String profile(){
+        return "profile.html";
+    }
+
+    @PostMapping("/perfil/{id}")
+    public String updateProfile(@PathVariable Long id, @RequestParam String name, @RequestParam String password, @RequestParam MultipartFile icon){
+
+        userService.modifyUser(id,name,password,icon);
+
+        return "profile.html";
+    }
+
     @GetMapping("/formularioPropiedad")
     public String formProperty() {
         return "formProperty.html";
