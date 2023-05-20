@@ -55,13 +55,11 @@
                             </button>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
-                            <button class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#resetPasswordModal"><a th:href="@{/usuario/listaPersonalizada}" target="_blank" style="text-decoration: none; color: black;">Usuarios</a>
+                            <button class="dropdown-item" data-bs-toggle="modal"><a th:href="@{/usuario/listaPersonalizada}" target="_blank" style="text-decoration: none; color: black;">Usuarios</a>
                             </button>
                         </li>
                         <li th:if="${session.userSession != null}">
-                            <button class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#resetPasswordModal"><a th:href="@{/logout}" style="text-decoration:none; color: black;" >Salir</a>
+                            <button class="dropdown-item" data-bs-toggle="modal"><a th:href="@{/logout}" style="text-decoration:none; color: black;" >Salir</a>
                             </button>
                         </li>
                     </ul>

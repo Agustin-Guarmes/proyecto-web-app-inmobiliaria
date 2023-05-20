@@ -101,6 +101,22 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public void modifyUser(Long id, String name, String password) {
+
+        Optional<User> response = userRepository.findById(id);
+        if (response.isPresent()) {
+
+            User user = response.get();
+
+            if(new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+
+                user.setName(name);
+                userRepository.save(user);
+            }
+        }
+    }
+
+    @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }

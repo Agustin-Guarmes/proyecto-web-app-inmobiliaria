@@ -20,7 +20,7 @@
                </div>
                <div>
                    <img th:src="@{/image/profile/__${session.userSession.id}__}" style="width: 100px; height: 100px;">
-                   <input name="icon" type="file" th:value="@{/image/profile/__${session.userSession.id}__}">
+                   <input name="icon" type="file">
                </div>
                <button type="submit">Registrar</button>
            </form>

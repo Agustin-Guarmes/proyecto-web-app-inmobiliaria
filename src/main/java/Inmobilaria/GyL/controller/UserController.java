@@ -64,7 +64,7 @@ public class UserController {
     @PostMapping("/registrar")
     public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon) {
         try {
-            System.out.println(role);
+            System.out.println(icon + "    Soy icon register!!");
             userService.createUser(email, password, name, dni, role, icon);
             return "redirect:/usuario/";
         } catch (Exception ex) {
@@ -79,10 +79,12 @@ public class UserController {
     }
 
     @PostMapping("/perfil/{id}")
-    public String updateProfile(@PathVariable Long id, @RequestParam String name, @RequestParam String password, @RequestParam MultipartFile icon){
-
-        userService.modifyUser(id,name,password,icon);
-
+    public String updateProfile(@PathVariable Long id, @RequestParam String name, @RequestParam String password, MultipartFile icon){
+        if (icon.getContentType().equalsIgnoreCase("application/octet-stream")){
+            userService.modifyUser(id,name,password);
+        } else {
+            userService.modifyUser(id,name,password,icon);
+        }
         return "profile.html";
     }
 
