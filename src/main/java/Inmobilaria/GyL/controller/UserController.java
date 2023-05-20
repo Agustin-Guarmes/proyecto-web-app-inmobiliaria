@@ -87,7 +87,7 @@ public class UserController {
         } catch (IOException ex) {
             ex.getMessage();
         }
-        return "index.html";
+        return "redirect:/";
     }
 
     @GetMapping("/propiedades/{id}")

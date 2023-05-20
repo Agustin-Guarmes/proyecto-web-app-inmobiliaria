@@ -1,10 +1,13 @@
 package Inmobilaria.GyL.controller;
 
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.service.impl.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/propiedades")
@@ -38,9 +41,11 @@ public class PropertyController {
         return "redirect:/usuario/propiedades/" + idUser;
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    public String deleteProperty(@PathVariable Long id) {
+    @GetMapping("/eliminar/{id}")
+    public String deleteProperty(@PathVariable Long id, HttpSession session) {
         propertyService.deleteProperty(id);
-        return "redirect:/usuario/propiedades/1";
+        User log = (User) session.getAttribute("userSession");
+
+        return "redirect:/usuario/propiedades/" + log.getId();
     }
 }

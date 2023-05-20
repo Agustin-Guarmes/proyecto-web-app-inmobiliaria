@@ -59,4 +59,8 @@ public class ImagePropertyService {
     public byte[] imgToBite(String id) {
         return ipr.findById(id).get().getContainer();
     }
+
+    public void deleteById(String id){
+        ipr.deleteById(id);
+    }
 }

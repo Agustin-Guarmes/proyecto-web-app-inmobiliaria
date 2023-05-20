@@ -1,6 +1,7 @@
 package Inmobilaria.GyL.service.impl;
 
 import Inmobilaria.GyL.entity.Appointment;
+import Inmobilaria.GyL.entity.ImageProperty;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.PropertyStatus;
@@ -60,6 +61,11 @@ public class PropertyService implements IPropertyService {
     }
 
     public void deleteProperty(Long id) {
+        Property property = pr.findById(id).get();
+        for (ImageProperty img : property.getImages()){
+            ips.deleteById(img.getId());
+        }
+
         pr.deleteById(id);
     }
 

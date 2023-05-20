@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.orq">
-<head>
+<html lang="es" xmlns:th="http://www.thymeleaf.orq"><html lang="es" xmlns:th="http://www.thymeleaf.orq" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +16,7 @@
 <nav th:replace="/fragments/nav :: nav"></nav>
 <main>
     <div class="overlay"></div>
+
     <div class="container__card">
         <div th:each="property : ${properties}" class="card__father">
             <div class="card">
@@ -28,24 +28,17 @@
                 </div>
                 <div class="card__back">
                     <div class="body__card_back">
-                        <h2 th:text="${property.id}"></h2>
-                        <table class="Table">
-                            <thead>
-                            <tr></tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td th:text="${property.price}"></td>
-                                <td th:text="${property.address}"></td>
-                               <!-- Aca va una lista de imagenes -->
-                            </tr>
-                            </tbody>
-                        </table>
+                        <h2 th:text="${property.address}"></h2>
+                        <p th:text="${property.surface}"></p>
+                        <p th:text="${property.address}"></p>
+                        <p th:text="${property.description}"></p>
+                        <p th:text="'$' + ${property.price}"></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </main>
 
 <div class="logo">
