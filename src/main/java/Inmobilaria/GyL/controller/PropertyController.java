@@ -24,4 +24,10 @@ public class PropertyController {
         propertyService.updateProperty(id, address, surface, price);
         return "redirect:/usuario/propiedades/1";
     }
+
+    @DeleteMapping("/eliminar/{id}")
+    public String deleteProperty(@PathVariable Long id) {
+        propertyService.deleteProperty(id);
+        return "redirect:/usuario/propiedades/1";
+    }
 }

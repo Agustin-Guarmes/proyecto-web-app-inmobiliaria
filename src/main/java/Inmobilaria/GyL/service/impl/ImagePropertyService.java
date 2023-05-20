@@ -52,7 +52,11 @@ public class ImagePropertyService {
         return null;
     }
 
-    public ImageProperty findById(String id){
+    public ImageProperty findById(String id) {
         return ipr.findById(id).get();
+    }
+
+    public byte[] imgToBite(String id) {
+        return ipr.findById(id).get().getContainer();
     }
 }

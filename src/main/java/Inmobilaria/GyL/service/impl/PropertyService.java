@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +77,7 @@ public class PropertyService implements IPropertyService {
     private void setPropertyAttributes(String address, String location, String status, String type, Integer surface, Double price, String description, Property updatedProperty) {
         updatedProperty.setAddress(address);
         updatedProperty.setLocation(location);
+//        if(Arrays.asList(PropertyStatus.values()).contains(status))
         updatedProperty.setStatus(PropertyStatus.valueOf(status));
         updatedProperty.setType(PropertyType.valueOf(type));
         updatedProperty.setSurface(surface);
@@ -86,6 +88,11 @@ public class PropertyService implements IPropertyService {
     public List<Appointment> findAllByProperty(Long id) {
         List<Appointment> appointments = pr.findAllAppointmentsByProperty(id);
         return appointments;
+    }
+
+    public void changeUser(Property property,User user){
+        property.setUser(user);
+        pr.save(property);
     }
 
 }
