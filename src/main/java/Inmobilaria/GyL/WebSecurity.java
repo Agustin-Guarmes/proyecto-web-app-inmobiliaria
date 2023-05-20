@@ -15,33 +15,33 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-    
+
     @Autowired
     public UserService userService;
-    
+
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
-    } 
-    
+    }
+
     @Override
-    public void configure(HttpSecurity http) throws Exception{
+    public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/css/*","/js/*","/img/*", "/**")
+                .antMatchers("/css/*", "/js/*", "/img/*", "/**")
                 .permitAll()
                 .and().formLogin()
-                    .loginPage("/usuario/")
-                    .loginProcessingUrl("/usuario/logincheck")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .defaultSuccessUrl("/usuario/")
-                    .permitAll()
+                .loginPage("/")
+                .loginProcessingUrl("/usuario/logincheck")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/")
+                .permitAll()
                 .and().logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/usuario/")
-                    .permitAll()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .permitAll()
                 .and().csrf()
-                    .disable();
+                .disable();
     }
 }

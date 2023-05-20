@@ -13,6 +13,17 @@ public class PropertyController {
     @Autowired
     private PropertyService propertyService;
 
+    @GetMapping("/lista")
+    public String propiedades(ModelMap model) {
+        model.put("properties", propertyService.listProperties());
+        return "propertiesTest.html";
+    }
+
+    @GetMapping("/formulario")
+    public String formProperty() {
+        return "formProperty.html";
+    }
+
     @GetMapping("/modificar/{id}")
     public String updateProperty(@PathVariable Long id, ModelMap model) {
         model.put("property", propertyService.findById(id));

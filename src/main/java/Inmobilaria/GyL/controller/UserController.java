@@ -29,16 +29,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/propiedades")
-    public String propiedades() {
-        return "properties.html";
-    }
-
-    @GetMapping("/")
-    public String index() {
-        return "index.html";
-    }
-
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listaPersonalizada")
     public String listUsers(ModelMap model) {
@@ -86,11 +76,6 @@ public class UserController {
             userService.modifyUser(id,name,password,icon);
         }
         return "profile.html";
-    }
-
-    @GetMapping("/formularioPropiedad")
-    public String formProperty() {
-        return "formProperty.html";
     }
 
     @PostMapping("/agregarPropiedad")
