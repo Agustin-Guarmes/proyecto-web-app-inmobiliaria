@@ -1,6 +1,5 @@
 package Inmobilaria.GyL.controller;
 
-import Inmobilaria.GyL.entity.ImageProperty;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.service.UserService;
 import Inmobilaria.GyL.service.impl.ImagePropertyService;
@@ -37,13 +36,9 @@ public class ImageController {
 
     @GetMapping("/propiedades/{id}")
     public ResponseEntity<byte[]> imageProperty(@PathVariable String id) {
-        ImageProperty img = ips.findById(id);
-        byte[] imgProperty = img.getContainer();
-
+        byte[] imgProperty = ips.imgToBite(id);
         HttpHeaders headers = new HttpHeaders();
-
         headers.setContentType(MediaType.IMAGE_JPEG);
-
         return new ResponseEntity<>(imgProperty, headers, HttpStatus.OK);
     }
 }

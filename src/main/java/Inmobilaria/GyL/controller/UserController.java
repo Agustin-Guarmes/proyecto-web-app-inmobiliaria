@@ -104,10 +104,11 @@ public class UserController {
         }
         return "index.html";
     }
+
     @GetMapping("/propiedades/{id}")
-    public String listProperties(@PathVariable Long id, ModelMap model){
+    public String listProperties(@PathVariable Long id, ModelMap model) {
         List<Property> properties = propertyService.findByUser(id);
-        model.put("properties",properties);
+        model.put("properties", properties);
         return "user.html";
     }
 }
