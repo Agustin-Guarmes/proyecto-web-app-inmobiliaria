@@ -3,59 +3,65 @@
         <a class="navbar-brand navbar-logo" th:href="@{/}">
             <img src="/img/logo.svg" alt="logo" class="navbar-img">
         </a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/}">
+                        Inicio
+                    </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">Propiedades</a>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Propiedades
+                    </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Alquilar propiedades</a></li>
-                        <li><a class="dropdown-item" href="#">Comprar propiedades</a></li>
-                        <li sec:authorize="hasRole('ENTITY')" ><a class="dropdown-item" th:href="@{/usuario/formularioPropiedad}" >Agregar propiedades</a></li>
+                        <li>
+                            <a class="dropdown-item" th:href="@{/propiedades/lista}">Comprar propiedades</a>
+                        </li>
+                        <li sec:authorize="hasRole('ENTITY')" >
+                            <a class="dropdown-item" th:href="@{/propiedades/formulario}" >Vender</a>
+                        </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">Todas las propiedades</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Vender</a>
                 </li>
             </ul>
-
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user fa-fw"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li th:if="${session.userSession == null}">
-                            <a th:href="@{/usuario/iniciarSesion}" class="dropdown-item">Iniciar sesión</a>
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                Iniciar sesión
+                            </button>
                         </li>
                         <li th:if="${session.userSession == null}">
-                            <a th:href="@{/usuario/registrarse}"class="dropdown-item" >Registrarse</a>
-                        </li>
-                        <li th:if="${session.userSession == null}">
-                            <a class="dropdown-item" th:href="@{/usuario/restablecerContrasena}">Restablecer contraseña</a>
-                        </li>
-                        <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
-                            <button class="dropdown-item" data-bs-toggle="modal"><a th:href="@{/usuario/listaPersonalizada}" target="_blank" style="text-decoration: none; color: black;">Usuarios</a>
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#registerModal">
+                                Registrarse
                             </button>
                         </li>
                         <li th:if="${session.userSession != null}">
-                            <button class="dropdown-item" data-bs-toggle="modal"><a th:href="@{/logout}" style="text-decoration:none; color: black;" >Salir</a>
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">
+                                Restablecer contraseña
+                            </button>
+                        </li>
+                        <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
+                            <button class="dropdown-item" data-bs-toggle="modal">
+                                <a th:href="@{/admin/listaUsuarios}" target="_blank" style="text-decoration: none; color: black;">Usuarios</a>
+                            </button>
+                        </li>
+                        <li th:if="${session.userSession != null}">
+                            <button class="dropdown-item" data-bs-toggle="modal">
+                                <a th:href="@{/logout}" style="text-decoration:none; color: black;" >Salir</a>
                             </button>
                         </li>
                     </ul>

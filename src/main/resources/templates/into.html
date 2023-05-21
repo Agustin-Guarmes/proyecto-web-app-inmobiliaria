@@ -12,29 +12,39 @@
     </head>
     <body>
         <nav th:replace = "/fragments/nav :: nav"></nav>
+
         <h1 style="text-align: center; margin-top: 7rem;">Lista de usuarios</h1>
-        <div clas="adminTable" sec:authorize="hasRole('ADMIN')" style="width: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column;" >
-            <form method="GET" th:action="@{/usuario/listaPersonalizadaBusqueda}" style="margin-bottom: 2rem;">
+        <div clas="adminTable col-md-6 col-lg-6"  sec:authorize="hasRole('ADMIN')" style="width: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column;" >
+<!--             <form method="GET" th:action="@{/admin/busquedaUsuarios}" style="margin-bottom: 2rem;">
                 <input type="text" name="word"/>
                 <buttom type="submit">Enviar</buttom>
-            </form>
-            <table class="table table-dark">
+            </form> -->
+
+            <form class="d-flex mb-3" role="search" method="GET" th:action="@{/admin/busquedaUsuarios}">
+                <input class="form-control me-2" type="text" placeholder="Buscar" name="word" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Q</button>
+              </form>
+            <table class="table table-dark table-hover  table-responsive-sm" style="max-width: 1200px;">
                 <thead>
                     <tr>
-                        <th scope="col">Id del user</th>
-                        <th scope="col">Nombre del user</th>
-                        <th scope="col">Email del user</th>
-                        <th scope="col">Imagen del user</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">DNI</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Rol</th>
                     </tr>
                 </thead>
                 <tbody th:each="user : ${users}"> 
                     <tr>
                         <th scope="row" th:text="${user.id}"></th>
                         <td th:text="${user.name}"></td>
+                        <td th:text="${user.dni}"></td>
                         <td th:text="${user.email}"></td>
                         <td>
-                            <img th:src="@{/image/profile/__${user.id}__}" style="width: 100px; height: 100px;">
+                            <img th:src="@{/image/profile/__${user.id}__}" style="width: 50px; height: 50px; border-radius: 50%;">
                         </td>
+                        <td th:text="${user.role}"></td>
                     </tr>
                 </tbody>
             </table>
