@@ -67,6 +67,21 @@ public class UserController {
     public String profile(){
         return "profile.html";
     }
+    
+    @GetMapping("/iniciarSesion")
+    public String login(){
+        return "login";
+    }
+    
+    @GetMapping("/registrarse")
+    public String register(){
+        return "register";
+    }
+    
+    @GetMapping("/restablecerContrasena")
+    public String resetPassword(){
+        return "resetPassword";
+    }
 
     @PostMapping("/perfil/{id}")
     public String updateProfile(@PathVariable Long id, @RequestParam String name, @RequestParam String password, MultipartFile icon){

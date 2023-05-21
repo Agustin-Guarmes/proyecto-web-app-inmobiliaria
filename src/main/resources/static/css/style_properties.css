@@ -29,12 +29,12 @@ body{
     perspective: 1000px;
 }
 
-.card__father:hover .card{
+.card__father:hover .card__properties{
     transform: rotateY(180deg);
 }
 
 
-.card{
+.card__properties{
     width: 350px;
     height: 400px;
     position: relative;

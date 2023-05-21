@@ -1,6 +1,6 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark px-4" data-bs-theme="dark">
     <div class="container">
-        <a class="navbar-brand navbar-logo" th:href="@{/usuario/}">
+        <a class="navbar-brand navbar-logo" th:href="@{/}">
             <img src="/img/logo.svg" alt="logo" class="navbar-img">
         </a>
 
@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -42,17 +42,13 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li th:if="${session.userSession == null}">
-                            <button class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#loginModal">Iniciar sesión</button>
+                            <a th:href="@{/usuario/iniciarSesion}" class="dropdown-item">Iniciar sesión</a>
                         </li>
                         <li th:if="${session.userSession == null}">
-                            <button class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#registerModal">Registrarse</button>
+                            <a th:href="@{/usuario/registrarse}"class="dropdown-item" >Registrarse</a>
                         </li>
-                        <li th:if="${session.userSession != null}">
-                            <button class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#resetPasswordModal">Restablecer contraseña
-                            </button>
+                        <li th:if="${session.userSession == null}">
+                            <a class="dropdown-item" th:href="@{/usuario/restablecerContrasena}">Restablecer contraseña</a>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
                             <button class="dropdown-item" data-bs-toggle="modal"><a th:href="@{/usuario/listaPersonalizada}" target="_blank" style="text-decoration: none; color: black;">Usuarios</a>

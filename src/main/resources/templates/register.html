@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
+    type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
+  <link rel="stylesheet" href="/css/style_header.css" type="text/css">
+  <link rel="icon" type="image/ico" href="/img/logo.svg">
+  <title>Registrarse / MrHouse</title>
+</head>
+
+<body>
+  <nav th:replace="/fragments/nav :: nav"></nav>
+
+  <section>
+
+    <div class="container vh-100 d-flex flex-column justify-content-center">
+
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-12">
+          <div class="card">
+            <div class="card-header text-center mt-1">
+              <h5 class="card-title">Registrarse</h5>
+            </div>
+            <form th:action="@{/usuario/registrar}" method="POST" enctype="multipart/form-data">
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="name" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre"
+                    required>
+                </div>
+                <div class="mb-3">
+                  <label for="dni" class="form-label">DNI</label>
+                  <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI" required>
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Correo electrónico</label>
+                  <input type="email" class="form-control" name="email" id="email"
+                    placeholder="Ingrese su correo electrónico" required>
+                </div>
+                <div class="mb-3">
+                  <select name="role" class="form-select" required>
+                    <option hidden selected>Elegir tipo de usuario</option>
+                    <option value="cliente">Cliente</option>
+                    <option value="propietario">Propietario</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="icon" class="form-label">Foto de perfil</label>
+                  <input type="file" class="form-control" id="icon" name="icon" accept="image/*" required>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Contraseña</label>
+                  <input type="password" class="form-control" name="password" id="password"
+                    placeholder="Ingrese una contraseña" required>
+                </div>
+                <div class="d-grid mb-2">
+                  <button type="submit" class="btn btn-primary">Registrarse</button>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="text-center">
+                  ¿Ya tienes una cuenta?
+                  <a href="login.html" class="btn btn-link p-0">Iniciar sesión</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </section>
+
+
+  <footer th:replace="/fragments/footer :: footer"></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
