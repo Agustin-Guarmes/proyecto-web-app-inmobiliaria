@@ -13,7 +13,7 @@
                     <p th:text="${property.surface}"></p>
                     <p th:text="${property.address}"></p>
                     <p th:text="${property.description}"></p>
-                    <p th:text="'$' + ${property.price}"></p>
+                    <p th:text="'$ ' + ${property.price}"></p>
                     <button sec:authorize="hasRole('ENTITY')">
                         <a th:href="@{/propiedades/modificar/__${property.id}__}">Modificar</a>
                     </button>

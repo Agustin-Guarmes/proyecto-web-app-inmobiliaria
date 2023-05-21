@@ -42,7 +42,6 @@ public class UserService implements UserDetailsService {
         user.setName(name);
         
         /*user.setRole(Role.valueOf(name));*/
-        
         switch (role) {
             case "cliente":
                 user.setRole(Role.CLIENT);
