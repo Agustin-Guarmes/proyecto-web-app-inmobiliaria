@@ -28,11 +28,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/admin/*").hasAnyRole("ADMIN")
                 .antMatchers("/css/*", "/js/*", "/img/*", "/**")
                 .permitAll()
                 .and().formLogin()
                 .loginPage("/")
-                .loginProcessingUrl("/usuario/logincheck")
+                .loginProcessingUrl("/logincheck")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/")
