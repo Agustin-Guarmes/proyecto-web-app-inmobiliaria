@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="es-AR">
-
+<html lang="es" xmlns:th="http://www.thymeleaf.orq">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,28 +27,26 @@
                         <div class="card-header text-center mt-1">
                             <h5 class="card-title">Iniciar sesión</h5>
                         </div>
-                        <form th:action="@{/usuario/logincheck}" method="POST" enctype="multipart/form-data">
+                        <form th:action="@{/logincheck}" method="POST">
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Correo electrónico</label>
-                                    <input type="email" class="form-control" name="email" id="email"
-                                        placeholder="Ingrese su correo electrónico" required>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Ingrese su correo electrónico" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" name="password" id="password"
-                                        placeholder="Ingrese una contraseña" required>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
                                 </div>
                                 <div class="mb-2 d-grid">
                                     <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                                 </div>
                                 <div class="text-center">
-                                    <a href="resetPassword.html" class="btn btn-link p-0">¿Has olvidado la contraseña?</a>
+                                    <a th:href="@{/usuario/restablecerContrasena}" class="btn btn-link p-0">¿Has olvidado la contraseña?</a>
                                 </div>
                             </div>
                             <div class="card-footer">
                                 <div class="text-center">
-                                    <a href="register.html" class="btn btn-outline-secondary">Crear cuenta nueva</a>
+                                    <a th:href="@{/usuario/registrarse}" class="btn btn-outline-secondary">Crear cuenta nueva</a>
                                 </div>
                             </div>
                         </form>
@@ -57,11 +54,8 @@
     
                 </div>
             </div>
-    
         </div>
-    
     </section>
-
 
     <footer th:replace="/fragments/footer :: footer"></footer>
 

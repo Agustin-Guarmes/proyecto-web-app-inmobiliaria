@@ -40,18 +40,18 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li th:if="${session.userSession == null}">
-                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                Iniciar sesión
+                            <button class="dropdown-item" data-bs-toggle="modal">
+                                <a th:href="@{/usuario/iniciarSesion}" style="text-decoration: none; color: black;">Iniciar sesión</a>
                             </button>
                         </li>
                         <li th:if="${session.userSession == null}">
-                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#registerModal">
-                                Registrarse
+                            <button class="dropdown-item" data-bs-toggle="modal">
+                                <a th:href="@{/usuario/registrarse}" style="text-decoration: none; color: black;">Registrarse</a>
                             </button>
                         </li>
                         <li th:if="${session.userSession != null}">
                             <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">
-                                Restablecer contraseña
+                                <a th:href="@{/usuario/perfil}" style="text-decoration: none; color: black;">Perfil</a>
                             </button>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">

@@ -32,8 +32,7 @@
               <div class="card-body">
                 <div class="mb-3">
                   <label for="name" class="form-label">Nombre</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre"
-                    required>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre" required>
                 </div>
                 <div class="mb-3">
                   <label for="dni" class="form-label">DNI</label>
@@ -41,24 +40,22 @@
                 </div>
                 <div class="mb-3">
                   <label for="email" class="form-label">Correo electrónico</label>
-                  <input type="email" class="form-control" name="email" id="email"
-                    placeholder="Ingrese su correo electrónico" required>
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Ingrese su correo electrónico" required>
                 </div>
                 <div class="mb-3">
                   <select name="role" class="form-select" required>
                     <option hidden selected>Elegir tipo de usuario</option>
-                    <option value="cliente">Cliente</option>
-                    <option value="propietario">Propietario</option>
+                    <option th:value="cliente">Cliente</option>
+                    <option th:value="propietario">Propietario</option>
                   </select>
                 </div>
                 <div class="mb-3">
                   <label for="icon" class="form-label">Foto de perfil</label>
-                  <input type="file" class="form-control" id="icon" name="icon" accept="image/*" required>
+                  <input type="file" class="form-control" id="icon" name="icon" required>
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label">Contraseña</label>
-                  <input type="password" class="form-control" name="password" id="password"
-                    placeholder="Ingrese una contraseña" required>
+                  <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
                 </div>
                 <div class="d-grid mb-2">
                   <button type="submit" class="btn btn-primary">Registrarse</button>
@@ -67,7 +64,7 @@
               <div class="card-footer">
                 <div class="text-center">
                   ¿Ya tienes una cuenta?
-                  <a href="login.html" class="btn btn-link p-0">Iniciar sesión</a>
+                  <a th:href="@{/usuario/iniciarSesion}"class="btn btn-link p-0">Iniciar sesión</a>
                 </div>
               </div>
             </form>

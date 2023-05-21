@@ -44,17 +44,17 @@ public class UserController {
     
     @GetMapping("/iniciarSesion")
     public String login(){
-        return "login";
+        return "login.html";
     }
     
     @GetMapping("/registrarse")
     public String register(){
-        return "register";
+        return "register.html";
     }
     
     @GetMapping("/restablecerContrasena")
     public String resetPassword(){
-        return "resetPassword";
+        return "resetPassword.html";
     }
 
     @PostMapping("/perfil/{id}")

@@ -14,125 +14,6 @@
     <body>
         <nav th:replace = "/fragments/nav :: nav"></nav>
 
-
-        <!-- Modal de Inicio de sesión -->
-        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form th:action="@{/logincheck}" method="POST">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Ingrese su email">
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="Ingrese su contraseña">
-                            </div>
-                            <div class="d-grid gap-2 col-lg-6 col-12 mx-auto">
-                                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                            </div>
-                            <div class="">
-                                <button class="btn btn-link m-0 ps-0" data-bs-toggle="modal"
-                                        data-bs-target="#resetPasswordModal" data-bs-dismiss="modal">¿Has olvidado la
-                                    contraseña?</button>
-                            </div>
-                            <div>
-                                <button class="btn btn-outline-secondary m-0" data-bs-toggle="modal"
-                                        data-bs-target="#registerModal" data-bs-dismiss="modal">Crear cuenta nueva</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal de Registro -->
-        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="registerModalLabel">Registrarse</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form th:action="@{/usuario/registrar}" method="POST" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre">
-                            </div>
-                            <div class="mb-3">
-                                <label for="number" class="form-label">DNI</label>
-                                <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su dni">
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Correo electrónico</label>
-                                <input type="email" class="form-control" name="email" id="email"
-                                       placeholder="Ingrese su correo electrónico">
-                            </div>
-                            <div class="mb-3">
-                                <select name="role">
-                                    <option hidden selected>Elegir tipo de usuario</option>
-                                    <option value="cliente">Cliente</option>
-                                    <option value="propietario">Propietario</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <input type="file" class="form-control" id="icon" name="icon" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" name="password" id="password"
-                                       placeholder="Ingrese una contraseña">
-                            </div>
-
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Registrarse</button>
-                            </div>
-                            <div>
-                                <p class="m-0 p-0">
-                                    ¿Ya tienes una cuenta?
-                                    <button class="btn btn-link m-0 p-0" data-bs-toggle="modal" data-bs-target="#loginModal"
-                                            data-bs-dismiss="modal">Iniciar sesión</button>
-                                </p>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal de Restablecer Contraseña -->
-        <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="resetPasswordModalLabel">Restablecer contraseña</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Correo electrónico</label>
-                                <input type="email" class="form-control" id="email"
-                                       placeholder="Ingrese su correo electrónico">
-                            </div>
-
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Restablecer contraseña</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <main class="container1">
             <div class="video_container">
                 <video src="/videos/Ciudad-1.m4v" autoplay muted loop></video>
@@ -142,11 +23,10 @@
             <div class="imagen">
                 <img class="img" src="/img/Logo-Proyecto.svg" alt="Mr House_logo">
             </div>
-
             <div class="main_container">
                 <h2>Mr House</h2>
                 <p>"Encuentra tu lugar en el mundo"</p>
-                <a th:href="@{/usuario/propiedades}" target="_blank">Comienza Aqui</a>
+                <a th:href="@{/usuario/propiedades/__${session.userSession.id}__}">Comienza Aqui</a>
             </div>
         </main>
 
