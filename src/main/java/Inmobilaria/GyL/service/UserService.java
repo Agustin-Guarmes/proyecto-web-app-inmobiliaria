@@ -121,6 +121,30 @@ public class UserService implements UserDetailsService {
         userRepository.deleteById(id);
     }
 
+    /*EntityAdmin Services*/
+    @Transactional
+    public void adminModifyRole(Long id, String role) {
+
+        Optional<User> response =  userRepository.findById(id);
+
+        User user = response.get();
+
+        switch (role) {
+            case "cliente":
+                user.setRole(Role.CLIENT);
+                break;
+            case "propietario":
+                user.setRole(Role.ENTITY);
+                break;
+            case "admin":
+                user.setRole(Role.ADMIN);
+                break;
+            default:
+                user.setRole(Role.CLIENT);
+        }
+        userRepository.save(user);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);

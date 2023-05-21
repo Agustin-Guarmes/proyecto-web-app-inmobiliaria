@@ -1,6 +1,6 @@
 <div class="container__card">
     <div th:each="property : ${properties}" class="card__father">
-        <div class="card">
+        <div class="card card__properties">
             <div class="card__front">
                 <div class="body__card_front">
                     <img th:src="@{/image/propiedades/__${property.images[0].id}__}"
@@ -20,7 +20,6 @@
                     <button sec:authorize="hasRole('ENTITY')">
                         <a th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
                     </button>
-                    <!-- Aca va una lista de imagenes -->
                 </div>
             </div>
         </div>

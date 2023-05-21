@@ -81,6 +81,6 @@ public class UserController {
     public String listProperties(@PathVariable Long id, ModelMap model) {
         List<Property> properties = propertyService.findByUser(id);
         model.put("properties", properties);
-        return "user.html";
+        return "myProperties.html";
     }
 }

@@ -15,14 +15,10 @@
 
         <h1 style="text-align: center; margin-top: 7rem;">Lista de usuarios</h1>
         <div clas="adminTable col-md-6 col-lg-6"  sec:authorize="hasRole('ADMIN')" style="width: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column;" >
-<!--             <form method="GET" th:action="@{/admin/busquedaUsuarios}" style="margin-bottom: 2rem;">
-                <input type="text" name="word"/>
-                <buttom type="submit">Enviar</buttom>
-            </form> -->
 
             <form class="d-flex mb-3" role="search" method="GET" th:action="@{/admin/busquedaUsuarios}">
                 <input class="form-control me-2" type="text" placeholder="Buscar" name="word" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Q</button>
+                <button class="btn btn-outline-primary" type="submit">Q</button>
               </form>
             <table class="table table-dark table-hover  table-responsive-sm" style="max-width: 1200px;">
                 <thead>
@@ -44,7 +40,17 @@
                         <td>
                             <img th:src="@{/image/profile/__${user.id}__}" style="width: 50px; height: 50px; border-radius: 50%;">
                         </td>
-                        <td th:text="${user.role}"></td>
+                        <td>
+                            <form th:action="@{/admin/cambioRol/__${user.id}__}" method="POST">
+                                <select name="role">
+                                    <option th:text="${role}" hidden></option>
+                                    <option value="cliente">Cliente</option>
+                                    <option value="propietario">Propietario</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                                <button type="submit">()</button>
+                            </form>
+                        </td>
                     </tr>
                 </tbody>
             </table>

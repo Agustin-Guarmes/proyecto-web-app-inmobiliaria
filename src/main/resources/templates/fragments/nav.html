@@ -22,16 +22,16 @@
                             <a class="dropdown-item" th:href="@{/propiedades/lista}">Comprar propiedades</a>
                         </li>
                         <li sec:authorize="hasRole('ENTITY')" >
-                            <a class="dropdown-item" th:href="@{/propiedades/formulario}" >Vender</a>
+                            <a class="dropdown-item" th:href="@{/usuario/propiedades/__${session.userSession.id}__}" >Mis propiedades</a>
                         </li>
-                        <li>
-                            <hr class="dropdown-divider">
+                        <li sec:authorize="hasRole('ENTITY')" >
+                            <a class="dropdown-item" th:href="@{/propiedades/formulario}" >Vender</a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Vender</a>
-                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">Vender</a>-->
+<!--                </li>-->
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
