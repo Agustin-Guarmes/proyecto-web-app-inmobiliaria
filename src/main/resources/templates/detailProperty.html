@@ -15,7 +15,7 @@
     </head>
     <body>
         <nav th:replace="/fragments/nav :: nav"></nav>
-        <main>
+        <main style="height: 46vh;">
             <div class="overlay"></div>
 
             <div class="container__card">
@@ -44,13 +44,13 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title" th:text="'Direccion - ' + ${property.address}"></h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                            card's content.</p>
+                        <p class="card-text" th:text="'Tipo - ' + ${property.type}"></p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:text="'Localidad - ' + ${property.surface}">A second item</li>
-                        <li class="list-group-item" th:text="'$ ' + ${property.price}"></li>
-                        <li class="list-group-item" th:text="${property.description}">Descripción</li>
+                        <li class="list-group-item" th:text="'Localidad - ' + ${property.location}"></li>
+                        <li class="list-group-item" th:text="'Superficie - ' + ${property.surface}"></li>
+                        <li class="list-group-item" th:text="'Precio $ ' + ${property.price}"></li>
+                        <li class="list-group-item" th:text="${property.description}"></li>
                     </ul>
                     <div class="card-body">
                         <button type="button" class="btn btn-outline-secondary">
