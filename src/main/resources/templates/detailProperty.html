@@ -11,7 +11,6 @@
         <title>MrHouse || ADMIN</title>
     </head>
     <body>
-<<<<<<< HEAD
         <nav th:replace="/fragments/nav :: nav"></nav>
         <main style="height: 46vh;">
             <div class="overlay"></div>
@@ -26,53 +25,7 @@
                     <div class="carousel-inner" style="width: 100%; height: 100%;">
                         <div class="carousel-item active" data-bs-interval="10000" style="width: 100%; height: 100%;" th:each="image : ${property.images}">
                             <img  th:src="@{/image/propiedades/__${image.id}__}" class="d-block w-100" style="width: 100%; height: 100%;">
-=======
 
-        <div class="d-flex flex-column min-vh-100">
-            <nav th:replace="/fragments/nav :: nav"></nav>
-
-            <section class="flex-grow-1">
-                <div class="overlay"></div>
-
-                <div class="container__card">
-                    <div class="card__father">
-                        <div class="card card__properties">
-                            <div class="card__front">
-                                <div class="body__card_front" th:each="image : ${property.images}">
-                                    <img th:src="@{/image/propiedades/__${image.id}__}" style="width: 100%; height: 100%;">
-                                </div>
-                            </div>
-                            <div class="card__back">
-                                <div class="body__card_back">
-                                    <h2 th:text="${property.address}"></h2>
-                                    <p th:text="${property.surface}"></p>
-                                    <p th:text="${property.address}"></p>
-                                    <p th:text="${property.description}"></p>
-                                    <p th:text="'$' + ${property.price}"></p>
-                                            <button type="button" class="btn btn-secondary">Visitar</button>
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Ofertar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Modal -->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">Confirmación de la oferta</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Usted está por ofertar la propiedad?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger">Aceptar</button>
-                            </div>
->>>>>>> 5b51ef2a094a2a1d81fcd149fd2f34cf91183f7d
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
@@ -106,7 +59,7 @@
                         </button>
                     </div>
                 </div>
-
+        </main>
                 <div class="logo">
                     <img src="/img/logo.png" alt="logo">
                 </div>

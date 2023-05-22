@@ -17,67 +17,53 @@
 
 <body>
     <nav th:replace="/fragments/nav :: nav"></nav>
-    <main>
-        <div class="overlay"></div>
+    =======
 
-        <div class="container__card">
-            <div id="carouselExampleDark" class="carousel carousel-dark slide" style="width: 25rem; height: 25rem;">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner" style="width: 100%; height: 100%;">
-                    <div class="carousel-item active" data-bs-interval="10000" style="width: 100%; height: 100%;">
-                        <img src="/src/main/resources/static/img/Alquiler-3.1.jpg" class="d-block w-100"
-                            style="width: 100%; height: 100%;">
+    <div class="d-flex flex-column min-vh-100">
+        <nav th:replace="/fragments/nav :: nav"></nav>
+
+        <section class="flex-grow-1">
+            <div class="overlay"></div>
+
+            <div class="container__card">
+                <div class="card__father">
+                    <div class="card card__properties">
+                        <div class="card__front">
+                            <div class="body__card_front" th:each="image : ${property.images}">
+                                <img th:src="@{/image/propiedades/__${image.id}__}" style="width: 100%; height: 100%;">
+                            </div>
+                        </div>
+                        <div class="card__back">
+                            <div class="body__card_back">
+                                <h2 th:text="${property.address}"></h2>
+                                <p th:text="${property.surface}"></p>
+                                <p th:text="${property.address}"></p>
+                                <p th:text="${property.description}"></p>
+                                <p th:text="'$' + ${property.price}"></p>
+                                <button type="button" class="btn btn-secondary">Visitar</button>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Ofertar</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="carousel-item" data-bs-interval="20000" style="width: 100%; height: 100%;">
-                        <img src="/src/main/resources/static/img/Alquiler-3.2.jpg" class="d-block w-100"
-                            style="width: 100%; height: 100%;">
-                    </div>
-                    <div class="carousel-item" style="width: 100%; height: 100%;">
-                        <img src="/src/main/resources/static/img/Logo-Proyecto.png" class="d-block w-100"
-                            style="width: 100%; height: 100%;">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Direccion</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">Descripción</li>
-                </ul>
-                <div class="card-body">
-                    <button type="button" class="btn btn-outline-secondary">
-                        <a href="#" style="color:black; text-decoration: none;">Oferta</a>
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary">
-                        <a href="#" style="color:black; text-decoration: none;">Visitar</a>
-                    </button>
                 </div>
             </div>
-        </div>
 
-    </main>
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirmación de la oferta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Usted está por ofertar la propiedad?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-danger">Aceptar</button>
+                        </div>
+                        >>>>>>> 5b51ef2a094a2a1d81fcd149fd2f34cf91183f7d
 
     <div class="logo">
         <img src="/img/logo.png" alt="logo">
