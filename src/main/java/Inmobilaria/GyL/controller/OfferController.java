@@ -1,7 +1,7 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Offer;
-import Inmobilaria.GyL.service.OfferService;
+import Inmobilaria.GyL.service.impl.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
