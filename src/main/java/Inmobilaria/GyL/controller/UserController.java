@@ -25,48 +25,50 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/registrarse")
+    public String register() {
+        return "register.html";
+    }
+
     @PostMapping("/registrar")
     public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon) {
         try {
-            System.out.println(icon + "    Soy icon register!!");
             userService.createUser(email, password, name, dni, role, icon);
-            return "redirect:/";
+            return "redirect:/usuario/iniciarSesion";
         } catch (Exception ex) {
             ex.getMessage();
-            return "redirect:/";
+            return "redirect:/usuario/registrase";
         }
     }
 
-    @GetMapping("/perfil")
-    public String profile(){
-        return "profile.html";
-    }
-    
     @GetMapping("/iniciarSesion")
-    public String login(){
+    public String login() {
         return "login.html";
     }
-    
-    @GetMapping("/registrarse")
-    public String register(){
-        return "register.html";
-    }
-    
+
     @GetMapping("/restablecerContrasena")
-    public String resetPassword(){
+    public String resetPassword() {
         return "resetPassword.html";
     }
 
-    @PostMapping("/perfil/{id}")
-    public String updateProfile(@PathVariable Long id, @RequestParam String name, @RequestParam String password, MultipartFile icon){
-        if (icon.getContentType().equalsIgnoreCase("application/octet-stream")){
-            userService.modifyUser(id,name,password);
-        } else {
-            userService.modifyUser(id,name,password,icon);
-        }
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
+    @GetMapping("/perfil")
+    public String profile() {
         return "profile.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
+    @PostMapping("/perfil/{id}")
+    public String updateProfile(@PathVariable Long id, @RequestParam String name, @RequestParam String password, MultipartFile icon) {
+        if (icon.getContentType().equalsIgnoreCase("application/octet-stream")) {
+            userService.modifyUser(id, name, password);
+        } else {
+            userService.modifyUser(id, name, password, icon);
+        }
+        return "redirect:/usuario/perfil";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
     @PostMapping("/agregarPropiedad")
     public String addProperty(@RequestParam Long idUser, @RequestParam String address, @RequestParam String location, @RequestParam String status, @RequestParam String type, @RequestParam int surface, @RequestParam double price, @RequestParam String description, @RequestParam MultipartFile[] files) {
         try {
@@ -74,13 +76,28 @@ public class UserController {
         } catch (IOException ex) {
             ex.getMessage();
         }
-        return "redirect:/";
+        return "redirect:/usuario/propiedades/" + idUser;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ENTITY')")
     @GetMapping("/propiedades/{id}")
     public String listProperties(@PathVariable Long id, ModelMap model) {
         List<Property> properties = propertyService.findByUser(id);
         model.put("properties", properties);
         return "myProperties.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
+    @GetMapping("/contraseña/{id}")
+    public String modifyPassword(@PathVariable Long id) {
+        return "resetPassword.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
+    @PostMapping("/contraseña/{id}")
+    public String modifyPassword(@PathVariable Long id, @RequestParam String password, @RequestParam String newPassword) {
+
+        userService.modifyUserPassword(id, password, newPassword);
+        return "resetPassword.html";
     }
 }
