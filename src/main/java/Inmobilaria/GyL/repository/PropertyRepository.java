@@ -1,5 +1,6 @@
 package Inmobilaria.GyL.repository;
 
+import Inmobilaria.GyL.entity.Appointment;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
@@ -12,6 +13,8 @@ import java.util.List;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
+    @Query("SELECT p FROM Property p WHERE p.user.id = ?1")
+    List<Property> findByUser(Long id);
     @Query("SELECT p FROM Property p WHERE p.type = ?1")
     List<Property> findByType(PropertyType type);
 
@@ -32,4 +35,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query("SELECT p FROM Property p WHERE p.price <= ?1")
     List<Property> findByPrice(Integer surface);
+
+    @Query("SELECT a FROM Appointment a WHERE a.property.id = ?1")
+    List<Appointment> findAllAppointmentsByProperty(Long id);
 }

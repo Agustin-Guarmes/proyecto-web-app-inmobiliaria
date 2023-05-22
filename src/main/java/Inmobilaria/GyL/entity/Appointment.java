@@ -1,6 +1,7 @@
 package Inmobilaria.GyL.entity;
 
 import Inmobilaria.GyL.enums.AppointmentState;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -19,25 +20,45 @@ public class Appointment {
     @NotNull(message = ("Appointment Date is required"))
     private Date appointmentDate;
 
-    @OneToOne
-    private User owner;
-
-    @OneToOne
+    @ManyToOne
     private User client;
+
+    @ManyToOne
+    private Property property;
 
     @Enumerated(EnumType.STRING)
     private AppointmentState state;
 
-    public Appointment(Long id, Date appointmentDate, User owner, User client, AppointmentState state) {
+    @CreationTimestamp
+    private Date creationDate;
+
+    public Appointment(Long id, Date appointmentDate, User client, Property property, AppointmentState state, Date creationDate) {
         this.id = id;
         this.appointmentDate = appointmentDate;
-        this.owner = owner;
         this.client = client;
+        this.property = property;
         this.state = state;
+        this.creationDate = creationDate;
     }
 
     public Appointment() {
 
+    }
+
+    public Property getProperty() {
+        return property;
+    }
+
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public Long getId() {
@@ -46,10 +67,6 @@ public class Appointment {
 
     public Date getAppointmentDate() {
         return appointmentDate;
-    }
-
-    public User getOwner() {
-        return owner;
     }
 
     public User getClient() {
@@ -66,10 +83,6 @@ public class Appointment {
 
     public void setAppointmentDate(Date appointmentDate) {
         this.appointmentDate = appointmentDate;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
     }
 
     public void setClient(User client) {

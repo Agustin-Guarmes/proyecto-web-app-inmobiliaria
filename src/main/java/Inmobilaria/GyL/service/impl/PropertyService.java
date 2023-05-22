@@ -1,6 +1,9 @@
 package Inmobilaria.GyL.service.impl;
 
+import Inmobilaria.GyL.entity.Appointment;
+import Inmobilaria.GyL.entity.ImageProperty;
 import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
 import Inmobilaria.GyL.repository.PropertyRepository;
@@ -10,7 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,19 +29,27 @@ public class PropertyService implements IPropertyService {
         this.ips = ips;
     }
 
-    public void createProperty(String address, String location, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs) throws IOException {
+    public void createProperty(User user, String address, String location, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs) throws IOException {
         Property property = new Property();
-        property.setAddress(address);
-        property.setLocation(location);
-        property.setStatus(PropertyStatus.valueOf(status));
-        property.setType(PropertyType.valueOf(type));
-        property.setSurface(surface);
-        property.setPrice(price);
-        property.setDescription(description);
+        property.setUser(user);
+        setPropertyAttributes(address, location, status, type, surface, price, description, property);
         pr.save(property);
         for (MultipartFile img : imgs) {
             ips.saveImg(img, property);
         }
+    }
+
+    public void updateProperty(Long id, String address, String location, String status, String type, Integer surface, Double price, String description) {
+        Optional<Property> isFound = pr.findById(id);
+        if (isFound.isPresent()) {
+            Property updatedProperty = isFound.get();
+            setPropertyAttributes(address, location, status, type, surface, price, description, updatedProperty);
+            pr.save(updatedProperty);
+        }
+    }
+
+    public List<Property> findByUser(Long userId) {
+        return pr.findByUser(userId);
     }
 
     public Property findById(Long id) {
@@ -47,7 +60,45 @@ public class PropertyService implements IPropertyService {
         return pr.findAll();
     }
 
-    public void deleteProperty(Long id){
+    public void deleteProperty(Long id) {
+        Property property = pr.findById(id).get();
+        for (ImageProperty img : property.getImages()){
+            ips.deleteById(img.getId());
+        }
+
         pr.deleteById(id);
     }
+
+    public void updateProperty(Long id, String address, Integer surface, Double price) {
+        Optional<Property> isFound = pr.findById(id);
+        if (isFound.isPresent()) {
+            Property updatedProperty = isFound.get();
+            updatedProperty.setSurface(surface);
+            updatedProperty.setPrice(price);
+            updatedProperty.setAddress(address);
+            pr.save(updatedProperty);
+        }
+    }
+
+    private void setPropertyAttributes(String address, String location, String status, String type, Integer surface, Double price, String description, Property updatedProperty) {
+        updatedProperty.setAddress(address);
+        updatedProperty.setLocation(location);
+//        if(Arrays.asList(PropertyStatus.values()).contains(status))
+        updatedProperty.setStatus(PropertyStatus.valueOf(status));
+        updatedProperty.setType(PropertyType.valueOf(type));
+        updatedProperty.setSurface(surface);
+        updatedProperty.setPrice(price);
+        updatedProperty.setDescription(description);
+    }
+
+    public List<Appointment> findAllByProperty(Long id) {
+        List<Appointment> appointments = pr.findAllAppointmentsByProperty(id);
+        return appointments;
+    }
+
+    public void changeUser(Property property,User user){
+        property.setUser(user);
+        pr.save(property);
+    }
+
 }

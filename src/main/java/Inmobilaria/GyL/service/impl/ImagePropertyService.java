@@ -26,6 +26,7 @@ public class ImagePropertyService {
                 img.setName(file.getName());
                 img.setContainer(file.getBytes());
                 img.setProperty(property);
+                ipr.save(img);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
@@ -49,5 +50,17 @@ public class ImagePropertyService {
             }
         }
         return null;
+    }
+
+    public ImageProperty findById(String id) {
+        return ipr.findById(id).get();
+    }
+
+    public byte[] imgToBite(String id) {
+        return ipr.findById(id).get().getContainer();
+    }
+
+    public void deleteById(String id){
+        ipr.deleteById(id);
     }
 }

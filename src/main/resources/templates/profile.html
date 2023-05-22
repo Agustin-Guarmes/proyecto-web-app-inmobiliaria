@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.orq">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+       <div>
+           <h2>Perfil</h2>
+           <form th:action="@{/usuario/perfil/__${session.userSession.id}__}" method="POST" enctype="multipart/form-data">
+               <div>
+                   <input type="text" name="name" id="name" th:value="${session.userSession.name}">
+                   <label for="name">Nombre</label>
+               </div>
+               <div>
+                   <input type="password" name="password" id="password">
+                   <label for="password">Contraseña</label>
+               </div>
+               <div>
+                   <img th:src="@{/image/profile/__${session.userSession.id}__}" style="width: 100px; height: 100px;">
+                   <input name="icon" type="file">
+               </div>
+               <button type="submit">Registrar</button>
+           </form>
+       </div>
+</body>
+</html>

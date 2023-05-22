@@ -2,12 +2,13 @@ package Inmobilaria.GyL.entity;
 
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,8 @@ public class Property {
     @Enumerated(EnumType.STRING)
     private PropertyStatus status;
     @CreationTimestamp
-    private Date createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate createDate;
     @Enumerated(EnumType.STRING)
     private PropertyType type;
     private Integer surface;
@@ -38,6 +40,10 @@ public class Property {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
+
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Appointment> appointments;
 
     public User getUser() {
         return user;
@@ -58,7 +64,7 @@ public class Property {
         this.offers = offers;
     }
 
-    public Property(String address, String location, PropertyStatus status, Date createDate, PropertyType type, Integer surface, Double price, String description, List<ImageProperty> images) {
+    public Property(String address, String location, PropertyStatus status, LocalDate createDate, PropertyType type, Integer surface, Double price, String description, List<ImageProperty> images) {
         this.address = address;
         this.location = location;
         this.status = status;
@@ -98,7 +104,7 @@ public class Property {
         this.status = status;
     }
 
-    public Date getCreateDate() {
+    public LocalDate getCreateDate() {
         return createDate;
     }
 

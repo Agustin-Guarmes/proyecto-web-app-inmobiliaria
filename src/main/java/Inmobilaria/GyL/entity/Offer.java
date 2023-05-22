@@ -1,10 +1,11 @@
 package Inmobilaria.GyL.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Offer {
@@ -13,7 +14,8 @@ public class Offer {
     private Long id;
 
     @CreationTimestamp
-    private Date creationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate creationDate;
 
     @ManyToOne
     @JoinColumn(name = "property_id", referencedColumnName = "id")
@@ -27,7 +29,7 @@ public class Offer {
 
     private Boolean state;
 
-    public Offer(Long id, Date creationDate, Property property, User user, Double price, Boolean state) {
+    public Offer(Long id, LocalDate creationDate, Property property, User user, Double price, Boolean state) {
         this.id = id;
         this.creationDate = creationDate;
         this.property = property;
@@ -40,12 +42,11 @@ public class Offer {
 
     }
 
-
     public Long getId() {
         return id;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
@@ -61,13 +62,6 @@ public class Offer {
         return state;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
 
     public void setProperty(Property property) {
         this.property = property;
@@ -80,4 +74,13 @@ public class Offer {
     public void setState(Boolean state) {
         this.state = state;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }
