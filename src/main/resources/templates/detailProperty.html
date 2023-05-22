@@ -19,12 +19,11 @@
             <div class="overlay"></div>
 
             <div class="container__card">
-                <div th:each="property : ${properties}" class="card__father">
+                <div class="card__father">
                     <div class="card card__properties">
                         <div class="card__front">
-                            <div class="body__card_front">
-                                <img th:src="@{/image/propiedades/__${property.images[0].id}__}"
-                                     style="width: 100%; height: 100%;">
+                            <div class="body__card_front" th:each="image : ${property.images}">
+                                <img th:src="@{/image/propiedades/__${image.id}__}" style="width: 100%; height: 100%;">
                             </div>
                         </div>
                         <div class="card__back">
@@ -34,8 +33,8 @@
                                 <p th:text="${property.address}"></p>
                                 <p th:text="${property.description}"></p>
                                 <p th:text="'$' + ${property.price}"></p>
-                                <a th:href="@{/propiedades/__${property.id}__}">Leer mas</a>
-
+                                <button><a href="#">Ofertar</a></button>
+                                <button><a href="#">Visitar</a></button>
                             </div>
                         </div>
                     </div>

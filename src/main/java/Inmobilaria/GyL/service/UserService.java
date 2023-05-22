@@ -40,9 +40,8 @@ public class UserService implements UserDetailsService {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setCreateDate(new Date());
         user.setName(name);
-        
+
         /*user.setRole(Role.valueOf(name));*/
-        
         switch (role) {
             case "cliente":
                 user.setRole(Role.CLIENT);
@@ -53,8 +52,7 @@ public class UserService implements UserDetailsService {
             default:
                 user.setRole(Role.CLIENT);
         }
-        
-        
+
         user.setDni(dni);
 
         ImageUser image = imageService.submitImg(icon);
@@ -74,6 +72,21 @@ public class UserService implements UserDetailsService {
         return users;
     }
 
+    public void modifyUserPassword(Long id, String password, String newPassword) {
+
+        if (!password.equalsIgnoreCase(newPassword)) {
+            Optional<User> response = userRepository.findById(id);
+            if (response.isPresent()) {
+
+                User user = response.get();
+
+                user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+
+                userRepository.save(user);
+            }
+        }
+    }
+
     @Transactional
     public void modifyUser(Long id, String name, String password, MultipartFile icon) {
 
@@ -82,7 +95,7 @@ public class UserService implements UserDetailsService {
 
             User user = response.get();
 
-            if(new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+            if (new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 
                 user.setName(name);
 
@@ -108,7 +121,7 @@ public class UserService implements UserDetailsService {
 
             User user = response.get();
 
-            if(new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+            if (new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 
                 user.setName(name);
                 userRepository.save(user);
@@ -125,7 +138,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void adminModifyRole(Long id, String role) {
 
-        Optional<User> response =  userRepository.findById(id);
+        Optional<User> response = userRepository.findById(id);
 
         User user = response.get();
 

@@ -1,29 +1,48 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.orq">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-       <div>
-           <h2>Perfil</h2>
-           <form th:action="@{/usuario/perfil/__${session.userSession.id}__}" method="POST" enctype="multipart/form-data">
-               <div>
-                   <input type="text" name="name" id="name" th:value="${session.userSession.name}">
-                   <label for="name">Nombre</label>
-               </div>
-               <div>
-                   <input type="password" name="password" id="password">
-                   <label for="password">Contraseña</label>
-               </div>
-               <div>
-                   <img th:src="@{/image/profile/__${session.userSession.id}__}" style="width: 100px; height: 100px;">
-                   <input name="icon" type="file">
-               </div>
-               <button type="submit">Registrar</button>
-           </form>
-       </div>
-</body>
+<html lang="es" xmlns:th="http://www.thymeleaf.orq" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MrHouse || Mis ventas</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
+              type="text/css">
+        <link rel="stylesheet" href="/css/style_header.css" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
+        <link rel="icon" type="image/ico" href="/img/logo.svg">
+    </head>
+    <body>
+        <nav th:replace="/fragments/nav :: nav"></nav>
+        <main>
+            <div class="overlay"></div>
+            <div style="margin-top: 7rem">
+                <h2>Perfil</h2>
+                <form th:action="@{/usuario/perfil/__${session.userSession.id}__}" method="POST" enctype="multipart/form-data">
+                    <div>
+                        <input type="text" name="name" id="name" th:value="${session.userSession.name}">
+                        <label for="name">Nombre</label>
+                    </div>
+                    <div>
+                        <input type="password" name="password" id="password">
+                        <label for="password">Contraseña</label>
+                    </div>
+                    <div>
+                        <img th:src="@{/image/profile/__${session.userSession.id}__}" style="width: 100px; height: 100px;">
+                        <input name="icon" type="file">
+                    </div>
+                    <button type="submit">Registrar</button> <a th:href="@{/usuario/contraseña/__${session.userSession.id}__}">Restablecer contraseña</a>
+                </form>
+            </div>
+            <div class="logo">
+                <img src="/img/logo.png" alt="logo">
+            </div>
+            <footer th:replace="/fragments/footer :: footer"></footer>
+            <!-- BOOTSTRAP -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+            <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </body>
 </html>

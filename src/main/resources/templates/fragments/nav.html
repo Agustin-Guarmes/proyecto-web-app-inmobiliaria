@@ -56,7 +56,7 @@
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
                             <button class="dropdown-item" data-bs-toggle="modal">
-                                <a th:href="@{/admin/listaUsuarios}" target="_blank" style="text-decoration: none; color: black;">Usuarios</a>
+                                <a th:href="@{/admin/listaUsuarios}" style="text-decoration: none; color: black;">Usuarios</a>
                             </button>
                         </li>
                         <li th:if="${session.userSession != null}">
