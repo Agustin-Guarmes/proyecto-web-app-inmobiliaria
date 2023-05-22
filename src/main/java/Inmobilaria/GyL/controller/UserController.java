@@ -98,6 +98,6 @@ public class UserController {
     public String modifyPassword(@PathVariable Long id, @RequestParam String password, @RequestParam String newPassword) {
 
         userService.modifyUserPassword(id, password, newPassword);
-        return "resetPassword.html";
+        return "redirect:/usuario/perfil";
     }
 }
