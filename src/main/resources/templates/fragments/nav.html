@@ -40,29 +40,19 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li th:if="${session.userSession == null}">
-                            <button class="dropdown-item" data-bs-toggle="modal">
-                                <a th:href="@{/usuario/iniciarSesion}" style="text-decoration: none; color: black;">Iniciar sesión</a>
-                            </button>
+                            <a class="dropdown-item" th:href="@{/usuario/iniciarSesion}">Iniciar sesión</a>
                         </li>
                         <li th:if="${session.userSession == null}">
-                            <button class="dropdown-item" data-bs-toggle="modal">
-                                <a th:href="@{/usuario/registrarse}" style="text-decoration: none; color: black;">Registrarse</a>
-                            </button>
+                            <a class="dropdown-item" th:href="@{/usuario/registrarse}">Registrarse</a>
                         </li>
                         <li th:if="${session.userSession != null}">
-                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">
-                                <a th:href="@{/usuario/perfil}" style="text-decoration: none; color: black;">Perfil</a>
-                            </button>
+                                <a class="dropdown-item" th:href="@{/usuario/perfil}">Perfil</a>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
-                            <button class="dropdown-item" data-bs-toggle="modal">
-                                <a th:href="@{/admin/listaUsuarios}" style="text-decoration: none; color: black;">Usuarios</a>
-                            </button>
+                                <a class="dropdown-item" th:href="@{/admin/listaUsuarios}">Usuarios</a>
                         </li>
                         <li th:if="${session.userSession != null}">
-                            <button class="dropdown-item" data-bs-toggle="modal">
-                                <a th:href="@{/logout}" style="text-decoration:none; color: black;" >Salir</a>
-                            </button>
+                                <a class="dropdown-item" th:href="@{/logout}">Salir</a>
                         </li>
                     </ul>
                 </li>
