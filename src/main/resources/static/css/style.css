@@ -158,3 +158,14 @@
     justify-content:center
 }
 
+/* img */
+
+.img_into {
+    width: 50px;
+    height: 50px;
+}
+
+.img_profile {
+    width: 200px;
+    height: 200px;
+}
