@@ -1,68 +1,70 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.orq" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
-        type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
-    <link rel="stylesheet" href="/css/style_header.css" type="text/css">
-    <link rel="icon" type="image/ico" href="/img/logo.svg">
-    <title>MrHouse || Iniciar sesión</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
+              type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
+        <link rel="stylesheet" href="/css/style_header.css" type="text/css">
+        <link rel="icon" type="image/ico" href="/img/logo.svg">
+        <title>MrHouse || Iniciar sesión</title>
+    </head>
 
-<body>
-    <nav th:replace="/fragments/nav :: nav"></nav>
+    <body>
 
-    <section>
-    
-        <div class="container vh-100 d-flex flex-column justify-content-center">
-    
-            <div class="row justify-content-center">
-                <div class="col-lg-6 col-md-8 col-12">
-                    <div class="card">
-                        <div class="card-header text-center mt-1">
-                            <h5 class="card-title">Iniciar sesión</h5>
+        <div class="d-flex flex-column min-vh-100">
+            <nav th:replace="/fragments/nav :: nav"></nav>
+
+            <section class="flex-grow-1 d-flex align-items-center justify-content-center">
+
+                <div class="container">
+
+                    <div class="row justify-content-center my-3">
+                        <div class="col-lg-6 col-md-8 col-12">
+                            <div class="card">
+                                <div class="card-header text-center mt-1">
+                                    <h5 class="card-title">Iniciar sesión</h5>
+                                </div>
+                                <form th:action="@{/logincheck}" method="POST">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Correo electrónico</label>
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="Ingrese su correo electrónico" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Contraseña</label>
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
+                                        </div>
+                                        <div class="mb-2 d-grid">
+                                            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                                        </div>
+                                        <div class="text-center">
+                                            <a th:href="@{/usuario/restablecerContrasena}" class="btn btn-link p-0">¿Has olvidado la contraseña?</a>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="text-center">
+                                            <a th:href="@{/usuario/registrarse}" class="btn btn-outline-secondary">Crear cuenta nueva</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
                         </div>
-                        <form th:action="@{/logincheck}" method="POST">
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Correo electrónico</label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Ingrese su correo electrónico" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
-                                </div>
-                                <div class="mb-2 d-grid">
-                                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                                </div>
-                                <div class="text-center">
-                                    <a th:href="@{/usuario/restablecerContrasena}" class="btn btn-link p-0">¿Has olvidado la contraseña?</a>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="text-center">
-                                    <a th:href="@{/usuario/registrarse}" class="btn btn-outline-secondary">Crear cuenta nueva</a>
-                                </div>
-                            </div>
-                        </form>
                     </div>
-    
                 </div>
-            </div>
+            </section>
+
+            <footer th:replace="/fragments/footer :: footer"></footer>
         </div>
-    </section>
-
-    <footer th:replace="/fragments/footer :: footer"></footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-</body>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </body>
 
 </html>
