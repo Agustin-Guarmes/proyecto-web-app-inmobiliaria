@@ -1,0 +1,73 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark px-4" data-bs-theme="dark">
+    <div class="container">
+        <a class="navbar-brand navbar-logo" th:href="@{/}">
+            <img src="/img/logo.svg" alt="logo" class="navbar-img">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/}">
+                        Inicio
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Propiedades
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" th:href="@{/propiedades/lista}">Comprar propiedades</a>
+                        </li>
+                        <li sec:authorize="hasRole('ENTITY')" >
+                            <a class="dropdown-item" th:href="@{/usuario/propiedades/__${session.userSession.id}__}" >Mis propiedades</a>
+                        </li>
+                        <li sec:authorize="hasRole('ENTITY')" >
+                            <a class="dropdown-item" th:href="@{/propiedades/formulario}" >Vender</a>
+                        </li>
+                    </ul>
+                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">Vender</a>-->
+<!--                </li>-->
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user fa-fw"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li th:if="${session.userSession == null}">
+                            <button class="dropdown-item" data-bs-toggle="modal">
+                                <a th:href="@{/usuario/iniciarSesion}" style="text-decoration: none; color: black;">Iniciar sesión</a>
+                            </button>
+                        </li>
+                        <li th:if="${session.userSession == null}">
+                            <button class="dropdown-item" data-bs-toggle="modal">
+                                <a th:href="@{/usuario/registrarse}" style="text-decoration: none; color: black;">Registrarse</a>
+                            </button>
+                        </li>
+                        <li th:if="${session.userSession != null}">
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">
+                                <a th:href="@{/usuario/perfil}" style="text-decoration: none; color: black;">Perfil</a>
+                            </button>
+                        </li>
+                        <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
+                            <button class="dropdown-item" data-bs-toggle="modal">
+                                <a th:href="@{/admin/listaUsuarios}" target="_blank" style="text-decoration: none; color: black;">Usuarios</a>
+                            </button>
+                        </li>
+                        <li th:if="${session.userSession != null}">
+                            <button class="dropdown-item" data-bs-toggle="modal">
+                                <a th:href="@{/logout}" style="text-decoration:none; color: black;" >Salir</a>
+                            </button>
+                        </li>
+                    </ul>
+                </li>
+                <div th:if="${session.userSession != null}" th:text="${session.userSession.name}" class="text-white nav-link"></div>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -22,19 +22,17 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-
-
 @Service
-public class UserService implements UserDetailsService{ 
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-    
-    @Autowired 
+
+    @Autowired
     private ImageService imageService;
-    
+
     @Transactional
-    public void createUser(String email, String password, String name, Long dni,MultipartFile icon) throws Exception {
+    public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws Exception {
 
         User user = new User();
 
@@ -42,12 +40,26 @@ public class UserService implements UserDetailsService{
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setCreateDate(new Date());
         user.setName(name);
-        user.setRole(Role.CLIENT);
+        
+        /*user.setRole(Role.valueOf(name));*/
+        
+        switch (role) {
+            case "cliente":
+                user.setRole(Role.CLIENT);
+                break;
+            case "propietario":
+                user.setRole(Role.ENTITY);
+                break;
+            default:
+                user.setRole(Role.CLIENT);
+        }
+        
+        
         user.setDni(dni);
 
         ImageUser image = imageService.submitImg(icon);
         user.setIcon(image);
-        
+
         userRepository.save(user);
     }
 
@@ -63,37 +75,78 @@ public class UserService implements UserDetailsService{
     }
 
     @Transactional
-    public void modifyUser(Long id,String name,String password,MultipartFile icon){
-    
-        Optional<User> response= userRepository.findById(id);
-        if(response.isPresent()){ 
-            
-            User user = response.get(); 
-          
-            user.setName(name);
-            user.setPassword(password);
-            
-            String idImage = null;
-            
-            if (user.getIcon() != null) {
-                idImage = user.getIcon().getId();
+    public void modifyUser(Long id, String name, String password, MultipartFile icon) {
+
+        Optional<User> response = userRepository.findById(id);
+        if (response.isPresent()) {
+
+            User user = response.get();
+
+            if(new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+
+                user.setName(name);
+
+                String idImage = null;
+
+                if (user.getIcon() != null) {
+                    idImage = user.getIcon().getId();
+                }
+
+                ImageUser image = imageService.updateImg(icon, idImage);
+                user.setIcon(image);
+
+                userRepository.save(user);
             }
-            
-            ImageUser image = imageService.updateImg(icon, idImage);
-            user.setIcon(image); 
-            
-            userRepository.save(user);
         }
-    } 
-    
+    }
+
     @Transactional
-    public void deleteUser(Long id){
+    public void modifyUser(Long id, String name, String password) {
+
+        Optional<User> response = userRepository.findById(id);
+        if (response.isPresent()) {
+
+            User user = response.get();
+
+            if(new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+
+                user.setName(name);
+                userRepository.save(user);
+            }
+        }
+    }
+
+    @Transactional
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
+    /*EntityAdmin Services*/
+    @Transactional
+    public void adminModifyRole(Long id, String role) {
+
+        Optional<User> response =  userRepository.findById(id);
+
+        User user = response.get();
+
+        switch (role) {
+            case "cliente":
+                user.setRole(Role.CLIENT);
+                break;
+            case "propietario":
+                user.setRole(Role.ENTITY);
+                break;
+            case "admin":
+                user.setRole(Role.ADMIN);
+                break;
+            default:
+                user.setRole(Role.CLIENT);
+        }
+        userRepository.save(user);
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
 
         if (user != null) {

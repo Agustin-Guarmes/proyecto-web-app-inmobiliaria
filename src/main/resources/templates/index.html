@@ -1,34 +1,133 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.orq" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="es-AR">
     <head>
-        <title>TODO supply a title</title>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" type="text/css">
+        <link rel="stylesheet" href="/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
+        <link rel="stylesheet" href="/css/style_header.css" type="text/css">
+        <link rel="icon" type="image/ico" href="/img/logo.svg">
+        <title>MrHouse</title>
     </head>
     <body>
-        <h1>Se ingreso!</h1>
-        <div clas="adminTable" sec:authorize="hasRole('ADMIN')">
-            <form method="GET" th:action="@{/usuario/listaPersonalizada}">
-                <input type="text" name="word"/>
-                <buttom type="submit">Enviar</buttom>
-            </form>
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Id del user</th>
-                        <th scope="col">Nombre del user</th>
-                        <th scope="col">Email del user</th>
-                    </tr>
-                </thead>
-                <tbody th:each="user : ${users}"> 
-                    <tr>
-                        <th scope="row" th:text="${user.id}"></th>
-                        <td th:text="${user.name}"></td>
-                        <td th:text="${user.email}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <nav th:replace = "/fragments/nav :: nav"></nav>
 
+        <main class="container1">
+            <div class="video_container">
+                <video src="/videos/Ciudad-1.m4v" autoplay muted loop></video>
+            </div>
+            <div class="overlay">
+            </div>
+            <div class="imagen">
+                <img class="img" src="/img/Logo-Proyecto.svg" alt="Mr House_logo">
+            </div>
+            <div class="main_container">
+                <h2>Mr House</h2>
+                <p>"Encuentra tu lugar en el mundo"</p>
+                <a th:href="@{/propiedades/lista}">Comienza Aqui</a>
+            </div>
+        </main>
+
+
+        <section>
+            <div class="container mt-5">
+                <h2>Inmuebles más recientes</h2>
+                <div class="row gx-5 mt-4">
+                    <div class="col-md-6 col-lg-4 d-flex">
+                        <div class="item">
+                            <img src="/img/Venta-1.jpeg" alt="Imagen del inmueble 1">
+                            <p> <strong> <u>Av Flores 2486 - Wilde</u> </strong> </p>
+                            <p>
+                                🏡 Ambiente con mucha luz, con piso de porcelanato, cocina americana. <br>
+                                🛁 Baño completo.<br>
+                                ✔️ Placard y conexión a lavarropas.<br>
+                                📐 39 metros cuadrados totales. Distribución que habilita espacio para escritorio con luz
+                                natural.<br>
+                                🏢 Edificio de 6 años de antigüedad, SUM en primer piso y terraza de uso común.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 d-flex">
+                        <div class="item">
+                            <img src="/img/Venta-2.jpg" alt="Imagen del inmueble 2">
+                            <p> <strong> <u>Misiones 1734 - Caballito</u> </strong> </p>
+                            <p>
+                                🏡 Ambientes con mucha luz, balcón amplio con vista abierta al contrafrente.<br>
+                                🛁 Baño completo. <br>
+                                ✔️ Cocina completa con conexión de lavarropas.<br>
+                                📐 52,87 m² totales.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 d-flex">
+                        <div class="item">
+                            <img src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble 3">
+                            <p> <strong> <u>Canadá 9352 - Vicente López</u> </strong> </p>
+                            <p>
+                                🏡 2 dormitorios.<br>
+                                🛁 1 baño completo y toilette.<br>
+                                ✔️ Cocina comedor.<br>
+                                ✅ Balcón al frente, piso alto vista panorámica al amanecer y el atardecer.<br>
+                                📐 46 metros cuadrados totales.<br>
+                                🚗 Cochera fija.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="news-section py-5">
+            <div class="container">
+                <h2>Últimas noticias</h2>
+                <div class="news-list mt-3">
+                    <div class="news-item">
+                        <img src="https://th.bing.com/th?id=OIP.irRljjdjM0EJUuYQOsmA7gHaFK&w=299&h=208&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
+                             alt="Imagen de la noticia 1">
+                        <h3>Nueva ley de vivienda aprobada</h3>
+                        <p class="news-date">15 de mayo de 2023</p>
+                        <p>Se ha aprobado una nueva ley que promueve el acceso a la vivienda para todos los ciudadanos.</p>
+                        <a href="pagina_principal.html">Leer más</a>
+                    </div>
+                    <div class="news-item">
+                        <img src="https://th.bing.com/th?id=OIP.Y47Ju6xb2FccWk3r5yFgLgHaE8&w=306&h=204&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
+                             alt="Imagen de la noticia 2">
+                        <h3>Aumento en el mercado inmobiliario</h3>
+                        <p class="news-date">12 de mayo de 2023</p>
+                        <p>Se reporta un incremento en la demanda de propiedades en las zonas urbanas.</p>
+                        <a href="pagina_principal.html">Leer más</a>
+                    </div>
+                    <div class="news-item">
+                        <img src="https://th.bing.com/th?id=OIP.uUce4_qoDUSmrn68AEbJhwHaFF&w=301&h=207&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
+                             alt="Imagen de la noticia 3">
+                        <h3>Aumento en el mercado inmobiliario</h3>
+                        <p class="news-date">12 de mayo de 2023</p>
+                        <p>Se reporta un incremento en la demanda de propiedades en las zonas urbanas.</p>
+                        <a href="pagina_principal.html">Leer más</a>
+                    </div>
+                    <div class="news-item">
+                        <img src="https://th.bing.com/th?id=OIP.WhDfaehFlXHkJ2sOuFwC1QHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
+                             alt="Imagen de la noticia 4">
+                        <h3>Aumento en el mercado inmobiliario</h3>
+                        <p class="news-date">12 de mayo de 2023</p>
+                        <p>Se reporta un incremento en la demanda de propiedades en las zonas urbanas.</p>
+                        <a href="pagina_principal.html">Leer más</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="logo">
+            <img src="/img/logo.png" alt="logo">
+        </div>
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </body>
 </html>
+
