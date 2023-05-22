@@ -43,7 +43,12 @@
                         <td>
                             <form th:action="@{/admin/cambioRol/__${user.id}__}" method="POST">
                                 <select name="role">
-                                    <option th:text="${role}" hidden></option>
+                                    <option th:text=
+                                                    "${user.role.name()=='ENTITY'}
+                                                    ?'Propietario'
+                                                    :(${user.role.name()=='CLIENT'}
+                                                    ?'Cliente'
+                                                    :'Admin')" hidden></option>
                                     <option value="cliente">Cliente</option>
                                     <option value="propietario">Propietario</option>
                                     <option value="admin">Admin</option>

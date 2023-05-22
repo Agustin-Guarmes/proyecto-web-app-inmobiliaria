@@ -1,5 +1,6 @@
 package Inmobilaria.GyL.entity;
 
+import Inmobilaria.GyL.enums.OfferStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -27,19 +28,32 @@ public class Offer {
     @NotNull(message = ("Price is required"))
     private Double price;
 
-    private Boolean state;
+private OfferStatus offerStatus;
 
-    public Offer(Long id, LocalDate creationDate, Property property, User user, Double price, Boolean state) {
-        this.id = id;
-        this.creationDate = creationDate;
+    public Offer(Property property, User user, Double price, OfferStatus offerStatus) {
         this.property = property;
         this.user = user;
         this.price = price;
-        this.state = state;
+        this.offerStatus = offerStatus;
     }
 
     public Offer() {
+    }
 
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setOfferStatus(OfferStatus offerStatus) {
+        this.offerStatus = offerStatus;
     }
 
     public Long getId() {
@@ -54,33 +68,15 @@ public class Offer {
         return property;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public Boolean getState() {
-        return state;
-    }
-
-
-    public void setProperty(Property property) {
-        this.property = property;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public void setState(Boolean state) {
-        this.state = state;
-    }
-
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public Double getPrice() {
+        return price;
     }
 
+    public OfferStatus getOfferStatus() {
+        return offerStatus;
+    }
 }
