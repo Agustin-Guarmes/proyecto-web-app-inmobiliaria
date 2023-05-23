@@ -57,13 +57,13 @@ public class OfferService {
     }
 
     @Transactional
-    public void createOffer(Long propertyId, Long clientId, Double price) {
+    public void createOffer(Long propertyId, Long clientId) {
         User client = userService.getOne(clientId);
         Property property = propertyService.findById(propertyId);
         Offer offer = new Offer();
-        offer.setPrice(price);
         offer.setProperty(property);
         offer.setUser(client);
+        offer.setPrice(property.getPrice());
         offer.setOfferStatus(OfferStatus.CLIENT_OFFER);
 
         offerRepository.save(offer);

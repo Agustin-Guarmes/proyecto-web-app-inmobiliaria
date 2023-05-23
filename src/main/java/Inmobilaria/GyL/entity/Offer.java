@@ -27,8 +27,8 @@ public class Offer {
 
     @NotNull(message = ("Price is required"))
     private Double price;
-
-private OfferStatus offerStatus;
+    @Enumerated(EnumType.STRING)
+    private OfferStatus offerStatus;
 
     public Offer(Property property, User user, Double price, OfferStatus offerStatus) {
         this.property = property;

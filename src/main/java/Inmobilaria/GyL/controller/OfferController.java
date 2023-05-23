@@ -16,17 +16,24 @@ public class OfferController {
     @Autowired
     private OfferService offerService;
 
-    @PostMapping("/realizar")
-    public String makeOffer(@RequestParam Long userId, @RequestParam Long propertyId, @RequestParam Double price) {
-        offerService.createOffer(propertyId, userId, price);
-        return "alguna-pagina.html";
+    @GetMapping("/realizar/user/{userId}/property/{propertyId}")
+    public String makeOffer(@PathVariable("userId") Long userId, @PathVariable("propertyId") Long propertyId) {
+        offerService.createOffer(propertyId, userId);
+        return "redirect:/ofertas/listar/" + userId;
     }
 
     @GetMapping("/listar/{id}")
     public String listOffers(@PathVariable Long id, ModelMap model) {
         List<Offer> offers = offerService.findByUser(id);
         model.put("offers", offers);
-        return "alguna-pagina.html";
+        return "listOffers";
+    }
+
+    @GetMapping("/lista/{id}")
+    public String listOffersProperty(@PathVariable Long id, ModelMap model) {
+        List<Offer> offers = offerService.findByUser(id);
+        model.put("offers", offers);
+        return "listOffers";
     }
 
 }

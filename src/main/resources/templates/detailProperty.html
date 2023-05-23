@@ -46,7 +46,7 @@
                      </ul>
                      <div class="card-body">
                          <button type="button" class="btn btn-outline-secondary">
-                             <a href="#" style="color:black; text-decoration: none;">Oferta</a>
+                             <a th:href="@{/ofertas/realizar/user/{userId}/property/{propertyId}(userId=${session.userSession.id}, propertyId=${property.id})}" style="color:black; text-decoration: none;">Oferta</a>
                          </button>
                          <button type="button" class="btn btn-outline-secondary">
                              <a href="#" style="color:black; text-decoration: none;">Visitar</a>
