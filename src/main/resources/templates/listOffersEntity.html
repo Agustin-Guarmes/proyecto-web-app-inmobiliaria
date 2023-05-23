@@ -10,15 +10,7 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
     <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
     <link rel="stylesheet" href="/css/style_header.css" type="text/css">
-    <title>MrHouse || Detalle</title>
-    <style>
-            .propertyCardDetailImgSmall img{ width : 100%; border: 1px solid rgba(0,0,0,0.2); padding: 8px; margin: 10px 5px; cursor: pointer;  object-fit: contain; width: 100%; }
-            .propertyCardDetailImgSmall{ width: 12%; display: flex; }
-            .propertyCardDetailImg img{ height: 460px; border-radius: 4px; object-fit: contain; width: 100%; }
-            .propertyCardDetailImg{ padding: 0 10px; width: 100%; }
-            .propertyCardDetail{ width: 59%; }
-
-    </style>
+    <title>MrHouse || Ofertas</title>
 </head>
 <body>
 <nav th:replace="/fragments/nav :: nav"></nav>
@@ -38,17 +30,27 @@
             <tr>
                 <td th:text="${offer.creationDate}"></td>
                 <td th:text="${offer.price}"></td>
+
+
+
+
                 <td th:text="${offer.offerStatus.name() == 'CLIENT_OFFER'}
                                ?'Pendiente':
                                (${offer.offerStatus.name() == 'ENTITY_ACCEPTED'}
-                               ?'Confirmar':'Rechazado')">
+                               ?'Confirmar':'Finalizado')">
                 </td>
-                <td th:class="${offer.offerStatus.name() == 'ENTITY_ACCEPTED'} ? ' ': 'd-none'">
+
+
+
+
+
+
+                <td th:class="${offer.offerStatus.name() == 'CLIENT_OFFER'} ? ' ': 'd-none'">
                     <button class="btn btn-success" >
-                        <a href="#">Confirmar</a>
+                        <a th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Accept')}">Confirmar</a>
                     </button>
                     <button class="btn btn-danger">
-                        <a>Rechazar</a>
+                        <a th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Decline')}">Rechazar</a>
                     </button>
                 </td>
             </tr>

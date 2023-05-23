@@ -21,7 +21,7 @@
                         <a th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
                     </button>
                     <button sec:authorize="hasRole('ENTITY')" th:class="${#lists.isEmpty(property.offers)} ? 'd-none' : ' '" disabled>
-                        <a th:href="@{/ofertas/lista/__${property.id}__}">Ofertas</a>
+                        <a th:href="@{/ofertas/listaPropiedad/__${property.id}__}">Ofertas</a>
                     </button>
                 </div>
             </div>

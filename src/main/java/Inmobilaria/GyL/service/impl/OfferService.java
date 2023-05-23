@@ -96,8 +96,8 @@ public class OfferService {
     private void clientResponse(Offer offer, String response) {
         if (offer.getOfferStatus().equals(OfferStatus.ENTITY_ACCEPTED) && response.equalsIgnoreCase("Accept")) {
             propertyService.changeUser(offer.getProperty(), offer.getUser());
-            offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
         }
+        offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
     }
 
 }
