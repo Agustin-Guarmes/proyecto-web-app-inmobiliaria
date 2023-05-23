@@ -45,7 +45,7 @@ public class OfferService {
         offerRepository.deleteById(id);
     }
 
-    public List<Offer> findByProperty(Long id){
+    public List<Offer> findByProperty(Long id) {
         return offerRepository.findByProperty(id);
     }
 
@@ -61,13 +61,13 @@ public class OfferService {
     }
 
     @Transactional
-    public void createOffer(Long propertyId, Long clientId, Double price) {
+    public void createOffer(Long propertyId, Long clientId) {
         User client = userService.getOne(clientId);
         Property property = propertyService.findById(propertyId);
         Offer offer = new Offer();
-        offer.setPrice(price);
         offer.setProperty(property);
         offer.setUser(client);
+        offer.setPrice(property.getPrice());
         offer.setOfferStatus(OfferStatus.CLIENT_OFFER);
         offerRepository.save(offer);
     }
@@ -89,15 +89,15 @@ public class OfferService {
         if (response.equalsIgnoreCase("Accept")) {
             offer.setOfferStatus(OfferStatus.ENTITY_ACCEPTED);
         } else {
-            offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
+            offer.setOfferStatus(OfferStatus.ENTITY_REJECTED);
         }
     }
 
     private void clientResponse(Offer offer, String response) {
         if (offer.getOfferStatus().equals(OfferStatus.ENTITY_ACCEPTED) && response.equalsIgnoreCase("Accept")) {
             propertyService.changeUser(offer.getProperty(), offer.getUser());
-            offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
         }
+        offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
     }
 
 }

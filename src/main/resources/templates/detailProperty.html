@@ -8,39 +8,32 @@
         <link rel="stylesheet" href="/css/style.css" type="text/css">
         <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
         <link rel="stylesheet" href="/css/style_header.css" type="text/css">
-        <title>MrHouse || ADMIN</title>
+        <title>MrHouse || Detalle</title>
+        <style>
+            .propertyCardDetailImgSmall img{ width : 100%; border: 1px solid rgba(0,0,0,0.2); padding: 8px; margin: 10px 5px; cursor: pointer;  object-fit: contain; width: 100%; }
+            .propertyCardDetailImgSmall{ width: 12%; display: flex; }
+            .propertyCardDetailImg img{ height: 460px; border-radius: 4px; object-fit: contain; width: 100%; }
+            .propertyCardDetailImg{ padding: 0 10px; width: 100%; }
+            .propertyCardDetail{ width: 59%; }
+        </style>
     </head>
     <body>
         <nav th:replace="/fragments/nav :: nav"></nav>
-        <main style="height: 46vh;">
+        <main style="height: 65vh;">
             <div class="overlay"></div>
 
             <div class="container__card">
-                <div id="carouselExampleDark" class="carousel carousel-dark slide" style="width: 25rem; height: 25rem;">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" th:each="image : ${property.images}"
-                                aria-current="true" aria-label="Slide 1">
-                        </button>
+
+                <div class="propertyCardDetail">
+                    <div class="propertyCardDetailImg">
+                        <img id="imageBox" th:src="@{/image/propiedades/__${property.images[0].id}__}">
                     </div>
+                    <div class="propertyCardDetailImgSmall">
+                        <img th:each="image : ${property.images}" th:src="@{/image/propiedades/__${image.id}__}" onclick="myFuction(this)">
+                    </div>
+                </div>
 
-
-                    <div class="carousel-inner" style="width: 100%; height: 100%;" >
-                            <div th:each="image : ${property.images}" th:class="${property.images[0].id == image.id} ? 'carousel-item active' : 'carousel-item'" data-bs-interval="2000" style="width: 100%; height: 100%;"  >
-                                <img  th:src="@{/image/propiedades/__${image.id}__}" class="d-block w-100" style="width: 100%; height: 100%;">
-                            </div>
-                     </div>
-                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
-                             data-bs-slide="prev">
-                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                         <span class="visually-hidden">Previous</span>
-                     </button>
-                     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
-                             data-bs-slide="next">
-                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                         <span class="visually-hidden">Next</span>
-                     </button>
-                 </div>
-                 <div class="card" style="width: 18rem;">
+                 <div class="card" style="width: 18rem; max-height: 460px;">
                      <div class="card-body">
                          <h5 class="card-title" th:text="'Direccion - ' + ${property.address}"></h5>
                          <p class="card-text" th:text="'Tipo - ' + ${property.type}"></p>
@@ -53,24 +46,29 @@
                      </ul>
                      <div class="card-body">
                          <button type="button" class="btn btn-outline-secondary">
-                             <a href="#" style="color:black; text-decoration: none;">Oferta</a>
+                             <a th:href="@{/ofertas/realizar/user/{userId}/property/{propertyId}(userId=${session.userSession.id}, propertyId=${property.id})}" style="color:black; text-decoration: none;">Oferta</a>
                          </button>
                          <button type="button" class="btn btn-outline-secondary">
                              <a href="#" style="color:black; text-decoration: none;">Visitar</a>
                          </button>
                      </div>
                  </div>
-         </main>
+            </div>
+        </main>
                  <div class="logo">
                      <img src="/img/logo.png" alt="logo">
                  </div>
-             </section>
 
-             <footer th:replace="/fragments/footer :: footer"></footer>
-         </div>
-         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
          crossorigin="anonymous"></script>
-         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            function myFuction(propertyCardDetailImgSmall){
+                let fullImg = document.getElementById('imageBox');
+                fullImg.src = propertyCardDetailImgSmall.src;
+            }
+        </script>
      </body>
  </html>
