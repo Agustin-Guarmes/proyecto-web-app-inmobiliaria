@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OffersService {
+public class OfferService {
 
     @Autowired
     private OfferRepository offerRepository;

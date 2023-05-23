@@ -34,18 +34,30 @@
                                             <input type="text" class="form-control" name="name" id="name" th:value="${session.userSession.name}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="password" class="form-label">Introduce tu contraseña</label>
-                                            <input type="password" class="form-control" name="password" id="password">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" th:value="${session.userSession.email}" disabled>
                                         </div>
                                         <div class="mb-3">
-                                            <img th:src="@{/image/profile/__${session.userSession.id}__}" class="img-thumbnail img_profile mb-3">
+                                            <label for="dni" class="form-label">DNI</label>
+                                            <input type="number" class="form-control" id="dni" th:value="${session.userSession.dni}" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="role" class="form-label">Tipo de usuario</label>
+                                            <input type="number" class="form-control" id="role" th:value="${session.userSession.role}" disabled>
+                                        </div>
+                                        <div class="mb-3 d-flex flex-column justify-content-center align-items-center" >
+                                            <img th:src="@{/image/profile/__${session.userSession.id}__}" class="img-thumbnail img_profile mb-3" style="width: 150px; height: 150px; border-radius: 50%;">
                                             <input name="icon" type="file" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Ingresá tu contraseña</label><span> (Para persistir los cambios)</span>
+                                            <input type="password" placeholder="Ingresá tu contraseña" class="form-control" name="password" id="password">
                                         </div>
                                         <div class="d-grid">
                                             <button type="submit" class="btn btn-primary">Guardar cambios</button>
                                         </div>
                                         <div class="text-center mt-3">
-                                            <a th:href="@{/usuario/contraseña/__${session.userSession.id}__}" class="btn btn-outline-secondary">Restablecer contraseña</a>
+                                            <a th:href="@{/usuario/contraseña/__${session.userSession.id}__}" class="btn w-100 btn-outline-secondary">Restablecer contraseña</a>
                                         </div>
                                     </form>
                                 </div>
