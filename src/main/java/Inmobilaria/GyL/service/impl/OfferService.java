@@ -45,6 +45,10 @@ public class OfferService {
         offerRepository.deleteById(id);
     }
 
+    public List<Offer> findByProperty(Long id){
+        return offerRepository.findByProperty(id);
+    }
+
     public List<Offer> findByUser(Long id) {
         List<Offer> offers;
         User user = userService.getOne(id);
