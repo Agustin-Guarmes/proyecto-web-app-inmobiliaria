@@ -45,7 +45,7 @@ public class OfferService {
         offerRepository.deleteById(id);
     }
 
-    public List<Offer> findByProperty(Long id){
+    public List<Offer> findByProperty(Long id) {
         return offerRepository.findByProperty(id);
     }
 
@@ -89,7 +89,7 @@ public class OfferService {
         if (response.equalsIgnoreCase("Accept")) {
             offer.setOfferStatus(OfferStatus.ENTITY_ACCEPTED);
         } else {
-            offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
+            offer.setOfferStatus(OfferStatus.ENTITY_REJECTED);
         }
     }
 
