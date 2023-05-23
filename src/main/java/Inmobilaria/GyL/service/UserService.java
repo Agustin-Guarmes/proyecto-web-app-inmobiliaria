@@ -3,6 +3,7 @@ package Inmobilaria.GyL.service;
 import Inmobilaria.GyL.entity.ImageUser;
 import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.repository.ImageRepository;
 import Inmobilaria.GyL.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private ImageRepository imageRepository;
     @Transactional
     public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws Exception {
 
@@ -158,6 +161,18 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    @Transactional
+    public void adminDeleteUser(Long id){
+        Optional<User> response = userRepository.findById(id);
+
+        if (response.isPresent()) {
+            User user = response.get();
+            imageRepository.deleteById(user.getIcon().getId());
+            userRepository.deleteById(id);
+        }
+    }
+
+    /*End admin*/
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
