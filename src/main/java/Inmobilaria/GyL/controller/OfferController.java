@@ -1,6 +1,8 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Offer;
+import Inmobilaria.GyL.repository.UserRepository;
+import Inmobilaria.GyL.service.UserService;
 import Inmobilaria.GyL.service.impl.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,19 +16,43 @@ import java.util.List;
 public class OfferController {
 
     @Autowired
+    private UserService userService;
+    @Autowired
     private OfferService offerService;
 
-    @PostMapping("/realizar")
-    public String makeOffer(@RequestParam Long userId, @RequestParam Long propertyId, @RequestParam Double price) {
-        offerService.createOffer(propertyId, userId, price);
-        return "alguna-pagina.html";
+    @GetMapping("/realizar/user/{userId}/property/{propertyId}")
+    public String makeOffer(@PathVariable("userId") Long userId, @PathVariable("propertyId") Long propertyId) {
+        offerService.createOffer(propertyId, userId);
+        return "redirect:/ofertas/listaCliente/" + userId;
     }
 
-    @GetMapping("/listar/{id}")
-    public String listOffers(@PathVariable Long id, ModelMap model) {
+    @GetMapping("/listaCliente/{id}")
+    public String listOffersClient(@PathVariable Long id, ModelMap model) {
         List<Offer> offers = offerService.findByUser(id);
         model.put("offers", offers);
-        return "alguna-pagina.html";
+        return "listOffersClient";
     }
 
+    @GetMapping("/listaPropiedad/{id}")
+    public String listOffersProperty(@PathVariable Long id, ModelMap model) {
+        List<Offer> offers = offerService.findByProperty(id);
+        model.put("offers", offers);
+        return "listOffersEntity";
+    }
+
+    @GetMapping("/respuesta/user/{userId}/offer/{offerId}/response/{response}")
+    public String response(@PathVariable("userId") Long userId, @PathVariable("offerId") Long offerId, @PathVariable("response") String response){
+
+        System.out.println(userId + "   " + offerId + "    "+ response + "  ESTOY AKIIIIIIIIIIII");
+        offerService.offerResponse(userId,offerId,response);
+
+
+        Long idProperty = offerService.getOne(offerId).getProperty().getId();
+
+        if(userService.getOne(userId).getRole().toString().equals("ENTITY")){
+            return "redirect:/ofertas/listaPropiedad/" + idProperty;
+        } else {
+            return "redirect:/ofertas/listaCliente/" + userId;
+        }
+    }
 }

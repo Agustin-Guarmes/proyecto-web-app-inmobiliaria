@@ -14,4 +14,7 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
     List<Offer> findByUser(Long id);
     @Query("SELECT o FROM Offer o WHERE o.property.user.id = ?1")
     List<Offer> findByEntity(Long id);
+
+    @Query("SELECT o FROM Offer o WHERE o.property.id = ?1")
+    List<Offer> findByProperty(Long id);
 }

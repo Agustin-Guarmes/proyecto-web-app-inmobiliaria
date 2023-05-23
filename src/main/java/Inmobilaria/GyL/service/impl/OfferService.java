@@ -4,7 +4,6 @@ import Inmobilaria.GyL.entity.Offer;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.OfferStatus;
-import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.repository.OfferRepository;
 import Inmobilaria.GyL.service.UserService;
@@ -46,6 +45,10 @@ public class OfferService {
         offerRepository.deleteById(id);
     }
 
+    public List<Offer> findByProperty(Long id) {
+        return offerRepository.findByProperty(id);
+    }
+
     public List<Offer> findByUser(Long id) {
         List<Offer> offers;
         User user = userService.getOne(id);
@@ -58,36 +61,43 @@ public class OfferService {
     }
 
     @Transactional
-    public void createOffer(Long propertyId, Long clientId, Double price) {
+    public void createOffer(Long propertyId, Long clientId) {
         User client = userService.getOne(clientId);
         Property property = propertyService.findById(propertyId);
         Offer offer = new Offer();
-        offer.setPrice(price);
         offer.setProperty(property);
         offer.setUser(client);
+        offer.setPrice(property.getPrice());
         offer.setOfferStatus(OfferStatus.CLIENT_OFFER);
-
         offerRepository.save(offer);
     }
 
 
     /*Ente */
-    public void offerRespond(Long userId, Long offerId, String response) {
+    public void offerResponse(Long userId, Long offerId, String response) {
         Offer offer = offerRepository.findById(offerId).get();
         User user = userService.getOne(userId);
         if (user.getRole().equals(Role.ENTITY)) {
-            if (response.equalsIgnoreCase("Accept")) {
-                offer.setOfferStatus(OfferStatus.ENTITY_ACCEPTED);
-            } else {
-                offer.setOfferStatus(OfferStatus.ENTITY_REJECTED);
-            }
-        } else if (user.getRole().equals(Role.CLIENT) && offer.getOfferStatus().equals(OfferStatus.ENTITY_ACCEPTED)) {
-            if (response.equalsIgnoreCase("Accept")) {
-                propertyService.changeUser(offer.getProperty(), user);
-                offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
-            }
-            offerRepository.save(offer);
+            entityResponse(offer, response);
+        } else if (user.getRole().equals(Role.CLIENT)) {
+            clientResponse(offer, response);
         }
+        offerRepository.save(offer);
+    }
+
+    private void entityResponse(Offer offer, String response) {
+        if (response.equalsIgnoreCase("Accept")) {
+            offer.setOfferStatus(OfferStatus.ENTITY_ACCEPTED);
+        } else {
+            offer.setOfferStatus(OfferStatus.ENTITY_REJECTED);
+        }
+    }
+
+    private void clientResponse(Offer offer, String response) {
+        if (offer.getOfferStatus().equals(OfferStatus.ENTITY_ACCEPTED) && response.equalsIgnoreCase("Accept")) {
+            propertyService.changeUser(offer.getProperty(), offer.getUser());
+        }
+        offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
     }
 
 }
