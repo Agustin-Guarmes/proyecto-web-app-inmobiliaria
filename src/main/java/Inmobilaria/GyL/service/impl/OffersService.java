@@ -4,7 +4,6 @@ import Inmobilaria.GyL.entity.Offer;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.OfferStatus;
-import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.repository.OfferRepository;
 import Inmobilaria.GyL.service.UserService;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OfferService {
+public class OffersService {
 
     @Autowired
     private OfferRepository offerRepository;
