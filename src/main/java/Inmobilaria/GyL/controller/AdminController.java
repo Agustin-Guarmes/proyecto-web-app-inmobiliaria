@@ -45,6 +45,7 @@ public class AdminController {
 
     @PostMapping("/cambioRol/{id}")
     public String modifyRole(@RequestParam String role, @PathVariable Long id){
+        System.out.println(id);
 
         userService.adminModifyRole(id,role);
 
