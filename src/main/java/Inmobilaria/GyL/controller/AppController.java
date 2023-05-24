@@ -1,7 +1,7 @@
 package Inmobilaria.GyL.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AppController {
 
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("title", " | Inicio");
+    public String index(ModelMap model) {
+        model.put("title", " | Inicio");
         return "index.html";
     }
 }
