@@ -141,6 +141,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void deleteImgUser(String id) {
+        System.out.println("Delete image " + id);
         imageRepository.deleteById(id);
     }
 

@@ -104,7 +104,7 @@ public class OfferService {
     public void adminDeleteUser(Long id) {
         User user = userService.getOne(id);
 
-        userService.deleteImgUser(user.getIcon().getId());
+        System.out.println(user.getIcon().getId());
         if (!user.getRole().equals(Role.ADMIN)) {
             if ((!findByUser(id).isEmpty())) {
                 for (Offer offer : findByUser(id)) {
@@ -119,6 +119,7 @@ public class OfferService {
                 }
             }
         }
+        userService.deleteImgUser(user.getIcon().getId());
         userService.deleteUser(id);
     }
 

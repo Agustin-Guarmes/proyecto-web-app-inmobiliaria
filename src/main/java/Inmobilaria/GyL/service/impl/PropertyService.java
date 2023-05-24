@@ -3,6 +3,7 @@ package Inmobilaria.GyL.service.impl;
 import Inmobilaria.GyL.entity.*;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
+import Inmobilaria.GyL.repository.OfferRepository;
 import Inmobilaria.GyL.repository.PropertyRepository;
 import Inmobilaria.GyL.service.IPropertyService;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,12 @@ public class PropertyService implements IPropertyService {
 
     private final PropertyRepository pr;
     private final ImagePropertyService ips;
+    private final OfferRepository or;
 
-    public PropertyService(PropertyRepository pr, ImagePropertyService ips) {
+    public PropertyService(PropertyRepository pr, ImagePropertyService ips, OfferRepository or) {
         this.pr = pr;
         this.ips = ips;
+        this.or = or;
     }
 
     public void createProperty(User user, String address, String location, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs) throws IOException {
@@ -59,6 +62,12 @@ public class PropertyService implements IPropertyService {
     public void deleteProperty(Long id) {
         Optional<Property> property = pr.findById(id);
         if(property.isPresent()) {
+            List<Offer> offers = or.findByProperty(property.get().getId());
+            if(offers.size()!=0 && offers !=null ){
+                for(Offer offer : offers){
+                    or.deleteById(offer.getId());
+                }
+            }
             for (ImageProperty img : property.get().getImages()) {
                 ips.deleteById(img.getId());
             }
