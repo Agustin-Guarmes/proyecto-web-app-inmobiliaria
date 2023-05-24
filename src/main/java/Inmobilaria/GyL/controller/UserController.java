@@ -87,6 +87,12 @@ public class UserController {
         return "myProperties.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ENTITY')")
+    @GetMapping("/gestionEnidad")
+    public String enteManagement() {
+        return "enteManagement.html";
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @GetMapping("/contraseña/{id}")
     public String modifyPassword(@PathVariable Long id) {
