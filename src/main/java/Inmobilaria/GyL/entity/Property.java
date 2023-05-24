@@ -45,6 +45,20 @@ public class Property {
     @JsonIgnore
     private List<Appointment> appointments;
 
+    @OneToMany(mappedBy = "property",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<DayPlan> timetable;
+
+    private Integer duration;
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer period) {
+        this.duration = period;
+    }
+
     public User getUser() {
         return user;
     }

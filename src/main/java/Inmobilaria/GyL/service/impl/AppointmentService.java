@@ -1,30 +1,38 @@
 package Inmobilaria.GyL.service.impl;
 
-import Inmobilaria.GyL.entity.Appointment;
-import Inmobilaria.GyL.entity.Property;
-import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.entity.*;
 import Inmobilaria.GyL.repository.AppointmentRepository;
 import Inmobilaria.GyL.service.IAppointmentService;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Optional;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class AppointmentService implements IAppointmentService {
 
     private final AppointmentRepository ar;
+    private final PropertyService ps;
 
-    public AppointmentService(AppointmentRepository ar) {
+    private final DayPlanService dps;
+
+    public AppointmentService(AppointmentRepository ar, PropertyService ps, DayPlanService dps) {
         this.ar = ar;
+        this.ps = ps;
+        this.dps = dps;
     }
 
-    public void createAppointment(User client, Property property, Date appointmentDate) {
+    public void createAppointment(User client, Property property, Date appointmentDate, LocalDateTime startTime) {
+//        if(isAvailable(property.getId(),0 )) {
         Appointment appointment = new Appointment();
         appointment.setAppointmentDate(appointmentDate);
         appointment.setProperty(property);
         appointment.setClient(client);
+        appointment.setStart(startTime);
         ar.save(appointment);
+//        }
     }
 
     public void updateAppointment(Long id, Date appointmentDate) {
@@ -40,5 +48,9 @@ public class AppointmentService implements IAppointmentService {
 
     public void deleteAppointment(Long id) {
         ar.deleteById(id);
+    }
+
+    public List<Appointment> findAppointmentByUserId(Long id) {
+        return ar.findAllByUserId(id);
     }
 }

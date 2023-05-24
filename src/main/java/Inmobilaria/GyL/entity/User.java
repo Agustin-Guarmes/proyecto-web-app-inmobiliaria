@@ -41,10 +41,6 @@ public class User {
     @JsonIgnore
     private List<Property> properties;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<ScheduleDay> timetable;
-
     public User() {
     }
 
