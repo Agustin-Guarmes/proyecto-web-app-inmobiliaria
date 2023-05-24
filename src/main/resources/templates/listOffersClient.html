@@ -34,7 +34,9 @@
                 <td th:text="${offer.offerStatus.name() == 'CLIENT_OFFER'}
                                ?'Pendiente':
                                (${offer.offerStatus.name() == 'ENTITY_ACCEPTED'}
-                               ?'Confirmar':'Rechazado')">
+                               ?'Confirmar':(${offer.offerStatus.name() == 'ENTITY_REJECTED'}
+                               ?'Rechazado' : 'Finalizado')
+                               )">
                 </td>
                 <td th:class="${offer.offerStatus.name() == 'ENTITY_ACCEPTED'} ? ' ': 'd-none'">
                     <button class="btn btn-success" >

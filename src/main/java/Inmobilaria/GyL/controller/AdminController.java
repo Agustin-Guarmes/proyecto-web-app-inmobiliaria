@@ -3,6 +3,7 @@ package Inmobilaria.GyL.controller;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.repository.UserRepository;
 import Inmobilaria.GyL.service.UserService;
+import Inmobilaria.GyL.service.impl.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ public class AdminController {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private OfferService offerService;
 
     @GetMapping("/listaUsuarios")
     public String listUsers(ModelMap model) {
@@ -48,9 +51,9 @@ public class AdminController {
         return "redirect:/admin/listaUsuarios";
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/eliminar/{id}")
     public String deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
+        offerService.adminDeleteUser(id);
         return "redirect:/admin/listaUsuarios";
     }
 }

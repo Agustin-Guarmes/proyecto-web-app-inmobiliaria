@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,23 +51,21 @@ public class OfferService {
     }
 
     public List<Offer> findByUser(Long id) {
-        List<Offer> offers;
+        List<Offer> offers = new ArrayList<>();
         User user = userService.getOne(id);
         if (user.getRole().equals(Role.CLIENT)) {
             offers = offerRepository.findByUser(id);
-        } else {
-            offers = offerRepository.findByEntity(id);
         }
+
         return offers;
     }
 
     @Transactional
     public void createOffer(Long propertyId, Long clientId) {
-        User client = userService.getOne(clientId);
         Property property = propertyService.findById(propertyId);
         Offer offer = new Offer();
         offer.setProperty(property);
-        offer.setUser(client);
+        offer.setUser(clientId);
         offer.setPrice(property.getPrice());
         offer.setOfferStatus(OfferStatus.CLIENT_OFFER);
         offerRepository.save(offer);
@@ -95,9 +94,30 @@ public class OfferService {
 
     private void clientResponse(Offer offer, String response) {
         if (offer.getOfferStatus().equals(OfferStatus.ENTITY_ACCEPTED) && response.equalsIgnoreCase("Accept")) {
-            propertyService.changeUser(offer.getProperty(), offer.getUser());
+            propertyService.changeUser(offer.getProperty(), userService.getOne(offer.getUser()));
         }
         offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
+    }
+
+
+    @Transactional
+    public void adminDeleteUser(Long id) {
+        User user = userService.getOne(id);
+
+        userService.deleteImgUser(user.getIcon().getId());
+        if(!findByUser(id).isEmpty()) {
+            for (Offer offer : findByUser(id)) {
+                deleteOffer(offer.getId());
+                user.getProperties().remove(offer.getProperty());
+                propertyService.deleteProperty(offer.getProperty().getId());
+            }
+        }
+        if (!user.getProperties().isEmpty()) {
+            for (Property property : user.getProperties()) {
+                propertyService.deleteProperty(property.getId());
+            }
+        }
+        userService.deleteUser(id);
     }
 
 }

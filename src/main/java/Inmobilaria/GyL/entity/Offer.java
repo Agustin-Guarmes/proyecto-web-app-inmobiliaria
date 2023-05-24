@@ -22,15 +22,15 @@ public class Offer {
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     private Property property;
 
-    @OneToOne
-    private User user;
+
+    private Long user;
 
     @NotNull(message = ("Price is required"))
     private Double price;
     @Enumerated(EnumType.STRING)
     private OfferStatus offerStatus;
 
-    public Offer(Property property, User user, Double price, OfferStatus offerStatus) {
+    public Offer(Property property, Long user, Double price, OfferStatus offerStatus) {
         this.property = property;
         this.user = user;
         this.price = price;
@@ -44,9 +44,6 @@ public class Offer {
         this.property = property;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public void setPrice(Double price) {
         this.price = price;
@@ -68,8 +65,16 @@ public class Offer {
         return property;
     }
 
-    public User getUser() {
+    public Long getUser() {
         return user;
+    }
+
+    public void setUser(Long user) {
+        this.user = user;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Double getPrice() {

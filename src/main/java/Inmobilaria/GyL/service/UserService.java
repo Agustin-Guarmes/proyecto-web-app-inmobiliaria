@@ -1,9 +1,12 @@
 package Inmobilaria.GyL.service;
 
 import Inmobilaria.GyL.entity.ImageUser;
+import Inmobilaria.GyL.entity.Offer;
+import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.repository.ImageRepository;
+import Inmobilaria.GyL.repository.PropertyRepository;
 import Inmobilaria.GyL.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +14,9 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+
+import Inmobilaria.GyL.service.impl.OfferService;
+import Inmobilaria.GyL.service.impl.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,6 +40,7 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private ImageRepository imageRepository;
+
     @Transactional
     public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws Exception {
 
@@ -133,6 +140,11 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public void deleteImgUser(String id) {
+        imageRepository.deleteById(id);
+    }
+
+    @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
@@ -161,16 +173,26 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    @Transactional
+/*    @Transactional
     public void adminDeleteUser(Long id){
         Optional<User> response = userRepository.findById(id);
 
         if (response.isPresent()) {
             User user = response.get();
             imageRepository.deleteById(user.getIcon().getId());
+
+            if(!user.getProperties().isEmpty()){
+                for (Property property : user.getProperties()){
+                    for(Offer offer : property.getOffers()){
+                        offerService.deleteOffer(offer.getId());
+                    }
+                    propertyService.deleteProperty(property.getId());
+                }
+            }
+
             userRepository.deleteById(id);
         }
-    }
+    }*/
 
     /*End admin*/
     @Override

@@ -37,7 +37,9 @@
                 <td th:text="${offer.offerStatus.name() == 'CLIENT_OFFER'}
                                ?'Pendiente':
                                (${offer.offerStatus.name() == 'ENTITY_ACCEPTED'}
-                               ?'Confirmar':'Finalizado')">
+                               ?'Confirmar':(${offer.offerStatus.name() == 'ENTITY_REJECTED'}
+                               ?'Rechazado' : 'Finalizado')
+                               )">
                 </td>
 
 

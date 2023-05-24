@@ -49,6 +49,24 @@
                                     <td>
                                         <img th:src="@{/image/profile/__${user.id}__}" class="rounded-circle img_into">
                                     </td>
+                                    <!-- Modal eliminar-->
+                                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel">Confirmación de eliminación</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>¿Está seguro de que desea eliminar este registro?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a th:href="@{/admin/eliminar/__${user.id}__}" class="btn btn-danger">Eliminar</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <td>
                                         <form th:action="@{/admin/cambioRol/__${user.id}__}" method="POST" class="d-flex align-items-center">
                                             <select name="role" class="form-select me-2">
@@ -80,7 +98,7 @@
                                     <td>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-secondary">Editar</button>
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
+                                            <div type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</div>
                                         </div>
                                     </td>
                                 </tr>
@@ -89,24 +107,7 @@
                     </div>
                 </div>
 
-                <!-- Modal eliminar-->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">Confirmación de eliminación</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Está seguro de que desea eliminar este registro?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger">Eliminar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
 
                 <div class="logo">
