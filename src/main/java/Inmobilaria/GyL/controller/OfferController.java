@@ -1,7 +1,6 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Offer;
-import Inmobilaria.GyL.repository.UserRepository;
 import Inmobilaria.GyL.service.UserService;
 import Inmobilaria.GyL.service.impl.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
