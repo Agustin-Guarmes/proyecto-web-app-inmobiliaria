@@ -42,7 +42,7 @@ public class AdminController {
         return "into.html";
     }
 
-    @PostMapping("/cambioRol/{id}")
+    @PostMapping("/cambiarRol/{id}")
     public String modifyRole(@RequestParam String role, @PathVariable Long id){
 
         userService.adminModifyRole(id,role);
