@@ -17,37 +17,59 @@
                     <button sec:authorize="hasRole('ENTITY')">
                         <a th:href="@{/propiedades/modificar/__${property.id}__}">Modificar</a>
                     </button>
-                    <button sec:authorize="hasRole('ENTITY')">
+                    <!-- <button sec:authorize="hasRole('ENTITY')">
                         <a th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
-                    </button>
-                    <button sec:authorize="hasRole('ENTITY')" th:class="${#lists.isEmpty(property.offers)} ? 'd-none' : ' '" disabled>
-                        <a th:href="@{/ofertas/listaPropiedad/__${property.id}__}">Ofertas</a>
-                    </button>
+                    </button> -->
+                    <button sec:authorize="hasRole('ENTITY')" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
+
+                    <!-- Modal
+                    -->
+                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Confirmación de eliminación</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>¿Está seguro de que desea eliminar la propiedad?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                                    <a type="button" class="btn btn-danger" th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-                <!-- Modal
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">Confirmación de eliminación</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p>¿Está seguro de que desea eliminar la propiedad?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger" >
-                                    <a th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
-                                </button>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+<!-- Modal
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmación de eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de que desea eliminar la propiedad?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" >
+                    <a th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
+                </button>
                 
+            </div>
+        </div>
+    </div>
+</div> -->
+
