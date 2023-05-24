@@ -1,18 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.orq" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" type="text/css">
-        <link rel="stylesheet" href="/css/style.css" type="text/css">
-        <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
-        <link rel="stylesheet" href="/css/style_header.css" type="text/css">
-        <link rel="icon" type="image/ico" href="/img/logo.svg">
-        <title>MrHouse</title>
-    </head>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="/fragments/head :: head"></head>
     <body>
-        <nav th:replace = "/fragments/nav :: nav"></nav>
+        <nav th:replace="/fragments/nav :: nav"></nav>
 
         <main class="container1">
             <div class="video_container">
@@ -86,34 +76,34 @@
                 <h2>Últimas noticias</h2>
                 <div class="news-list mt-3">
                     <div class="news-item">
-<!--                        <img src="https://th.bing.com/th?id=OIP.irRljjdjM0EJUuYQOsmA7gHaFK&w=299&h=208&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
-<!--                             alt="Imagen de la noticia 1">-->
+                        <!--                        <img src="https://th.bing.com/th?id=OIP.irRljjdjM0EJUuYQOsmA7gHaFK&w=299&h=208&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                        <!--                             alt="Imagen de la noticia 1">-->
                         <h3>Reporte Inmobiliario</h3>
-<!--                        <p class="news-date">15 de mayo de 2023</p>-->
+                        <!--                        <p class="news-date">15 de mayo de 2023</p>-->
                         <p>Toda la información actualizada y estadísticas exclusivas para todo aquel interesado en invertir en el mercado inmobiliario.</p>
                         <a href="https://www.reporteinmobiliario.com/">Leer más</a>
                     </div>
                     <div class="news-item">
-<!--                        <img src="https://th.bing.com/th?id=OIP.Y47Ju6xb2FccWk3r5yFgLgHaE8&w=306&h=204&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
-<!--                             alt="Imagen de la noticia 2">-->
+                        <!--                        <img src="https://th.bing.com/th?id=OIP.Y47Ju6xb2FccWk3r5yFgLgHaE8&w=306&h=204&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                        <!--                             alt="Imagen de la noticia 2">-->
                         <h3>Mudarse al Conurbano: cuántos ambientes más se pueden comprar vendiendo un departamento en CABA</h3>
                         <p class="news-date">18 de mayo de 2023</p>
                         <p>Hay opciones de casas con jardín en varios distritos de Provincia con rápidos accesos a la Ciudad de Buenos Aires. Zonas y precios.</p>
                         <a href="https://www.clarin.com/servicios/mudarse-conurbano-ambientes-pueden-comprar-vendiendo-departamento-caba_0_iusfTsnl1s.html">Leer más</a>
                     </div>
                     <div class="news-item">
-<!--                        <img src="https://th.bing.com/th?id=OIP.uUce4_qoDUSmrn68AEbJhwHaFF&w=301&h=207&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
-<!--                             alt="Imagen de la noticia 3">-->
+                        <!--                        <img src="https://th.bing.com/th?id=OIP.uUce4_qoDUSmrn68AEbJhwHaFF&w=301&h=207&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                        <!--                             alt="Imagen de la noticia 3">-->
                         <h3>La CPCI advierte de la mala ejecución del PRR</h3>
                         <p class="news-date">17 de mayo de 2023</p>
                         <p>La Confederación Portuguesa de la Construcción e Inmobiliaria muestra su preocupación por la actual actuación de PRR.</p>
                         <a href="https://supercasa.pt/es-es/noticias/cpci-warns-of-weak-rrp-implementation-/n4244">Leer más</a>
                     </div>
                     <div class="news-item">
-<!--                        <img src="https://th.bing.com/th?id=OIP.WhDfaehFlXHkJ2sOuFwC1QHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
-<!--                             alt="Imagen de la noticia 4">-->
+                        <!--                        <img src="https://th.bing.com/th?id=OIP.WhDfaehFlXHkJ2sOuFwC1QHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                        <!--                             alt="Imagen de la noticia 4">-->
                         <h3>Properati</h3>
-<!--                        <p class="news-date">12 de mayo de 2023</p>-->
+                        <!--                        <p class="news-date">12 de mayo de 2023</p>-->
                         <p>Datos, análisis y consejos sobre ciudades y el mercado inmobiliario</p>
                         <a href="https://blog.properati.com.ar/">Leer más</a>
                     </div>
@@ -129,5 +119,5 @@
         crossorigin="anonymous"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </body>
-</html>
 
+</html>
