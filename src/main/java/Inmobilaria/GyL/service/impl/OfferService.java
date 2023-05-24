@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,12 +50,13 @@ public class OfferService {
     }
 
     public List<Offer> findByUser(Long id) {
-        List<Offer> offers = new ArrayList<>();
+        List<Offer> offers;
         User user = userService.getOne(id);
         if (user.getRole().equals(Role.CLIENT)) {
             offers = offerRepository.findByUser(id);
+        } else {
+            offers = offerRepository.findByEntity(id);
         }
-
         return offers;
     }
 
@@ -104,19 +104,22 @@ public class OfferService {
     public void adminDeleteUser(Long id) {
         User user = userService.getOne(id);
 
+        System.out.println(user.getIcon().getId());
+        if (!user.getRole().equals(Role.ADMIN)) {
+            if ((!findByUser(id).isEmpty())) {
+                for (Offer offer : findByUser(id)) {
+                    deleteOffer(offer.getId());
+                    user.getProperties().remove(offer.getProperty());
+                    propertyService.deleteProperty(offer.getProperty().getId());
+                }
+            }
+            if (!user.getProperties().isEmpty()) {
+                for (Property property : user.getProperties()) {
+                    propertyService.deleteProperty(property.getId());
+                }
+            }
+        }
         userService.deleteImgUser(user.getIcon().getId());
-        if(!findByUser(id).isEmpty()) {
-            for (Offer offer : findByUser(id)) {
-                deleteOffer(offer.getId());
-                user.getProperties().remove(offer.getProperty());
-                propertyService.deleteProperty(offer.getProperty().getId());
-            }
-        }
-        if (!user.getProperties().isEmpty()) {
-            for (Property property : user.getProperties()) {
-                propertyService.deleteProperty(property.getId());
-            }
-        }
         userService.deleteUser(id);
     }
 
