@@ -24,14 +24,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @GetMapping("/registrarse")
     public String register() {
         return "register.html";
     }
-
 
     @PostMapping("/registrar")
     public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon) {
@@ -116,5 +112,6 @@ public class UserController {
         return "appointments.html";
     }
 }
+
 
 
