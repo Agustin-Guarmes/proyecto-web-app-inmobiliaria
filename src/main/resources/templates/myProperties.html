@@ -12,11 +12,11 @@
             <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
 
                 <div class="card p-1" th:each="property : ${properties}">
-                    <i th:class="${#lists.isEmpty(property.offers)} ? 'd-none' : 'fa-solid fa-bell'"></i>
                     <div class="position-relative">
                         <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top"
                              alt="Imagen del inmueble">
                         <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
+                        <i th:class="${#lists.isEmpty(property.offers)} ? 'd-none' : 'fa-solid fa-bell text-primary position-absolute start-0'"></i>
                     </div>
                     <div class="card-body pt-1">
 
@@ -44,11 +44,34 @@
                            th:href="@{/propiedades/modificar/__${property.id}__}">Modificar</a>
                         <div
                                 sec:authorize="hasRole('ENTITY')" type="button" class="btn btn-danger w-100 me-1"
-                                data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar
+                                data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${property.id}">Eliminar
                         </div>
                         <a th:href="@{/ofertas/listaPropiedad/__${property.id}__}" sec:authorize="hasRole('ENTITY')"
                            th:class="${#lists.isEmpty(property.offers)} ? 'd-none' : 'w-100 btn btn-secondary'">Ofertas</a>
                     </div>
+
+                    <div class="modal fade" th:id="'deleteModal' + ${property.id}" tabindex="-1"
+                         aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">Confirmación de eliminación</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>¿Está seguro de que desea eliminar la propiedad?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar
+                                    </button>
+                                    <a class="btn btn-danger" th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

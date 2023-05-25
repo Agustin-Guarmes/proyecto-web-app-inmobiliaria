@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head th:replace="/fragments/head :: head"></head>
+<head th:replace="/fragments/head :: head"></head>
 <body>
 <nav th:replace="/fragments/nav :: nav"></nav>
 <main style="height: 65vh;">
@@ -12,7 +12,7 @@
                 <th scope="col">Dia oferta</th>
                 <th scope="col">Precio propiedad</th>
                 <th scope="col">Estado</th>
-                <th scope="col" >Confirmación</th>
+                <th scope="col">Confirmación</th>
             </tr>
             </thead>
             <tbody th:each="offer : ${offers}">
@@ -27,12 +27,10 @@
                                )">
                 </td>
                 <td th:class="${offer.offerStatus.name() == 'ENTITY_ACCEPTED'} ? ' ': 'd-none'">
-                    <button class="btn btn-success" >
-                        <a th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Accept')}">Confirmar</a>
-                    </button>
-                    <button class="btn btn-danger">
-                        <a th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Decline')}">Rechazar</a>
-                    </button>
+                    <a class="btn btn-success"
+                       th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Accept')}">Confirmar</a>
+                    <a class="btn btn-danger"
+                       th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Decline')}">Rechazar</a>
                 </td>
             </tr>
             </tbody>
