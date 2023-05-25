@@ -1,4 +1,7 @@
 /* NAVBAR */
+*{
+    font-family: "Montse";
+}
 
 .navbar-logo{
     display: inline-block;

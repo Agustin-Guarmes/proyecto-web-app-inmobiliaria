@@ -61,19 +61,22 @@ public class PropertyService implements IPropertyService {
 
     public void deleteProperty(Long id) {
         Optional<Property> property = pr.findById(id);
-        if(property.isPresent()) {
+        if (property.isPresent()) {
             List<Offer> offers = or.findByProperty(property.get().getId());
-            if(offers.size()!=0 && offers !=null ){
-                for(Offer offer : offers){
+            if (offers.size() != 0 && offers != null) {
+                for (Offer offer : offers) {
                     or.deleteById(offer.getId());
                 }
             }
             for (ImageProperty img : property.get().getImages()) {
                 ips.deleteById(img.getId());
             }
+            for (ImageProperty img : property.get().getImages()) {
+                ips.deleteById(img.getId());
+            }
         }
-
         pr.deleteById(id);
+
     }
 
     public void updateProperty(Long id, String address, Integer surface, Double price) {
@@ -98,14 +101,19 @@ public class PropertyService implements IPropertyService {
         updatedProperty.setDescription(description);
     }
 
-    public List<Appointment> findAllByProperty(Long id) {
+    public List<Appointment> findAllAppointmentsByProperty(Long id) {
         List<Appointment> appointments = pr.findAllAppointmentsByProperty(id);
         return appointments;
     }
 
-    public void changeUser(Property property,User user){
+    public void changeUser(Property property, User user) {
         property.setUser(user);
         pr.save(property);
+    }
+
+    public List<DayPlan> findAllTimetableByProperty(Long id) {
+        List<DayPlan> timetable = pr.findAllTimetableByProperty(id);
+        return timetable;
     }
 
 }

@@ -1,22 +1,10 @@
 package Inmobilaria.GyL.service;
 
 import Inmobilaria.GyL.entity.ImageUser;
-import Inmobilaria.GyL.entity.Offer;
-import Inmobilaria.GyL.entity.Property;
-import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.repository.ImageRepository;
-import Inmobilaria.GyL.repository.PropertyRepository;
 import Inmobilaria.GyL.repository.UserRepository;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
-
-import Inmobilaria.GyL.service.impl.OfferService;
-import Inmobilaria.GyL.service.impl.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,6 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -220,4 +215,6 @@ public class UserService implements UserDetailsService {
             return null;
         }
     }
+
+
 }
