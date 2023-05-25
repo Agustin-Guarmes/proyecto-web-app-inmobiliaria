@@ -32,35 +32,6 @@ public class UserController {
         return "register.html";
     }
 
-    @GetMapping("/propiedades")
-    public String propiedades() {
-        return "properties.html";
-    }
-
-    @GetMapping("/")
-    public String index() {
-        return "index.html";
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listaPersonalizada")
-    public String listUsers(ModelMap model) {
-
-        List<User> users = userService.listUsers();
-
-        model.put("users", users);
-
-        return "into.html";
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listaPersonalizadaBusqueda")
-    public String searchUsers(@RequestParam String word, ModelMap model) {
-
-        List<User> users = userRepository.findByName(word);
-        model.put("users", users);
-        return "into.html";
-    }
 
     @PostMapping("/registrar")
     public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon) {
@@ -144,7 +115,6 @@ public class UserController {
 
         return "appointments.html";
     }
-
 }
 
 
