@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div class="row justify-content-center my-3">
+  <div class="col-lg-6 col-md-8 col-12">
+    <div class="card">
+      <div class="card-header text-center mt-1">
+        <h5 class="card-title">Registrarse</h5>
+      </div>
+      <form th:action="@{/admin/creaImg}" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="icon" class="form-label">Foto de perfil</label>
+            <input type="file" class="form-control" id="icon" name="icon" accept="image/*" required>
+          </div>
+          <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+</body>
+</html>
