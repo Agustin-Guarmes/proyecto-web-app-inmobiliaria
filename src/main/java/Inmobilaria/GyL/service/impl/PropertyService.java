@@ -1,9 +1,6 @@
 package Inmobilaria.GyL.service.impl;
 
-import Inmobilaria.GyL.entity.Appointment;
-import Inmobilaria.GyL.entity.ImageProperty;
-import Inmobilaria.GyL.entity.Property;
-import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.entity.*;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
 import Inmobilaria.GyL.repository.PropertyRepository;
@@ -13,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +59,7 @@ public class PropertyService implements IPropertyService {
 
     public void deleteProperty(Long id) {
         Property property = pr.findById(id).get();
-        for (ImageProperty img : property.getImages()){
+        for (ImageProperty img : property.getImages()) {
             ips.deleteById(img.getId());
         }
 
@@ -91,14 +88,19 @@ public class PropertyService implements IPropertyService {
         updatedProperty.setDescription(description);
     }
 
-    public List<Appointment> findAllByProperty(Long id) {
+    public List<Appointment> findAllAppointmentsByProperty(Long id) {
         List<Appointment> appointments = pr.findAllAppointmentsByProperty(id);
         return appointments;
     }
 
-    public void changeUser(Property property,User user){
+    public void changeUser(Property property, User user) {
         property.setUser(user);
         pr.save(property);
+    }
+
+    public List<DayPlan> findAllTimetableByProperty(Long id) {
+        List<DayPlan> timetable = pr.findAllTimetableByProperty(id);
+        return timetable;
     }
 
 }

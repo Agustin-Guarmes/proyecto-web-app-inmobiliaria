@@ -6,13 +6,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-public class Appointment {
+public class Appointment  implements Comparable<Appointment>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Temporal(TemporalType.DATE)
@@ -26,23 +27,54 @@ public class Appointment {
     @ManyToOne
     private Property property;
 
+    @OneToOne
+    private TimePeriod timePeriod;
+
     @Enumerated(EnumType.STRING)
     private AppointmentState state;
 
     @CreationTimestamp
     private Date creationDate;
 
-    public Appointment(Long id, Date appointmentDate, User client, Property property, AppointmentState state, Date creationDate) {
+    private LocalDateTime start;
+
+    private LocalDateTime end;
+
+    private String title;
+
+    public Appointment(Long id, Date appointmentDate, User client, Property property,
+                       DayPlan dayPlan, TimePeriod timePeriod, AppointmentState state, Date creationDate,
+                       LocalDateTime startTime, LocalDateTime endTime, String title) {
         this.id = id;
         this.appointmentDate = appointmentDate;
         this.client = client;
         this.property = property;
+        this.timePeriod = timePeriod;
         this.state = state;
         this.creationDate = creationDate;
+        this.start = startTime;
+        this.end = endTime;
+        this.title = title;
     }
 
     public Appointment() {
 
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime endTime) {
+        this.end = endTime;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDateTime startTime) {
+        this.start = startTime;
     }
 
     public Property getProperty() {
@@ -91,5 +123,18 @@ public class Appointment {
 
     public void setState(AppointmentState state) {
         this.state = state;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public int compareTo(Appointment o) {
+        return this.getStart().compareTo(o.getStart());
     }
 }
