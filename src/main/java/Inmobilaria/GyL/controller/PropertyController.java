@@ -7,8 +7,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Arrays;
 
 @Controller
 @RequestMapping("/propiedades")
@@ -42,8 +45,11 @@ public class PropertyController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
     @PostMapping("/modificar/{idUser}")
-    public String modifyProperty(@PathVariable Long idUser, @RequestParam Long id, @RequestParam String address, @RequestParam Double price, @RequestParam int surface) {
-        propertyService.updateProperty(id, address, surface, price);
+    public String modifyProperty(@PathVariable Long idUser, @RequestParam Long id, @RequestParam String address, @RequestParam String location,
+                                 @RequestParam String status, @RequestParam String type, @RequestParam int surface,
+                                 @RequestParam Double price, @RequestParam String description, @RequestParam int bathrooms, @RequestParam int bedrooms) {
+
+        propertyService.updateProperty(id, address, location, status, type, surface, price, description, bathrooms, bedrooms);
 
         return "redirect:/usuario/propiedades/" + idUser;
     }
@@ -64,4 +70,12 @@ public class PropertyController {
         model.put("property", find);
         return "detailProperty.html";
     }
+
+    @PostMapping("/usuarioAgregaImagenes")
+    public String addImgProperty(@RequestParam Long id, MultipartFile[] files) throws IOException {
+
+        propertyService.addImageToProperty(id, Arrays.asList(files));
+        return "redirect:/propiedades/modificar/" + id;
+    }
+
 }

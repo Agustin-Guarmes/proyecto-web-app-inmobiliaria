@@ -61,6 +61,9 @@ public class ImageService implements IImageService {
         }
         return null;
     }
-
+    @Override
+    public ImageUser findById(String id){
+        return imageRepository.findById(id).get();
+    }
 
 }

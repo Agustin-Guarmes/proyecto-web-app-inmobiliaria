@@ -29,10 +29,10 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
-    public void createProperty(User user, String address, String location, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs) throws IOException {
+    public void createProperty(User user, String address, String location, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs, Integer bathrooms, Integer bedrooms) throws IOException {
         Property property = new Property();
         property.setUser(user);
-        setPropertyAttributes(address, location, status, type, surface, price, description, property);
+        setPropertyAttributes(address, location, status, type, surface, price, description, property,bathrooms,bedrooms);
         pr.save(property);
         for (MultipartFile img : imgs) {
             ips.saveImg(img, property);
@@ -40,11 +40,12 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
-    public void updateProperty(Long id, String address, String location, String status, String type, Integer surface, Double price, String description) {
+    public void updateProperty(Long id, String address, String location, String status, String type, Integer surface, Double price, String description,
+                               Integer bathrooms, Integer bedrooms) {
         Optional<Property> isFound = pr.findById(id);
         if (isFound.isPresent()) {
             Property updatedProperty = isFound.get();
-            setPropertyAttributes(address, location, status, type, surface, price, description, updatedProperty);
+            setPropertyAttributes(address, location, status, type, surface, price, description, updatedProperty, bathrooms, bedrooms);
             pr.save(updatedProperty);
         }
     }
@@ -72,7 +73,7 @@ public class PropertyService implements IPropertyService {
         }
     }
 
-    @Override
+    /*@Override
     public void updateProperty(Long id, String address, Integer surface, Double price) {
         Optional<Property> isFound = pr.findById(id);
         if (isFound.isPresent()) {
@@ -82,7 +83,7 @@ public class PropertyService implements IPropertyService {
             updatedProperty.setAddress(address);
             pr.save(updatedProperty);
         }
-    }
+    }*/
 
     @Override
     public List<Appointment> findAllAppointmentsByProperty(Long id) {
@@ -102,7 +103,7 @@ public class PropertyService implements IPropertyService {
         return timetable;
     }
 
-    private void setPropertyAttributes(String address, String location, String status, String type, Integer surface, Double price, String description, Property updatedProperty) {
+    private void setPropertyAttributes(String address, String location, String status, String type, Integer surface, Double price, String description, Property updatedProperty, Integer bathrooms, Integer bedrooms) {
         updatedProperty.setAddress(address);
         updatedProperty.setLocation(location);
 //        if(Arrays.asList(PropertyStatus.values()).contains(status))
@@ -111,6 +112,18 @@ public class PropertyService implements IPropertyService {
         updatedProperty.setSurface(surface);
         updatedProperty.setPrice(price);
         updatedProperty.setDescription(description);
+        updatedProperty.setBathrooms(bathrooms);
+        updatedProperty.setBedrooms(bedrooms);
+    }
+
+    @Override
+    public void addImageToProperty(Long id, List<MultipartFile> imgs) throws IOException {
+        Optional<Property> property = pr.findById(id);
+        if (property.isPresent()) {
+            for (MultipartFile img : imgs) {
+                ips.saveImg(img, property.get());
+            }
+        }
     }
 
 }

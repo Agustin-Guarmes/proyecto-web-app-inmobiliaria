@@ -7,4 +7,6 @@ public interface IImageService {
     ImageUser submitImg(MultipartFile archive) throws Exception;
 
     ImageUser updateImg(MultipartFile archive, String idImage);
+
+    ImageUser findById(String id);
 }
