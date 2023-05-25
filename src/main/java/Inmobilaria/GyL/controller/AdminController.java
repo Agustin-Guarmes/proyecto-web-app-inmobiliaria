@@ -1,10 +1,7 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.User;
-import Inmobilaria.GyL.repository.UserRepository;
-import Inmobilaria.GyL.service.UserService;
-import Inmobilaria.GyL.service.impl.OfferService;
-import org.springframework.beans.factory.annotation.Autowired;
+import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +12,11 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private OfferService offerService;
+    private final UserService userService;
+
+    public AdminController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/listaUsuarios")
     public String listUsers(ModelMap model) {
@@ -35,7 +31,7 @@ public class AdminController {
     @GetMapping("/busquedaUsuarios")
     public String searchUsers(@RequestParam String word, ModelMap model) {
 
-        List<User> users = userRepository.findByName(word);
+        List<User> users = userService.findByName(word);
 
         model.put("users", users);
 
@@ -43,17 +39,17 @@ public class AdminController {
     }
 
     @PostMapping("/cambiarRol/{id}")
-    public String modifyRole(@RequestParam String role, @PathVariable Long id){
+    public String modifyRole(@RequestParam String role, @PathVariable Long id) {
         System.out.println(id);
 
-        userService.adminModifyRole(id,role);
+        userService.adminModifyRole(id, role);
 
         return "redirect:/admin/listaUsuarios";
     }
 
     @GetMapping("/eliminar/{id}")
-    public String deleteUser(@PathVariable Long id){
-        offerService.adminDeleteUser(id);
+    public String deleteUser(@PathVariable Long id) {
+        userService.adminDeleteUser(id);
         return "redirect:/admin/listaUsuarios";
     }
 }

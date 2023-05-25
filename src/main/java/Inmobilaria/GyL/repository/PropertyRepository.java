@@ -3,15 +3,12 @@ package Inmobilaria.GyL.repository;
 import Inmobilaria.GyL.entity.Appointment;
 import Inmobilaria.GyL.entity.DayPlan;
 import Inmobilaria.GyL.entity.Property;
-import Inmobilaria.GyL.entity.TimePeriod;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -19,6 +16,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query("SELECT p FROM Property p WHERE p.user.id = ?1")
     List<Property> findByUser(Long id);
+
     @Query("SELECT p FROM Property p WHERE p.type = ?1")
     List<Property> findByType(PropertyType type);
 

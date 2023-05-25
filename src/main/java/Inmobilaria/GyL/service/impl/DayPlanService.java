@@ -15,11 +15,11 @@ public class DayPlanService implements IDayPlanService {
 
     private final DayPlanRepository dayPlanRepository;
 
-
     public DayPlanService(DayPlanRepository dayPlanRepository) {
         this.dayPlanRepository = dayPlanRepository;
     }
 
+    @Override
     public DayPlan createDayPlan(LocalDate timetableDay, LocalTime starTime, LocalTime endTime, Property property) {
         DayPlan dayPlan = new DayPlan();
         dayPlan.setTimetableDay(timetableDay);
@@ -29,13 +29,14 @@ public class DayPlanService implements IDayPlanService {
         return dayPlanRepository.save(dayPlan);
     }
 
+    @Override
     public List<DayPlan> findAllDayPlanByProperty(Property property) {
         return dayPlanRepository.findAllByProperty(property.getId());
     }
 
+    @Override
     public void deleteDayPlan(Long id) {
         dayPlanRepository.deleteById(id);
     }
-
 
 }

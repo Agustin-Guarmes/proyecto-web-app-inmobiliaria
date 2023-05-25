@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-public class DayPlan implements Comparable<DayPlan>{
+public class DayPlan implements Comparable<DayPlan> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

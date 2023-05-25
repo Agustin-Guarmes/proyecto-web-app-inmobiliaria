@@ -2,21 +2,23 @@ package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
-import Inmobilaria.GyL.service.impl.PropertyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import Inmobilaria.GyL.service.IPropertyService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 @RequestMapping("/propiedades")
 public class PropertyController {
 
-    @Autowired
-    private PropertyService propertyService;
+    private IPropertyService propertyService;
+
+    public PropertyController(IPropertyService propertyService) {
+        this.propertyService = propertyService;
+    }
 
     @GetMapping("/lista")
     public String propiedades(ModelMap model) {
@@ -54,9 +56,9 @@ public class PropertyController {
 
         return "redirect:/usuario/propiedades/" + log.getId();
     }
-    
+
     @GetMapping("/{id}")
-    public String findByProperty(@PathVariable Long id, ModelMap model){
+    public String findByProperty(@PathVariable Long id, ModelMap model) {
         Property find = propertyService.findById(id);
 
         model.put("property", find);

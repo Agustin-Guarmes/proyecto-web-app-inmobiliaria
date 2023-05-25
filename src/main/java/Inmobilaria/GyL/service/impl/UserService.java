@@ -1,11 +1,11 @@
-package Inmobilaria.GyL.service;
+package Inmobilaria.GyL.service.impl;
 
 import Inmobilaria.GyL.entity.ImageUser;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.repository.ImageRepository;
 import Inmobilaria.GyL.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import Inmobilaria.GyL.service.IImageService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,14 +27,15 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final IImageService imageService;
+    private final ImageRepository imageRepository;
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private ImageRepository imageRepository;
+    public UserService(UserRepository userRepository, IImageService imageService, ImageRepository imageRepository) {
+        this.userRepository = userRepository;
+        this.imageService = imageService;
+        this.imageRepository = imageRepository;
+    }
 
     @Transactional
     public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws Exception {
@@ -136,13 +137,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void deleteImgUser(String id) {
-        System.out.println("Delete image " + id);
         imageRepository.deleteById(id);
-    }
-
-    @Transactional
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
     }
 
     /*EntityAdmin Services*/
@@ -169,26 +164,14 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-/*    @Transactional
-    public void adminDeleteUser(Long id){
-        Optional<User> response = userRepository.findById(id);
+    @Transactional
+    public void adminDeleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
 
-        if (response.isPresent()) {
-            User user = response.get();
-            imageRepository.deleteById(user.getIcon().getId());
-
-            if(!user.getProperties().isEmpty()){
-                for (Property property : user.getProperties()){
-                    for(Offer offer : property.getOffers()){
-                        offerService.deleteOffer(offer.getId());
-                    }
-                    propertyService.deleteProperty(property.getId());
-                }
-            }
-
-            userRepository.deleteById(id);
-        }
-    }*/
+    public List<User> findByName(String word) {
+        return userRepository.findByName(word);
+    }
 
     /*End admin*/
     @Override
