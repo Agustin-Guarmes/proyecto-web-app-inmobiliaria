@@ -1,126 +1,118 @@
 <!DOCTYPE html>
-<html lang="es-AR" xmlns:th="http://www.thymeleaf.orq" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/ico" href="/img/logo.svg">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
-          type="text/css">
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
-    <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
-    <link rel="stylesheet" href="/css/style_header.css" type="text/css">
-    <title>MrHouse || Detalle</title>
-    <style>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="/fragments/head :: head">
+    </head>
+        <style>
             .propertyCardDetailImgSmall img{ width : 100%; border: 1px solid rgba(0,0,0,0.2); padding: 8px; margin: 10px 5px; cursor: pointer;  object-fit: contain; width: 100%; }
             .propertyCardDetailImgSmall{ width: 12%; display: flex; }
             .propertyCardDetailImg img{ height: 460px; border-radius: 4px; object-fit: contain; width: 100%; }
             .propertyCardDetailImg{ padding: 0 10px; width: 100%; }
             .propertyCardDetail{ width: 59%; }
 
-    </style>
-</head>
-<body>
-<nav th:replace="/fragments/nav :: nav"></nav>
-<main style="height: 65vh;">
-    <div class="overlay"></div>
-    <div class="container__card">
-        <div class="propertyCardDetail">
-            <div class="propertyCardDetailImg">
-                <img id="imageBox" th:src="@{/image/propiedades/__${property.images[0].id}__}">
+        </style>
+    <body onload="loadTheme()">
+        <nav th:replace="/fragments/nav :: nav"></nav>
+        <main style="height: 65vh;">
+            <div class="container__card">
+                <div class="propertyCardDetail">
+                    <div class="propertyCardDetailImg">
+                        <img id="imageBox" th:src="@{/image/propiedades/__${property.images[0].id}__}">
+                    </div>
+                    <div class="propertyCardDetailImgSmall">
+                        <img th:each="image : ${property.images}" th:src="@{/image/propiedades/__${image.id}__}"
+                             onclick="myFuction(this)">
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem; max-height: 460px;">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="'Direccion - ' + ${property.address}"></h5>
+                        <p class="card-text" th:text="'Tipo - ' + ${property.type}"></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="'Localidad - ' + ${property.location}"></li>
+                        <li class="list-group-item" th:text="'Superficie - ' + ${property.surface}"></li>
+                        <li class="list-group-item" th:text="'Precio $ ' + ${property.price}"></li>
+                        <li class="list-group-item" th:text="${property.description}"></li>
+                    </ul>
+                    <div class="card-body">
+                        <a th:if="${session.userSession != null}" type="button" class="btn btn-outline-secondary"
+                           th:href="@{/ofertas/realizar/user/{userId}/property/{propertyId}(userId=${session.userSession.id}, propertyId=${property.id})}">
+                            Oferta
+                        </a>
+                        <a type="button" class="btn btn-outline-secondary" href="#">
+                            Turnos
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="propertyCardDetailImgSmall">
-                <img th:each="image : ${property.images}" th:src="@{/image/propiedades/__${image.id}__}"
-                     onclick="myFuction(this)">
-            </div>
-        </div>
-        <div class="card" style="width: 18rem; max-height: 460px;">
-            <div class="card-body">
-                <h5 class="card-title" th:text="'Direccion - ' + ${property.address}"></h5>
-                <p class="card-text" th:text="'Tipo - ' + ${property.type}"></p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item" th:text="'Localidad - ' + ${property.location}"></li>
-                <li class="list-group-item" th:text="'Superficie - ' + ${property.surface}"></li>
-                <li class="list-group-item" th:text="'Precio $ ' + ${property.price}"></li>
-                <li class="list-group-item" th:text="${property.description}"></li>
-            </ul>
-            <div class="card-body">
-                <a th:if="${session.userSession != null}" type="button" class="btn btn-outline-secondary"
-                   th:href="@{/ofertas/realizar/user/{userId}/property/{propertyId}(userId=${session.userSession.id}, propertyId=${property.id})}"
-                   style="color:black; text-decoration: none;">Oferta</a>
-                <a type="button" class="btn btn-outline-secondary" href="#" style="color:black; text-decoration: none;">Turnos</a>
-            </div>
-        </div>
-    </div>
-</main>
+        </main>
 
-<div class="container">
-    <h2>Solicitud de Turnos</h2>
-    <form>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="fecha">Fecha:</label>
-                    <input type="date" id="fecha" name="fecha" class="form-control" required>
+        <div class="container">
+            <h2>Solicitud de Turnos</h2>
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fecha">Fecha:</label>
+                            <input type="date" id="fecha" name="fecha" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="hora">Hora:</label>
+                            <select id="hora" name="hora" class="form-control" required>
+                                <option hidden selected value="" class="">Seleccionar hora</option>
+                                <!-- Opciones de horarios disponibles generadas dinámicamente -->
+                                <option value="09:00">09:00</option>
+                                <option value="10:00">10:00</option>
+                                <option value="11:00">11:00</option>
+                                <!-- ... y así sucesivamente para cada horario disponible -->
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="hora">Hora:</label>
-                    <select id="hora" name="hora" class="form-control" required>
-                        <option hidden selected value="" class="">Seleccionar hora</option>
-                        <!-- Opciones de horarios disponibles generadas dinámicamente -->
-                        <option value="09:00">09:00</option>
-                        <option value="10:00">10:00</option>
-                        <option value="11:00">11:00</option>
-                        <!-- ... y así sucesivamente para cada horario disponible -->
-                    </select>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="telefono">Teléfono:</label>
+                            <input type="tel" id="telefono" name="telefono" class="form-control" required pattern="[0-9]{9,}">
+                        </div>
+                    </div>
+                    <!-- Puedes agregar más campos -->
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Solicitar Turno</button>
+            </form>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" class="form-control" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" class="form-control" required pattern="[0-9]{9,}">
-                </div>
-            </div>
-            <!-- Puedes agregar más campos -->
-        </div>
-        <button type="submit" class="btn btn-primary mt-2">Solicitar Turno</button>
-    </form>
-</div>
 
-<div class="logo">
-    <img src="/img/logo.png" alt="logo">
-</div>
+        <div class="logo">
+            <img src="/img/logo.png" alt="logo">
+        </div>
 
-<footer th:replace="/fragments/footer :: footer"></footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        <footer th:replace = "/fragments/footer :: footer"></footer>
+        <script src="/js/theme.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-<script type="text/javascript">
+        <script type="text/javascript">
             function myFuction(propertyCardDetailImgSmall){
             let fullImg = document.getElementById('imageBox');
             fullImg.src = propertyCardDetailImgSmall.src;
             }
 
-</script>
-</body>
+        </script>
+    </body>
 </html>
