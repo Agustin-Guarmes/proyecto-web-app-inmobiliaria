@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark px-4" data-bs-theme="dark">
+<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container">
         <a class="navbar-brand navbar-logo" th:href="@{/}">
             <img src="/img/logo.svg" alt="logo" class="navbar-img">
@@ -7,7 +7,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto d-flex align-items-center">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/}">
                         Inicio
@@ -19,51 +19,99 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item" th:href="@{/propiedades/lista}">Comprar propiedades</a>
+                            <a class="dropdown-item" th:href="@{/propiedades/lista}">
+                                <i class="bi bi-shop pe-2"></i>
+                                Comprar propiedades
+                            </a>
                         </li>
                         <li sec:authorize="hasRole('ENTITY')">
-                            <a class="dropdown-item" th:href="@{/usuario/propiedades/__${session.userSession.id}__}">Mis propiedades</a>
+                            <a class="dropdown-item" th:href="@{/usuario/propiedades/__${session.userSession.id}__}">
+                                <i class="bi bi-houses pe-2"></i>
+                                Mis propiedades
+                            </a>
                         </li>
                         <li sec:authorize="hasRole('CLIENT')">
-                            <a class="dropdown-item" th:href="@{/ofertas/listaCliente/__${session.userSession.id}__}">Mis ofertas</a>
+                            <a class="dropdown-item" th:href="@{/ofertas/listaCliente/__${session.userSession.id}__}">
+                                <i class="bi bi-megaphone pe-2"></i>
+                                Mis ofertas
+                            </a>
                         </li>
                         <li sec:authorize="hasRole('ENTITY')">
-                            <a class="dropdown-item" th:href="@{/propiedades/formulario}">Vender</a>
+                            <a class="dropdown-item" th:href="@{/propiedades/formulario}">
+                                <i class="bi bi-house-add pe-2"></i>
+                                Vender
+                            </a>
                         </li>
                     </ul>
                 </li>
-            </ul>
-            <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i th:if="${session.userSession == null}" class="bi bi-person fs-4"></i>
-                        <div th:if="${session.userSession != null}" class="text-white nav-link d-flex align-items-center">
+                        <div th:if="${session.userSession != null}" class="nav-link d-flex align-items-center">
                             <i class="bi bi-person-fill fs-4 me-2"></i>
                             <div th:text="${session.userSession.name}" class="fs-6"></div>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li th:if="${session.userSession == null}">
-                            <a class="dropdown-item" th:href="@{/usuario/iniciarSesion}">Iniciar sesión</a>
+                            <a class="dropdown-item" th:href="@{/usuario/iniciarSesion}">
+                                <i class="bi bi-box-arrow-in-right pe-2"></i>
+                                Iniciar sesión
+                            </a>
                         </li>
                         <li th:if="${session.userSession == null}">
-                            <a class="dropdown-item" th:href="@{/usuario/registrarse}">Registrarse</a>
+                            <a class="dropdown-item" th:href="@{/usuario/registrarse}">
+                                <i class="bi bi-person-add pe-2"></i>
+                                Registrarse
+                            </a>
                         </li>
                         <li th:if="${session.userSession != null}">
-                            <a class="dropdown-item" th:href="@{/usuario/perfil}">Perfil</a>
+                            <a class="dropdown-item" th:href="@{/usuario/perfil}">
+                                <i class="bi bi-person-vcard pe-2"></i>
+                                Perfil
+                            </a>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
-                            <a class="dropdown-item" th:href="@{/admin/listaUsuarios}">Usuarios</a>
+                            <a class="dropdown-item" th:href="@{/admin/listaUsuarios}">
+                                <i class="bi bi-people pe-2"></i>
+                                Usuarios
+                            </a>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ENTITY')">
-                            <a class="dropdown-item" th:href="@{/usuario/gestionEnidad}">Mis gestiones</a>
+                            <a class="dropdown-item" th:href="@{/usuario/gestionEnidad}">
+                                <i class="bi bi-bar-chart pe-2"></i>
+                                Mis gestiones</a>
                         </li>
                         <li th:if="${session.userSession != null}">
-                            <a class="dropdown-item" th:href="@{/logout}">Salir</a>
+                            <a class="dropdown-item" th:href="@{/logout}">
+                                <i class="bi bi-box-arrow-left pe-2"></i>
+                                Salir
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle border-start ps-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-circle-half pe-2"></i>
+                        Tema
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a onclick="clearTheme()" class="dropdown-item">
+                                <i class="bi bi-brightness-high-fill pe-2"></i>
+                                Claro
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="darkTheme()" class="dropdown-item">
+                                <i class="bi bi-moon-stars-fill pe-2"></i>
+                                Oscuro
+                            </a>
                         </li>
                     </ul>
                 </li>
             </ul>
+
         </div>
     </div>
 </nav>
