@@ -1,11 +1,8 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
-import Inmobilaria.GyL.entity.User;
-import Inmobilaria.GyL.repository.UserRepository;
-import Inmobilaria.GyL.service.UserService;
-import Inmobilaria.GyL.service.impl.PropertyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import Inmobilaria.GyL.service.IPropertyService;
+import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,10 +17,13 @@ import java.util.List;
 @RequestMapping("/usuario")
 public class UserController {
 
-    @Autowired
-    private PropertyService propertyService;
-    @Autowired
-    private UserService userService;
+    private final IPropertyService propertyService;
+    private final UserService userService;
+
+    public UserController(IPropertyService propertyService, UserService userService) {
+        this.propertyService = propertyService;
+        this.userService = userService;
+    }
 
     @GetMapping("/registrarse")
     public String register() {
@@ -106,4 +106,13 @@ public class UserController {
         userService.modifyUserPassword(id, password, newPassword);
         return "redirect:/usuario/perfil";
     }
+
+    @GetMapping("/{user_id}/turnos")
+    public String getAppointmentsForUser(@PathVariable("user_id") Long userId) {
+
+        return "appointments.html";
+    }
 }
+
+
+

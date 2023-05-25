@@ -1,17 +1,11 @@
-package Inmobilaria.GyL.service;
+package Inmobilaria.GyL.service.impl;
 
 import Inmobilaria.GyL.entity.ImageUser;
-import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.repository.ImageRepository;
 import Inmobilaria.GyL.repository.UserRepository;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import Inmobilaria.GyL.service.IImageService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,17 +17,26 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final IImageService imageService;
+    private final ImageRepository imageRepository;
 
-    @Autowired
-    private ImageService imageService;
+    public UserService(UserRepository userRepository, IImageService imageService, ImageRepository imageRepository) {
+        this.userRepository = userRepository;
+        this.imageService = imageService;
+        this.imageRepository = imageRepository;
+    }
 
-    @Autowired
-    private ImageRepository imageRepository;
     @Transactional
     public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws Exception {
 
@@ -133,8 +136,8 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteImgUser(String id) {
+        imageRepository.deleteById(id);
     }
 
     /*EntityAdmin Services*/
@@ -162,14 +165,12 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void adminDeleteUser(Long id){
-        Optional<User> response = userRepository.findById(id);
+    public void adminDeleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
 
-        if (response.isPresent()) {
-            User user = response.get();
-            imageRepository.deleteById(user.getIcon().getId());
-            userRepository.deleteById(id);
-        }
+    public List<User> findByName(String word) {
+        return userRepository.findByName(word);
     }
 
     /*End admin*/
@@ -197,4 +198,6 @@ public class UserService implements UserDetailsService {
             return null;
         }
     }
+
+
 }

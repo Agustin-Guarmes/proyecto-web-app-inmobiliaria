@@ -24,6 +24,9 @@
                         <li sec:authorize="hasRole('ENTITY')">
                             <a class="dropdown-item" th:href="@{/usuario/propiedades/__${session.userSession.id}__}">Mis propiedades</a>
                         </li>
+                        <li sec:authorize="hasRole('CLIENT')">
+                            <a class="dropdown-item" th:href="@{/ofertas/listaCliente/__${session.userSession.id}__}">Mis ofertas</a>
+                        </li>
                         <li sec:authorize="hasRole('ENTITY')">
                             <a class="dropdown-item" th:href="@{/propiedades/formulario}">Vender</a>
                         </li>

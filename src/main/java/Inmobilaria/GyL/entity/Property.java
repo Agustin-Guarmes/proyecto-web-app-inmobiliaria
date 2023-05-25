@@ -28,11 +28,11 @@ public class Property {
     private Integer surface;
     private Double price;
     private String description;
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ImageProperty> images;
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Offer> offers;
 
@@ -44,6 +44,20 @@ public class Property {
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Appointment> appointments;
+
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<DayPlan> timetable;
+
+    private Integer duration;
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer period) {
+        this.duration = period;
+    }
 
     public User getUser() {
         return user;

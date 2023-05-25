@@ -1,249 +1,252 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head th:replace="/fragments/head :: head"></head>
-    <body>
+<head th:replace="/fragments/head :: head"></head>
+<body>
 
-        <div class="d-flex flex-column min-vh-100">
-            <nav th:replace="/fragments/nav :: nav"></nav>
+<div class="d-flex flex-column min-vh-100">
+    <nav th:replace="/fragments/nav :: nav"></nav>
 
-            <section class="flex-grow-1 ">
+    <section class="flex-grow-1 ">
 
-                <h1 class="mt-4 text-center">Panel de Control del Administrador</h1>
+        <h1 class="mt-4 text-center">Panel de Control del Administrador</h1>
 
-                <div class="container">
-                    <div class="container-fluid px-4">
-                        <h2 class="mt-4">Lista de usuarios</h2>
+        <div class="container">
+            <div class="container-fluid px-4">
+                <h2 class="mt-4">Lista de usuarios</h2>
 
-                        <form class="d-flex mb-3" role="search" method="GET" action="/admin/busquedaUsuarios">
-                            <div class="input-group w-50 mx-auto">
-                                <input class="form-control" type="text" placeholder="Buscar" name="word" aria-label="Search">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="bi bi-search icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Buscar"></i>
-                                </button>
-                                <button class="btn btn-secondary" type="button" onclick="window.location.th:href='@{/admin/listaUsuarios}">
-                                    <i class="bi bi-arrow-counterclockwise icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Restablecer"></i>
-                                </button>
-                            </div>
-                        </form>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Id</th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">DNI</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Imagen</th>
-                                        <th scope="col">Rol</th>
-                                        <th scope="col">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody th:each="user : ${users}">
-                                    <tr>
-                                        <td th:text="${user.id}"></td>
-                                        <td th:text="${user.name}"></td>
-                                        <td th:text="${user.dni}"></td>
-                                        <td th:text="${user.email}"></td>
-                                        <td>
-                                            <img th:src="@{/image/profile/__${user.id}__}" class="rounded-circle img_into">
-                                        </td>
-                                        <td>
-                                            <form th:action="@{/admin/cambioRol/__${user.id}__}" method="POST" class="d-flex align-items-center">
-                                                <select name="role" class="form-select me-2">
-                                                    <option value="cliente" th:selected="${user.role.name() == 'CLIENT'}">Cliente</option>
-                                                    <option value="propietario" th:selected="${user.role.name() == 'ENTITY'}">Propietario</option>
-                                                    <option value="admin" th:selected="${user.role.name() == 'ADMIN'}">Admin</option>
-                                                </select>
-                                                <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal">
-                                                    <i class="bi bi-save icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Guardar"></i>
+                <form class="d-flex mb-3" role="search" method="GET" action="/admin/busquedaUsuarios">
+                    <div class="input-group w-50 mx-auto">
+                        <input class="form-control" type="text" placeholder="Buscar" name="word" aria-label="Search">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-search icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Buscar"></i>
+                        </button>
+                        <button class="btn btn-secondary" type="button" onclick="window.location.th:href='@{/admin/listaUsuarios}">
+                            <i class="bi bi-arrow-counterclockwise icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Restablecer"></i>
+                        </button>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Rol</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="user : ${users}">
+                        <tr>
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.name}"></td>
+                            <td th:text="${user.dni}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td>
+                                <img th:src="@{/image/profile/__${user.id}__}" class="rounded-circle img_into">
+                            </td>
+                            <td>
+                                <form th:action="@{/admin/cambiarRol/__${user.id}__}" method="POST" class="d-flex align-items-center">
+                                    <select name="role" class="form-select me-2">
+                                        <option value="cliente" th:selected="${user.role.name() == 'CLIENT'}">Cliente</option>
+                                        <option value="propietario" th:selected="${user.role.name() == 'ENTITY'}">Propietario</option>
+                                        <option value="admin" th:selected="${user.role.name() == 'ADMIN'}">Admin</option>
+                                    </select>
+                                    <div class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#saveModal' + ${user.id}">
+                                        <i class="bi bi-save icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Guardar"></i>
+                                    </div>
+                                    <!-- Modal guardar-->
+                                    <div class="modal fade" th:id="'saveModal' + ${user.id}" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="saveModalLabel">Confirmación de edición</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <!-- Modal guardar-->
-                                                <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="saveModalLabel">Confirmación de edición</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p>¿Está seguro de que desea guardar los cambios?</p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                                <button type="submit" class="btn btn-primary">Guardar</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="modal-body">
+                                                    <p>¿Está seguro de que desea guardar los cambios?</p>
                                                 </div>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-secondary">
-                                                    <i class="bi bi-pencil icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Editar"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                                    <i class="bi bi-trash icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Eliminar"></i>
-                                                </button>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-secondary">
+                                        <i class="bi bi-pencil icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Editar"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${user.id}">
+                                        <i class="bi bi-trash icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Eliminar"></i>
+                                    </button>
+                                </div>
+                            </td>
 
-                <!-- Modal eliminar-->
-                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="deleteModalLabel">Confirmación de eliminación</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <!-- Modal Eliminar-->
+                            <div class="modal fade" th:id="'deleteModal' + ${user.id}" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Confirmación de eliminación</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>¿Está seguro de que desea eliminar los cambios?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a type="submit" class="btn btn-primary" th:href="@{/admin/eliminar/__${user.id}__}">Eliminar</a>
+                                            <p th:text="${user.id}"></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                <p>¿Está seguro de que desea eliminar este registro?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-danger">Eliminar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container">
-
-                    <h2 class="mt-4">Gestín de roles y estado</h2>
-                    <table class="table table-light table-hover table-responsive">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Usuario</th>
-                                <th>Rol Cliente</th>
-                                <th>Rol Ente</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>21</td>
-                                <td>Usuario 1</td>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="cliente-rol1">
-                                        <label class="form-check-label" for="cliente-rol1"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="ente-rol1">
-                                        <label class="form-check-label" for="ente-rol1"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="estado-usuario1">
-                                        <label class="form-check-label" for="estado-usuario1"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary">Guardar</button>
-                                    <button class="btn btn-danger">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>78</td>
-                                <td>Usuario 2</td>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="cliente-rol2">
-                                        <label class="form-check-label" for="cliente-rol2"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="ente-rol2">
-                                        <label class="form-check-label" for="ente-rol2"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="estado-usuario2">
-                                        <label class="form-check-label" for="estado-usuario2"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary">Guardar</button>
-                                    <button class="btn btn-danger">Eliminar</button>
-                                </td>
-                            </tr>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
-
-                <div class="container">
-
-                    <h2>Listado de Inmuebles Publicados</h2>
-                    <table class="table table-light table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre de la Propiedad</th>
-                                <th>Dueño</th>
-                                <th>Estado</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Casa en venta</td>
-                                <td>John Doe</td>
-                                <td>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="estado1" checked>
-                                        <label class="form-check-label" for="estado1">Habilitado</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary">Guardar</button>
-                                    <button class="btn btn-danger">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Departamento en alquiler</td>
-                                <td>Jane Smith</td>
-                                <td>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="estado2" checked>
-                                        <label class="form-check-label" for="estado2">Habilitado</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary">Guardar</button>
-                                    <button class="btn btn-danger">Eliminar</button>
-                                </td>
-                            </tr>
-                            <!-- Hacer dinamico -->
-                        </tbody>
-                    </table>
-                </div>
-
-
-                <div class="logo">
-                    <img src="/img/logo.png" alt="logo">
-                </div>
-            </section>
-
-            <footer th:replace="/fragments/footer :: footer"></footer>
+            </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+
+
+
+        <div class="container">
+
+            <h2 class="mt-4">Gestín de roles y estado</h2>
+            <table class="table table-light table-hover table-responsive">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Usuario</th>
+                    <th>Rol Cliente</th>
+                    <th>Rol Ente</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>21</td>
+                    <td>Usuario 1</td>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="cliente-rol1">
+                            <label class="form-check-label" for="cliente-rol1"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="ente-rol1">
+                            <label class="form-check-label" for="ente-rol1"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="estado-usuario1">
+                            <label class="form-check-label" for="estado-usuario1"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary">Guardar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>78</td>
+                    <td>Usuario 2</td>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="cliente-rol2">
+                            <label class="form-check-label" for="cliente-rol2"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="ente-rol2">
+                            <label class="form-check-label" for="ente-rol2"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="estado-usuario2">
+                            <label class="form-check-label" for="estado-usuario2"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary">Guardar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container">
+
+            <h2>Listado de Inmuebles Publicados</h2>
+            <table class="table table-light table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de la Propiedad</th>
+                    <th>Dueño</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Casa en venta</td>
+                    <td>John Doe</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="estado1" checked>
+                            <label class="form-check-label" for="estado1">Habilitado</label>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary">Guardar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Departamento en alquiler</td>
+                    <td>Jane Smith</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="estado2" checked>
+                            <label class="form-check-label" for="estado2">Habilitado</label>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary">Guardar</button>
+                        <button class="btn btn-danger">Eliminar</button>
+                    </td>
+                </tr>
+                <!-- Hacer dinamico -->
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="logo">
+            <img src="/img/logo.png" alt="logo">
+        </div>
+    </section>
+
+    <footer th:replace="/fragments/footer :: footer"></footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    </body>
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</body>
 </html>
