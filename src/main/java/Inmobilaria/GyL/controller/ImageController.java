@@ -43,4 +43,11 @@ public class ImageController {
         headers.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(imgProperty, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/eliminar/idImg/{idImg}/idProp/{idProp}")
+    public String deleteImage(@PathVariable("idImg") String idImg, @PathVariable("idProp") Long idProp){
+        ips.deleteById(idImg);
+
+        return "redirect:/propiedades/modificar/" + idProp;
+    }
 }

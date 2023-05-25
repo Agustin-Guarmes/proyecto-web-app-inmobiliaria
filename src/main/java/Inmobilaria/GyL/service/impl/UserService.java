@@ -29,12 +29,10 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final IImageService imageService;
-    private final ImageRepository imageRepository;
 
-    public UserService(UserRepository userRepository, IImageService imageService, ImageRepository imageRepository) {
+    public UserService(UserRepository userRepository, IImageService imageService) {
         this.userRepository = userRepository;
         this.imageService = imageService;
-        this.imageRepository = imageRepository;
     }
 
     @Transactional
@@ -58,12 +56,19 @@ public class UserService implements UserDetailsService {
             default:
                 user.setRole(Role.CLIENT);
         }
-
+        ImageUser image;
         user.setDni(dni);
+        if(icon.getSize() != 0){
+            image = imageService.submitImg(icon);
+        } else {
+            if(role.equals("cliente") ){
+                image = imageService.findById("cliente");
+            } else {
+                image = imageService.findById("propietario");
+            }
+        }
 
-        ImageUser image = imageService.submitImg(icon);
         user.setIcon(image);
-
         userRepository.save(user);
     }
 
@@ -135,10 +140,6 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Transactional
-    public void deleteImgUser(String id) {
-        imageRepository.deleteById(id);
-    }
 
     /*EntityAdmin Services*/
     @Transactional
