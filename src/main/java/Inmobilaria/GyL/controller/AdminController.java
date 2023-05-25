@@ -1,10 +1,12 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.service.IImageService;
 import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,9 +15,11 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+    private final IImageService iImageService;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, IImageService iImageService) {
         this.userService = userService;
+        this.iImageService = iImageService;
     }
 
     @GetMapping("/listaUsuarios")
@@ -52,4 +56,18 @@ public class AdminController {
         userService.adminDeleteUser(id);
         return "redirect:/admin/listaUsuarios";
     }
+
+
+    @GetMapping("/crearImg")
+    public String adminViewImg(){
+        return "adminCreateImg";
+    }
+
+    @PostMapping("/creaImg")
+    public String adminCreateIcon(MultipartFile icon) throws Exception {
+        iImageService.submitImg(icon);
+
+        return "redirect:/admin/crearImg";
+    }
+
 }
