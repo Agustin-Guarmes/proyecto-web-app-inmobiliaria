@@ -23,14 +23,15 @@ public class Offer {
     @JoinColumn(name = "property_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Property property;
-    private Long user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @NotNull(message = ("Price is required"))
     private Double price;
     @Enumerated(EnumType.STRING)
     private OfferStatus offerStatus;
 
-    public Offer(Property property, Long user, Double price, OfferStatus offerStatus) {
+    public Offer(Property property, User user, Double price, OfferStatus offerStatus) {
         this.property = property;
         this.user = user;
         this.price = price;
@@ -65,11 +66,11 @@ public class Offer {
         return property;
     }
 
-    public Long getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Long user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

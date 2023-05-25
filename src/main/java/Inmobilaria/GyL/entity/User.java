@@ -32,6 +32,10 @@ public class User {
     @JsonIgnore
     private List<Property> properties;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Offer> offers;
+
     public User() {
     }
 
@@ -45,6 +49,14 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
     }
 
     public Long getDni() {

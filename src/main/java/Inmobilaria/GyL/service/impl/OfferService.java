@@ -70,7 +70,7 @@ public class OfferService implements IOfferService {
         Property property = propertyService.findById(propertyId);
         Offer offer = new Offer();
         offer.setProperty(property);
-        offer.setUser(clientId);
+        offer.setUser(userService.getOne(clientId));
         offer.setPrice(property.getPrice());
         offer.setOfferStatus(OfferStatus.CLIENT_OFFER);
         offerRepository.save(offer);
@@ -98,7 +98,7 @@ public class OfferService implements IOfferService {
 
     private void clientResponse(Offer offer, String response) {
         if (offer.getOfferStatus().equals(OfferStatus.ENTITY_ACCEPTED) && response.equalsIgnoreCase("Accept")) {
-            propertyService.changeUser(offer.getProperty(), userService.getOne(offer.getUser()));
+            propertyService.changeUser(offer.getProperty(), userService.getOne(offer.getUser().getId()));
         }
         offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
     }

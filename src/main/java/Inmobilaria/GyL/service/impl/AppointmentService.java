@@ -7,6 +7,7 @@ import Inmobilaria.GyL.repository.AppointmentRepository;
 import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

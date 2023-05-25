@@ -3,6 +3,7 @@ package Inmobilaria.GyL.controller;
 import Inmobilaria.GyL.entity.Offer;
 import Inmobilaria.GyL.service.IOfferService;
 import Inmobilaria.GyL.service.impl.UserService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
