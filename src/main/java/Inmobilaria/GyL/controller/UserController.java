@@ -104,4 +104,5 @@ public class UserController {
         userService.modifyUserPassword(id, password, newPassword);
         return "redirect:/usuario/perfil";
     }
+
 }
