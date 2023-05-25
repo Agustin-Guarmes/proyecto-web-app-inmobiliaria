@@ -4,14 +4,14 @@
     <body>
         <nav th:replace="/fragments/nav :: nav"></nav>
         <main>
-            <div class="overlay"></div>
 
+            <div class="overlay"></div>
             <div class="container__card">
                 <div th:each="property : ${properties}" class="card__father">
                     <div class="card card__properties">
                         <div class="card__front">
                             <div class="body__card_front">
-                                <img th:src="@{/image/propiedades/__${property.images[0].id}__}"
+                                <img class="img-fluid" th:src="@{/image/propiedades/__${property.images[0].id}__}"
                                      style="width: 100%; height: 100%;">
                             </div>
                         </div>
@@ -22,7 +22,6 @@
                                 <p th:text="${property.description}"></p>
                                 <p th:text="'$' + ${property.price}"></p>
                                 <a th:href="@{/propiedades/__${property.id}__}">Leer mas</a>
-
                             </div>
                         </div>
                     </div>
@@ -40,5 +39,6 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
     </body>
 </html>

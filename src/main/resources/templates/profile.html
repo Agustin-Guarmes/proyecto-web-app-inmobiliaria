@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="/fragments/head :: head"></head>
     <body>
@@ -49,7 +49,7 @@
                                             <input type="password" placeholder="Ingresá tu contraseña" class="form-control" name="password" id="password">
                                         </div>
                                         <div class="d-grid">
-                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                            <button type="submit" class="btn btn-outline-primary">Guardar cambios</button>
                                         </div>
                                         <div class="text-center mt-3">
                                             <a th:href="@{/usuario/contraseña/__${session.userSession.id}__}" class="btn w-100 btn-outline-secondary">Restablecer contraseña</a>

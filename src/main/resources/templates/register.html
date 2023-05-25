@@ -46,14 +46,15 @@
                                             <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
                                         </div>
                                         <div class="d-grid mb-2">
-                                            <button type="submit" class="btn btn-primary" style="margin: 5px">Registrarse</button>
-                                            <a th:href="@{/}" class="btn btn-secondary" style="margin: 5px">Volver</a>
+                                            <button type="submit" class="btn btn-outline-primary btn-block flex-fill" style="margin: 5px">Registrarse</button>
+                                            <a th:href="@{/}" class="btn btn-outline-secondary flex-fill" style="margin: 5px">Volver</a>
                                         </div>
                                     </div>
                                     <div class="card-footer">
                                         <div class="text-center">
                                             ¿Ya tienes una cuenta?
-                                            <a th:href="@{/usuario/iniciarSesion}"class="btn btn-link p-0">Iniciar sesión</a>
+                                            <!--<a th:href="@{/usuario/iniciarSesion}" class="btn btn-primary flex-fill" style="margin: 5px">Iniciar sesión</a>-->
+                                            <a th:href="@{/usuario/iniciarSesion}" class="btn btn-link p-0">Iniciar sesión</a>
                                         </div>
                                     </div>
                                 </form>
