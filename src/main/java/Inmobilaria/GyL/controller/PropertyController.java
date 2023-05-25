@@ -58,7 +58,7 @@ public class PropertyController {
     @GetMapping("/{id}")
     public String findByProperty(@PathVariable Long id, ModelMap model){
         Property find = propertyService.findById(id);
-        
+
         model.put("property", find);
         return "detailProperty.html";
     }
