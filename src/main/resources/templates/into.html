@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es-AR" xmlns:th="http://www.thymeleaf.org">
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="/fragments/head :: head"></head>
 <body>
 
@@ -10,7 +10,6 @@
 
         <h1 class="mt-4 text-center">Panel de Control del Administrador</h1>
 
-
         <div class="container">
             <div class="container-fluid px-4">
                 <h2 class="mt-4">Lista de usuarios</h2>
@@ -19,13 +18,10 @@
                     <div class="input-group w-50 mx-auto">
                         <input class="form-control" type="text" placeholder="Buscar" name="word" aria-label="Search">
                         <button class="btn btn-primary" type="submit">
-                            <i class="bi bi-search icon" data-bs-toggle="tooltip" data-bs-placement="right"
-                               title="Buscar"></i>
+                            <i class="bi bi-search icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Buscar"></i>
                         </button>
-                        <button class="btn btn-secondary" type="button"
-                                onclick="window.location.th:href='@{/admin/listaUsuarios}">
-                            <i class="bi bi-arrow-counterclockwise icon" data-bs-toggle="tooltip"
-                               data-bs-placement="right" title="Restablecer"></i>
+                        <button class="btn btn-secondary" type="button" onclick="window.location.th:href='@{/admin/listaUsuarios}">
+                            <i class="bi bi-arrow-counterclockwise icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Restablecer"></i>
                         </button>
                     </div>
                 </form>
@@ -52,39 +48,28 @@
                                 <img th:src="@{/image/profile/__${user.id}__}" class="rounded-circle img_into">
                             </td>
                             <td>
-                                <form th:action="@{/admin/cambioRol/__${user.id}__}" method="POST"
-                                      class="d-flex align-items-center">
+                                <form th:action="@{/admin/cambiarRol/__${user.id}__}" method="POST" class="d-flex align-items-center">
                                     <select name="role" class="form-select me-2">
-                                        <option value="cliente" th:selected="${user.role.name() == 'CLIENT'}">Cliente
-                                        </option>
-                                        <option value="propietario" th:selected="${user.role.name() == 'ENTITY'}">
-                                            Propietario
-                                        </option>
-                                        <option value="admin" th:selected="${user.role.name() == 'ADMIN'}">Admin
-                                        </option>
+                                        <option value="cliente" th:selected="${user.role.name() == 'CLIENT'}">Cliente</option>
+                                        <option value="propietario" th:selected="${user.role.name() == 'ENTITY'}">Propietario</option>
+                                        <option value="admin" th:selected="${user.role.name() == 'ADMIN'}">Admin</option>
                                     </select>
-                                    <div class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal">
-                                        <i class="bi bi-save icon" data-bs-toggle="tooltip" data-bs-placement="right"
-                                           title="Guardar"></i>
+                                    <div class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#saveModal' + ${user.id}">
+                                        <i class="bi bi-save icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Guardar"></i>
                                     </div>
                                     <!-- Modal guardar-->
-                                    <div class="modal fade" id="saveModal" tabindex="-1"
-                                         aria-labelledby="saveModalLabel" aria-hidden="true">
+                                    <div class="modal fade" th:id="'saveModal' + ${user.id}" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="saveModalLabel">Confirmación de
-                                                        edición</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
+                                                    <h5 class="modal-title" id="saveModalLabel">Confirmación de edición</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>¿Está seguro de que desea guardar los cambios?</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Cancelar
-                                                    </button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                                     <button type="submit" class="btn btn-primary">Guardar</button>
                                                 </div>
                                             </div>
@@ -95,22 +80,40 @@
                             <td>
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-secondary">
-                                        <i class="bi bi-pencil icon" data-bs-toggle="tooltip" data-bs-placement="right"
-                                           title="Editar"></i>
+                                        <i class="bi bi-pencil icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Editar"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal">
-                                        <i class="bi bi-trash icon" data-bs-toggle="tooltip" data-bs-placement="right"
-                                           title="Eliminar"></i>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${user.id}">
+                                        <i class="bi bi-trash icon" data-bs-toggle="tooltip" data-bs-placement="right" title="Eliminar"></i>
                                     </button>
                                 </div>
                             </td>
+
+                            <!-- Modal Eliminar-->
+                            <div class="modal fade" th:id="'deleteModal' + ${user.id}" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Confirmación de eliminación</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>¿Está seguro de que desea eliminar los cambios?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a type="submit" class="btn btn-primary" th:href="@{/admin/eliminar/__${user.id}__}">Eliminar</a>
+                                            <p th:text="${user.id}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
 
 
         <div class="container">

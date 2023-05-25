@@ -99,7 +99,6 @@ public class OfferService {
         offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
     }
 
-
     @Transactional
     public void adminDeleteUser(Long id) {
         User user = userService.getOne(id);

@@ -1,8 +1,6 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
-import Inmobilaria.GyL.entity.User;
-import Inmobilaria.GyL.repository.UserRepository;
 import Inmobilaria.GyL.service.UserService;
 import Inmobilaria.GyL.service.impl.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,42 +24,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @GetMapping("/registrarse")
     public String register() {
         return "register.html";
-    }
-
-    @GetMapping("/propiedades")
-    public String propiedades() {
-        return "properties.html";
-    }
-
-    @GetMapping("/")
-    public String index() {
-        return "index.html";
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listaPersonalizada")
-    public String listUsers(ModelMap model) {
-
-        List<User> users = userService.listUsers();
-
-        model.put("users", users);
-
-        return "into.html";
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listaPersonalizadaBusqueda")
-    public String searchUsers(@RequestParam String word, ModelMap model) {
-
-        List<User> users = userRepository.findByName(word);
-        model.put("users", users);
-        return "into.html";
     }
 
     @PostMapping("/registrar")
@@ -146,7 +111,7 @@ public class UserController {
 
         return "appointments.html";
     }
-
 }
+
 
 
