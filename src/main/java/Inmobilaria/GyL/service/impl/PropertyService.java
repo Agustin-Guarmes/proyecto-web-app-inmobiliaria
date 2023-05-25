@@ -8,7 +8,6 @@ import Inmobilaria.GyL.repository.PropertyRepository;
 import Inmobilaria.GyL.service.IPropertyService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
@@ -98,14 +97,19 @@ public class PropertyService implements IPropertyService {
         updatedProperty.setDescription(description);
     }
 
-    public List<Appointment> findAllByProperty(Long id) {
+    public List<Appointment> findAllAppointmentsByProperty(Long id) {
         List<Appointment> appointments = pr.findAllAppointmentsByProperty(id);
         return appointments;
     }
 
-    public void changeUser(Property property,User user){
+    public void changeUser(Property property, User user) {
         property.setUser(user);
         pr.save(property);
+    }
+
+    public List<DayPlan> findAllTimetableByProperty(Long id) {
+        List<DayPlan> timetable = pr.findAllTimetableByProperty(id);
+        return timetable;
     }
 
 }

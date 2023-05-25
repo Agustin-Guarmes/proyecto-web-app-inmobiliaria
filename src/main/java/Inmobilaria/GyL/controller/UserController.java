@@ -20,12 +20,46 @@ public class UserController {
 
     @Autowired
     private PropertyService propertyService;
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/registrarse")
     public String register() {
         return "register.html";
+    }
+
+    @GetMapping("/propiedades")
+    public String propiedades() {
+        return "properties.html";
+    }
+
+    @GetMapping("/")
+    public String index() {
+        return "index.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/listaPersonalizada")
+    public String listUsers(ModelMap model) {
+
+        List<User> users = userService.listUsers();
+
+        model.put("users", users);
+
+        return "into.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/listaPersonalizadaBusqueda")
+    public String searchUsers(@RequestParam String word, ModelMap model) {
+
+        List<User> users = userRepository.findByName(word);
+        model.put("users", users);
+        return "into.html";
     }
 
     @PostMapping("/registrar")
@@ -104,4 +138,13 @@ public class UserController {
         userService.modifyUserPassword(id, password, newPassword);
         return "redirect:/usuario/perfil";
     }
+
+    @GetMapping("/{user_id}/turnos")
+    public String getAppointmentsForUser(@PathVariable("user_id") Long userId) {
+
+        return "appointments.html";
+    }
+
 }
+
+
