@@ -10,10 +10,6 @@ h1{
     color: black;
 }
 
-body{
-    background: #687fcb;
-}
-
 .container__card{
     max-width: 1200px;
     margin: auto;

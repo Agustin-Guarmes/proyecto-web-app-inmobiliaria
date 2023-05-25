@@ -2,7 +2,8 @@
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="/fragments/head :: head"></head>
 
-<body>
+<body onload="loadTheme()">
+
 
 <div class="d-flex flex-column min-vh-100">
     <nav th:replace="/fragments/nav :: nav"></nav>
@@ -117,8 +118,6 @@
             </div>
         </div>
     </section>
-
-
     <footer th:replace="/fragments/footer :: footer"></footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -126,5 +125,6 @@
         crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </body>
+
 
 </html>
