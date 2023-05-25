@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.time.LocalTime;
 
 @Entity
-public class TimePeriod implements Comparable<TimePeriod>{
+public class TimePeriod implements Comparable<TimePeriod> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-public class Appointment  implements Comparable<Appointment>{
+public class Appointment implements Comparable<Appointment> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,9 +42,7 @@ public class Appointment  implements Comparable<Appointment>{
 
     private String title;
 
-    public Appointment(Long id, Date appointmentDate, User client, Property property,
-                       DayPlan dayPlan, TimePeriod timePeriod, AppointmentState state, Date creationDate,
-                       LocalDateTime startTime, LocalDateTime endTime, String title) {
+    public Appointment(Long id, Date appointmentDate, User client, Property property, DayPlan dayPlan, TimePeriod timePeriod, AppointmentState state, Date creationDate, LocalDateTime startTime, LocalDateTime endTime, String title) {
         this.id = id;
         this.appointmentDate = appointmentDate;
         this.client = client;

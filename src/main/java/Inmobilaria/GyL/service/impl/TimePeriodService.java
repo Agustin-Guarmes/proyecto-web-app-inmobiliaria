@@ -28,6 +28,7 @@ public class TimePeriodService implements ITimePeriodService {
         return timePeriodRepository.findAllByProperty(property.getId());
     }
 
+    @Override
     public List<TimePeriod> findAllTimePeriodsAvailableByDayAndProperty(Long id, LocalDate date) {
         List<TimePeriod> timePeriodsAvailable = timePeriodRepository.findAllTimePeriodsAvailableByDayAndProperty(id, date);
         return timePeriodsAvailable;
@@ -36,10 +37,9 @@ public class TimePeriodService implements ITimePeriodService {
     /*Calcula los turnos disponibles a partir de la disponibilidad ingresada por el Ente*/
     private List<TimePeriod> saveAvailablePeriods(List<DayPlan> availableDayPlan, Property property) {
         ArrayList<TimePeriod> availablePeriods = new ArrayList<>();
-        for(DayPlan period: availableDayPlan)  {
+        for (DayPlan period : availableDayPlan) {
             TimePeriod availablePeriod = new TimePeriod(period.getStart(), period.getStart().plusMinutes(property.getDuration()), property);
-            while (availablePeriod.getEnd().isBefore(period.getEnd()) ||
-                    availablePeriod.getEnd().equals(period.getEnd())) {
+            while (availablePeriod.getEnd().isBefore(period.getEnd()) || availablePeriod.getEnd().equals(period.getEnd())) {
                 availablePeriods.add(availablePeriod);
                 timePeriodRepository.save(availablePeriod);
                 availablePeriod.setStart(availablePeriod.getEnd());

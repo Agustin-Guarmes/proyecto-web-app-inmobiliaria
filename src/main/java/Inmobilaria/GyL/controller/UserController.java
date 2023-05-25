@@ -1,9 +1,8 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
-import Inmobilaria.GyL.service.UserService;
-import Inmobilaria.GyL.service.impl.PropertyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import Inmobilaria.GyL.service.IPropertyService;
+import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,11 +17,13 @@ import java.util.List;
 @RequestMapping("/usuario")
 public class UserController {
 
-    @Autowired
-    private PropertyService propertyService;
+    private final IPropertyService propertyService;
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
+    public UserController(IPropertyService propertyService, UserService userService) {
+        this.propertyService = propertyService;
+        this.userService = userService;
+    }
 
     @GetMapping("/registrarse")
     public String register() {

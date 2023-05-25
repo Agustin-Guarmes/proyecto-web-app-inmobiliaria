@@ -1,18 +1,23 @@
-package Inmobilaria.GyL.service;
+package Inmobilaria.GyL.service.impl;
 
 import Inmobilaria.GyL.entity.ImageUser;
 import Inmobilaria.GyL.repository.ImageRepository;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+import Inmobilaria.GyL.service.IImageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Optional;
+
 @Service
-public class ImageService {
+public class ImageService implements IImageService {
 
-    @Autowired
-    public ImageRepository imageRepository;
+    private final ImageRepository imageRepository;
 
+    public ImageService(ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
+    }
+
+    @Override
     public ImageUser submitImg(MultipartFile archive) throws Exception {
         if (archive != null) {
             try {
@@ -30,6 +35,7 @@ public class ImageService {
         return null;
     }
 
+    @Override
     public ImageUser updateImg(MultipartFile archive, String idImage) {
         if (archive != null) {
             try {
@@ -56,5 +62,5 @@ public class ImageService {
         return null;
     }
 
-    
+
 }
