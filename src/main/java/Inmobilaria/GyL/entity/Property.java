@@ -26,6 +26,13 @@ public class Property {
     @Enumerated(EnumType.STRING)
     private PropertyType type;
     private Integer surface;
+    private Integer bathrooms;
+    private Integer bedrooms;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     private Double price;
     private String description;
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -70,24 +77,46 @@ public class Property {
     public Property() {
     }
 
+    public Integer getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(Integer bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public Integer getBedrooms() {
+        return bedrooms;
+    }
+
+    public void setBedrooms(Integer bedrooms) {
+        this.bedrooms = bedrooms;
+    }
+
+    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration) {
+        this.address = address;
+        this.location = location;
+        this.status = status;
+        this.type = type;
+        this.surface = surface;
+        this.bathrooms = bathrooms;
+        this.bedrooms = bedrooms;
+        this.price = price;
+        this.description = description;
+        this.images = images;
+        this.offers = offers;
+        this.user = user;
+        this.appointments = appointments;
+        this.timetable = timetable;
+        this.duration = duration;
+    }
+
     public List<Offer> getOffers() {
         return offers;
     }
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
-    }
-
-    public Property(String address, String location, PropertyStatus status, LocalDate createDate, PropertyType type, Integer surface, Double price, String description, List<ImageProperty> images) {
-        this.address = address;
-        this.location = location;
-        this.status = status;
-        this.createDate = createDate;
-        this.type = type;
-        this.surface = surface;
-        this.price = price;
-        this.description = description;
-        this.images = images;
     }
 
     public Long getId() {

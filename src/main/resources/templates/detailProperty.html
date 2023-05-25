@@ -29,7 +29,7 @@
             <div class="propertyCardDetailImg">
                 <img id="imageBox" th:src="@{/image/propiedades/__${property.images[0].id}__}">
             </div>
-            <div class="propertyCardDetailImgSmall">
+            <div class="propertyCardDetailImgSmall position-relative">
                 <img th:each="image : ${property.images}" th:src="@{/image/propiedades/__${image.id}__}"
                      onclick="myFuction(this)">
             </div>

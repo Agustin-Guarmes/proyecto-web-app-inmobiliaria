@@ -18,11 +18,11 @@
                                         <input type="number" name="idUser" th:value="${session.userSession.id}" hidden>
                                         <div class="mb-3">
                                             <label for="address" class="form-label">Dirección</label>
-                                            <input type="text" name="address" class="form-control" id="address" required>
+                                            <input type="text" name="address" class="form-control" id="address" placeholder="Calle false 123" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="location" class="form-label">Locación</label>
-                                            <input type="text" name="location" class="form-control" id="location" required>
+                                            <label for="location" class="form-label">Localidad | Provincia</label>
+                                            <input type="text" name="location" class="form-control" id="location" placeholder="La plata, Buenos Aires" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="status" class="form-label">Estado</label>
@@ -46,12 +46,20 @@
                                             <input type="number" name="surface" class="form-control" id="surface" required>
                                         </div>
                                         <div class="mb-3">
+                                            <label for="bedrooms" class="form-label">Habitaciones</label>
+                                            <input type="number" name="bedrooms" class="form-control" id="bedrooms" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="bathrooms" class="form-label">Baños</label>
+                                            <input type="number" name="bathrooms" class="form-control" id="bathrooms" required>
+                                        </div>
+                                        <div class="mb-3">
                                             <label for="price" class="form-label">Precio</label>
                                             <input type="number" name="price" class="form-control" id="price" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="description" class="form-label">Descripción</label>
-                                            <input type="text" name="description" class="form-control" id="description" required>
+                                            <input type="text" name="description" class="form-control" id="description" maxlength="200" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="files" class="form-label">Elegir imagen</label>

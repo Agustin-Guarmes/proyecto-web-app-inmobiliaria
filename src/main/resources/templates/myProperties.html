@@ -21,16 +21,15 @@
                     <div class="card-body pt-1">
 
                         <h5 class="card-title" th:text="${property.address}"></h5>
-                        <h6 class="card-subtitle mb-2 text-muted" th:text="${property.location}">Ubicación del
-                            Inmueble</h6>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="${property.location}"></h6>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex flex-direcction-row align-items-center">
                                 <i class="fas fa-bed me-2"></i>
-                                <div th:text="'Habitaciones: '"></div>
+                                <div th:text="'Habitaciones: ' + ${property.bedrooms}"></div>
                             </li>
                             <li class="list-group-item d-flex flex-direcction-row align-items-center">
                                 <i class="fas fa-bath me-2"></i>
-                                <div th:text="'Baños: '"></div>
+                                <div th:text="'Baños: ' + ${property.bathrooms}"></div>
                             </li>
                             <li class="list-group-item d-flex flex-direcction-row align-items-center">
                                 <i class="fas fa-chart-area me-2"></i>
