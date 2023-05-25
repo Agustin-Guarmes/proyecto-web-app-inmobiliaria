@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark px-4" data-bs-theme="dark">
+<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
     <div class="container">
         <a class="navbar-brand navbar-logo" th:href="@{/}">
             <img src="/img/logo.svg" alt="logo" class="navbar-img">
@@ -7,7 +7,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto d-flex align-items-center">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/}">
                         Inicio
@@ -29,8 +29,6 @@
                         </li>
                     </ul>
                 </li>
-            </ul>
-            <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i th:if="${session.userSession == null}" class="bi bi-person fs-4"></i>
@@ -60,7 +58,25 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle border-start ps-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-circle-half"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a onclick="clearTheme()" class="dropdown-item">
+                                <i class="bi bi-brightness-high-fill"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="darkTheme()" class="dropdown-item">
+                                <i class="bi bi-moon-stars-fill"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
+
         </div>
     </div>
 </nav>
