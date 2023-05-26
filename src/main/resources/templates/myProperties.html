@@ -9,9 +9,7 @@
 
     <main class="container mt-5">
         <div class="row g-4 justify-content-center">
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-
-                <div class="card p-1" th:each="property : ${properties}">
+                <div class="card col-12 col-sm-6 col-lg-4 col-xl-3 m-3 p-1" th:each="property : ${properties}">
                     <div class="position-relative" style="height:250px">
                         <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top h-100"
                              alt="Imagen del inmueble">
@@ -70,9 +68,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
         </div>
     </main>
     <div class="logo">
