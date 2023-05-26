@@ -42,12 +42,9 @@ public class AdminController {
         return "into.html";
     }
 
-    @PostMapping("/cambiarRol/{id}")
-    public String modifyRole(@RequestParam String role, @PathVariable Long id) {
-        System.out.println(id);
-
-        userService.adminModifyRole(id, role);
-
+    @PostMapping("/modificarUsuario")
+    public String modifyUser(@RequestParam Long id,@RequestParam String role ,@RequestParam String name,@RequestParam Long dni,@RequestParam String email,@RequestParam boolean status) {
+        userService.adminModifyUser(id,name,dni,role,email,status);
         return "redirect:/admin/listaUsuarios";
     }
 

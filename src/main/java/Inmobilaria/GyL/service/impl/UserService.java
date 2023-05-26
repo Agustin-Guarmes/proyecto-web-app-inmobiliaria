@@ -142,7 +142,7 @@ public class UserService implements UserDetailsService {
 
 
     /*EntityAdmin Services*/
-    @Transactional
+/*    @Transactional
     public void adminModifyRole(Long id, String role) {
 
         Optional<User> response = userRepository.findById(id);
@@ -163,7 +163,7 @@ public class UserService implements UserDetailsService {
                 user.setRole(Role.CLIENT);
         }
         userRepository.save(user);
-    }
+    }*/
 
     @Transactional
     public void adminDeleteUser(Long id) {
@@ -172,6 +172,36 @@ public class UserService implements UserDetailsService {
 
     public List<User> findByName(String word) {
         return userRepository.findByName(word);
+    }
+
+    @Transactional
+    public void adminModifyUser(Long id, String name, Long dni, String role, String email, boolean status){
+        Optional<User> response = userRepository.findById(id);
+
+        if(response.isPresent()){
+            User user = response.get();
+
+            user.setName(name);
+            user.setDni(dni);
+            user.setEmail(email);
+            user.setStatus(status);
+
+            switch (role) {
+                case "cliente":
+                    user.setRole(Role.CLIENT);
+                    break;
+                case "propietario":
+                    user.setRole(Role.ENTITY);
+                    break;
+                case "admin":
+                    user.setRole(Role.ADMIN);
+                    break;
+                default:
+                    user.setRole(Role.CLIENT);
+            }
+            userRepository.save(user);
+        }
+
     }
 
     /*End admin*/
