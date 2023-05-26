@@ -29,14 +29,14 @@
                                         <div class="mb-2 d-grid">
                                             <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                                         </div>
-                                        <div class="text-center">
-                                            <a th:href="@{/usuario/restablecerContrasena}" class="btn btn-link p-0">¿Has olvidado la contraseña?</a>
+                                        <div class="text-center d-flex mt-3">
+                                            <a th:href="@{/usuario/registrarse}" class="btn btn-outline-success btn-block w-50 me-1">Crear cuenta nueva</a>
+                                            <a th:href="@{/}" class="btn btn-block btn-outline-secondary w-50">Volver</a>
                                         </div>
                                     </div>
                                     <div class="card-footer">
                                         <div class="text-center">
-                                            <a th:href="@{/usuario/registrarse}" class="btn btn-outline-success btn-block" style="width: 50%; margin: 5px">Crear cuenta nueva</a>
-                                            <a th:href="@{/}" class="btn btn-outline-secondary btn-block" style="width: 50%; margin: 5px">Volver</a>
+                                            <a th:href="@{/usuario/restablecerContrasena}" class="btn btn-link p-0">¿Has olvidado la contraseña?</a>
                                         </div>
                                     </div>
                                 </form>

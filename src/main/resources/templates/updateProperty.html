@@ -87,11 +87,11 @@
                                 <h5 class="card-title mt-1">Editar propiedad</h5>
                             </div>
 
-                            <div class="propertyCardDetailImgSmall">
+                            <div class="propertyCardDetailImgSmall pe-2 ps-2 mt-3">
                                 <div class="row">
-                                    <div class="col" th:each="image : ${property.images}">
-                                        <img class="img-fluid" th:src="@{/image/propiedades/__${image.id}__}">
-                                        <a class="btn-close positon-absolute end-0" aria-label="Close"
+                                    <div class="col col-4 position-relative mb-3 p-0 pe-1 ps-1" th:each="image : ${property.images}">
+                                        <img class="img-fluid w-100 rounded" th:src="@{/image/propiedades/__${image.id}__}" style="height: 150px;">
+                                        <a class="btn-close btn-close-white me-1 position-absolute top-0 end-0" aria-label="Close" style="color: blue;"
                                            th:href="@{/image/eliminar/idImg/{idImg}/idProp/{idProp}(idImg = ${image.id}, idProp = ${property.id})}"></a>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@
                                            accept="image/*" required>
                                 </div>
                                 <div class="row justify-content-center">
-                                    <div class="col-md-8 col-12 d-grid">
+                                    <div class="col">
                                         <button type="submit" class="btn btn-primary w-100">Subir imagenes</button>
                                     </div>
                                 </div>
