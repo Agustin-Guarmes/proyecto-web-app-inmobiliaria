@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IPropertyService {
-    void createProperty(User user, String address, String location, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs, Integer bathrooms, Integer bedrooms) throws IOException;
+    void createProperty(User user, String address, String location, String province, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs, Integer bathrooms, Integer bedrooms) throws IOException;
 
-    void updateProperty(Long id, String address, String location, String status, String type, Integer surface, Double price, String description, Integer bathrooms, Integer bedrooms);
+    void updateProperty(Long id, String address, String location, String province, String status, String type, Integer surface, Double price, String description, Integer bathrooms, Integer bedrooms);
 
     List<Property> findByUser(Long userId);
 

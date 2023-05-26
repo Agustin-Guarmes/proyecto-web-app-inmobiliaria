@@ -24,11 +24,28 @@
                                     <input type="text" class="form-control" name="address" id="name"
                                            th:value="${property.address}" required>
                                 </div>
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="location" class="form-label">Localidad | Provincia</label>-->
+<!--                                    <input type="text" class="form-control" name="location" id="location"-->
+<!--                                           th:value="${property.location}" required>-->
+<!--                                </div>-->
+<!--principio-->
                                 <div class="mb-3">
-                                    <label for="location" class="form-label">Localidad | Provincia</label>
-                                    <input type="text" class="form-control" name="location" id="location"
-                                           th:value="${property.location}" required>
+                                    <label for="selectProvincias" class="form-label">Provincia</label>
+                                    <select name="province" id="selectProvincias" class="form-select" required>
+                                        <option  th:value="${property.province}" th:text="${property.province}" selected></option>
+                                    </select>
                                 </div>
+                                <span></span>
+
+                                <div class="mb-3">
+                                    <label for="selectLocalidades" class="form-label">Localidad</label>
+                                    <select name="location" id="selectLocalidades" class="form-select" required>
+                                        <option th:value="${property.location}" th:text="${property.location}" selected></option>
+                                    </select>
+                                </div>
+                                <span></span>
+<!--                         fin      -->
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Estado</label>
                                     <select name="status" id="status" class="form-select" required>
@@ -124,6 +141,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="/js/registerProperty.js"></script>
 </body>
 
 

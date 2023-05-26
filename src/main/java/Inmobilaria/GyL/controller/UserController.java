@@ -70,9 +70,9 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
     @PostMapping("/agregarPropiedad")
-    public String addProperty(@RequestParam Long idUser, @RequestParam String address, @RequestParam String location, @RequestParam String status, @RequestParam String type, @RequestParam int surface, @RequestParam double price, @RequestParam String description, @RequestParam MultipartFile[] files, @RequestParam int bathrooms, @RequestParam int bedrooms) {
+    public String addProperty(@RequestParam Long idUser, @RequestParam String address, @RequestParam String location,@RequestParam String province, @RequestParam String status, @RequestParam String type, @RequestParam int surface, @RequestParam double price, @RequestParam String description, @RequestParam MultipartFile[] files, @RequestParam int bathrooms, @RequestParam int bedrooms) {
         try {
-            propertyService.createProperty(userService.getOne(idUser), address, location, status, type, surface, price, description, Arrays.asList(files), bathrooms, bedrooms);
+            propertyService.createProperty(userService.getOne(idUser), address, location, province, status, type, surface, price, description, Arrays.asList(files), bathrooms, bedrooms);
         } catch (IOException ex) {
             ex.getMessage();
         }
