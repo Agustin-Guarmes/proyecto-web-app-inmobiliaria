@@ -44,6 +44,7 @@ public class AdminController {
 
     @PostMapping("/modificarUsuario")
     public String modifyUser(@RequestParam Long id,@RequestParam String role ,@RequestParam String name,@RequestParam Long dni,@RequestParam String email,@RequestParam boolean status) {
+        System.out.println(status + " VALGO ESTO!!");
         userService.adminModifyUser(id,name,dni,role,email,status);
         return "redirect:/admin/listaUsuarios";
     }

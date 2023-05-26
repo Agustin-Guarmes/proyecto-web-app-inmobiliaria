@@ -209,7 +209,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
 
-        if (user != null) {
+        if (user != null && user.isStatus() == false) {
 
             List<GrantedAuthority> permissions = new ArrayList();
 
@@ -226,6 +226,9 @@ public class UserService implements UserDetailsService {
             return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), permissions);
 
         } else {
+
+            /*Debo mandarlo a la vista*/
+            System.out.println("Esta cuenta fue bloqueda hasta nuevo aviso");
             return null;
         }
     }
