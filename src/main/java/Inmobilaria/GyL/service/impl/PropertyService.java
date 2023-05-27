@@ -90,18 +90,6 @@ public class PropertyService implements IPropertyService {
         }
     }
 
-    /*@Override
-    public void updateProperty(Long id, String address, Integer surface, Double price) {
-        Optional<Property> isFound = pr.findById(id);
-        if (isFound.isPresent()) {
-            Property updatedProperty = isFound.get();
-            updatedProperty.setSurface(surface);
-            updatedProperty.setPrice(price);
-            updatedProperty.setAddress(address);
-            pr.save(updatedProperty);
-        }
-    }*/
-
     @Override
     public List<Appointment> findAllAppointmentsByProperty(Long id) {
         List<Appointment> appointments = pr.findAllAppointmentsByProperty(id);

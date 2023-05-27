@@ -36,6 +36,12 @@
                             </a>
                         </li>
                         <li sec:authorize="hasRole('CLIENT')">
+                            <a class="dropdown-item" th:href="@{/usuario/propiedadesCliente/__${session.userSession.id}__}">
+                                <i class="bi bi-houses pe-2"></i>
+                                Mis propiedades
+                            </a>
+                        </li>
+                        <li sec:authorize="hasRole('CLIENT')">
                             <a class="dropdown-item" th:href="@{/ofertas/listaCliente/__${session.userSession.id}__}">
                                 <i class="bi bi-megaphone pe-2"></i>
                                 Mis ofertas
