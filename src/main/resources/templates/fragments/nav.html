@@ -19,11 +19,11 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a th:if="${session.userSession ==null}" class="dropdown-item" th:href="@{/propiedades/lista/}">
+                            <a th:if="${session.userSession == null}" class="dropdown-item" th:href="@{/propiedades/lista/}">
                                 <i class="bi bi-shop pe-2"></i>
                                 Comprar propiedades
                             </a>
-                            <a th:if="${session.userSession !=null}" class="dropdown-item" th:href="@{/propiedades/lista/__${session.userSession.id}__}">
+                            <a th:if="${session.userSession != null}" class="dropdown-item" th:href="@{/propiedades/lista/__${session.userSession.id}__}">
                                 <i class="bi bi-shop pe-2"></i>
                                 Comprar propiedades
                             </a>

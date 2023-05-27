@@ -178,6 +178,8 @@ public class UserService implements UserDetailsService {
     public void adminModifyUser(Long id, String name, Long dni, String role, String email, boolean status){
         Optional<User> response = userRepository.findById(id);
 
+        System.out.println(status + "    Estoy en el adminModifyUser" + id);
+
         if(response.isPresent()){
             User user = response.get();
 
