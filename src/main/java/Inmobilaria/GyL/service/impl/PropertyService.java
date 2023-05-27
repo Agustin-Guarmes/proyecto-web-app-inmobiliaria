@@ -32,7 +32,8 @@ public class PropertyService implements IPropertyService {
     public void createProperty(User user, String address, String location, String province, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs, Integer bathrooms, Integer bedrooms) throws IOException {
         Property property = new Property();
         property.setUser(user);
-        setPropertyAttributes(address, location, province, status, type, surface, price, description, property,bathrooms,bedrooms);
+        setPropertyAttributes(address, location, province, status, type, surface, price, description, property, bathrooms, bedrooms);
+        property.setRented(false);
         pr.save(property);
         for (MultipartFile img : imgs) {
             ips.saveImg(img, property);
@@ -56,13 +57,29 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
+    public List<Property> clientProperties(Long id){
+    return pr.clientProperties(id);
+    }
+
+    @Override
     public Property findById(Long id) {
         return pr.findById(id).get();
     }
 
     @Override
+    public List<Property> filteredProperties(Long id) {
+        return pr.filteredProperties(id);
+    }
+
+    @Override
     public List<Property> listProperties() {
-        return pr.findAll();
+        return pr.findAllEntity();
+    }
+
+    @Override
+    public void rentProperty(Property property) {
+        property.setRented(true);
+        pr.save(property);
     }
 
     @Override

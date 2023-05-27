@@ -87,6 +87,14 @@ public class UserController {
         return "myProperties.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
+    @GetMapping("/propiedadesCliente/{id}")
+    public String listPropertiesClient(@PathVariable Long id, ModelMap model) {
+        List<Property> properties = propertyService.clientProperties(id);
+        model.put("properties", properties);
+        return "myProperties.html";
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_ENTITY')")
     @GetMapping("/gestionEnidad")
     public String enteManagement() {
