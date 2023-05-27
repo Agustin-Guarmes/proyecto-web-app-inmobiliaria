@@ -175,7 +175,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void adminModifyUser(Long id, String name, Long dni, String role, String email, boolean status){
+    public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status){
         Optional<User> response = userRepository.findById(id);
 
         System.out.println(status + "    Estoy en el adminModifyUser" + id);
@@ -186,7 +186,8 @@ public class UserService implements UserDetailsService {
             user.setName(name);
             user.setDni(dni);
             user.setEmail(email);
-            user.setStatus(status);
+
+            if(status == "true" ){ user.setStatus(true); } else { user.setStatus(false); }
 
             switch (role) {
                 case "cliente":

@@ -71,14 +71,14 @@
                                     </select>
                                 </td>
 
-                                <td class="p-0 pt-2" style="width: 30px;">
+                                <td class="p-0 pt-2" style="width: 70px;">
 <!--        class="pt-3 ps-3" va en el td                            <div class="form-check form-switch">-->
 <!--                                        <input class="form-check-input" name="status" type="checkbox" th:checked="${user.status}">-->
 <!--                                    </div>-->
                                     <div class="form-check form-switch p-0">
                                         <select name="status" class="form-select me-2">
-                                            <option value="true" th:selected="${user.status == true}">D</option>
-                                            <option value="false" th:selected="${user.status == false}">A</option>
+                                            <option value="true" th:selected="${user.status == true}">🚫</option>
+                                            <option value="false" th:selected="${user.status == false}">✅</option>
                                         </select>
                                     </div>
                                 </td>
