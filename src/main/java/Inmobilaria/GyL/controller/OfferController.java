@@ -34,6 +34,7 @@ public class OfferController {
     public String listOffersClient(@PathVariable Long id, ModelMap model) {
         List<Offer> offers = offerService.findByUser(id);
         model.put("offers", offers);
+        model.put("title", "MrHouse | Ofertas");
         return "listOffersClient";
     }
 
@@ -41,6 +42,7 @@ public class OfferController {
     public String listOffersProperty(@PathVariable Long id, ModelMap model) {
         List<Offer> offers = offerService.findByProperty(id);
         model.put("offers", offers);
+        model.put("title", "MrHouse | Ofertas");
         return "listOffersEntity";
     }
 

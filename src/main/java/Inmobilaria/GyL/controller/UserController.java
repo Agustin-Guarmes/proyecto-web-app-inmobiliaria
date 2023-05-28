@@ -26,7 +26,8 @@ public class UserController {
     }
 
     @GetMapping("/registrarse")
-    public String register() {
+    public String register(ModelMap model) {
+        model.put("title", "MrHouse | Registro");
         return "register.html";
     }
 
@@ -42,18 +43,21 @@ public class UserController {
     }
 
     @GetMapping("/iniciarSesion")
-    public String login() {
+    public String login(ModelMap model) {
+        model.put("title", "MrHouse | Ingreso");
         return "login.html";
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @GetMapping("/restablecerContrasena")
-    public String resetPassword() {
+    public String resetPassword(ModelMap model) {
+        model.put("title", "MrHouse | Contraseña");
         return "resetPassword.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @GetMapping("/perfil")
-    public String profile() {
+    public String profile(ModelMap model) {
+        model.put("title", "MrHouse | Perfil");
         return "profile.html";
     }
 
@@ -84,6 +88,7 @@ public class UserController {
     public String listProperties(@PathVariable Long id, ModelMap model) {
         List<Property> properties = propertyService.findByUser(id);
         model.put("properties", properties);
+        model.put("title", "MrHouse | Propiedades");
         return "myProperties.html";
     }
 
@@ -92,25 +97,26 @@ public class UserController {
     public String listPropertiesClient(@PathVariable Long id, ModelMap model) {
         List<Property> properties = propertyService.clientProperties(id);
         model.put("properties", properties);
+        model.put("title", "MrHouse | Propiedades");
         return "myProperties.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ENTITY')")
     @GetMapping("/gestionEnidad")
-    public String enteManagement() {
+    public String enteManagement(ModelMap model) {
+        model.put("title", "MrHouse | Gestion");
         return "enteManagement.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
-    @GetMapping("/contraseña/{id}")
-    public String modifyPassword(@PathVariable Long id) {
-        return "resetPassword.html";
-    }
+//    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
+//    @GetMapping("/contraseña/{id}")
+//    public String modifyPassword(@PathVariable Long id) {
+//        return "resetPassword.html";
+//    }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @PostMapping("/contraseña/{id}")
     public String modifyPassword(@PathVariable Long id, @RequestParam String password, @RequestParam String newPassword) {
-
         userService.modifyUserPassword(id, password, newPassword);
         return "redirect:/usuario/perfil";
     }
