@@ -70,13 +70,16 @@ public class OfferService implements IOfferService {
     @Override
     public void createOffer(Long propertyId, Long clientId) {
         /* Validar si el usuario que esta realizando la oferta sobre esta propiedad, tiene ofertas inactivas o rechazadas por el propietario. */
-        Property property = propertyService.findById(propertyId);
-        Offer offer = new Offer();
-        offer.setProperty(property);
-        offer.setUser(userService.getOne(clientId));
-        offer.setPrice(property.getPrice());
-        offer.setOfferStatus(OfferStatus.CLIENT_OFFER);
-        offerRepository.save(offer);
+        List<Offer> validOffers = offerRepository.findActiveOfferByUserAndProperty(propertyId, clientId);
+        if (validOffers.isEmpty()) {
+            Property property = propertyService.findById(propertyId);
+            Offer offer = new Offer();
+            offer.setProperty(property);
+            offer.setUser(userService.getOne(clientId));
+            offer.setPrice(property.getPrice());
+            offer.setOfferStatus(OfferStatus.CLIENT_OFFER);
+            offerRepository.save(offer);
+        }
     }
 
     @Override
@@ -99,10 +102,10 @@ public class OfferService implements IOfferService {
         }
     }
 
-    private void setInactive(Long id){
+    private void setInactive(Long id) {
         List<Offer> offers = offerRepository.setInactive(id);
-        if(offers!= null){
-            for (Offer offer : offers){
+        if (offers != null) {
+            for (Offer offer : offers) {
                 offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
                 offerRepository.save(offer);
             }
@@ -114,11 +117,11 @@ public class OfferService implements IOfferService {
             propertyService.changeUser(offer.getProperty(), userService.getOne(offer.getUser().getId()));
             offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
             setInactive(offer.getProperty().getId());
-        }else if(offer.getOfferStatus().equals(OfferStatus.ENTITY_ACCEPTED) && response.equalsIgnoreCase("Accept") && offer.getProperty().getStatus().equals(PropertyStatus.FOR_RENT)){
+        } else if (offer.getOfferStatus().equals(OfferStatus.ENTITY_ACCEPTED) && response.equalsIgnoreCase("Accept") && offer.getProperty().getStatus().equals(PropertyStatus.FOR_RENT)) {
             propertyService.rentProperty(offer.getProperty());
             offer.setOfferStatus(OfferStatus.CLIENT_ACCEPTED);
             setInactive(offer.getProperty().getId());
-        }else{
+        } else {
             offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
         }
     }

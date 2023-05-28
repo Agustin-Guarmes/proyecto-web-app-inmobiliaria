@@ -41,8 +41,7 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
-    public void updateProperty(Long id, String address, String location, String province, String status, String type, Integer surface, Double price, String description,
-                               Integer bathrooms, Integer bedrooms) {
+    public void updateProperty(Long id, String address, String location, String province, String status, String type, Integer surface, Double price, String description, Integer bathrooms, Integer bedrooms) {
         Optional<Property> isFound = pr.findById(id);
         if (isFound.isPresent()) {
             Property updatedProperty = isFound.get();
@@ -57,8 +56,8 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
-    public List<Property> clientProperties(Long id){
-    return pr.clientProperties(id);
+    public List<Property> clientProperties(Long id) {
+        return pr.clientProperties(id);
     }
 
     @Override
