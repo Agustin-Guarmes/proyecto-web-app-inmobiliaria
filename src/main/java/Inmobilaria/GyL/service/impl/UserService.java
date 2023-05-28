@@ -140,31 +140,11 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public User findByDNI(Long dni){
+       return userRepository.findByDni(dni);
+    }
 
     /*EntityAdmin Services*/
-/*    @Transactional
-    public void adminModifyRole(Long id, String role) {
-
-        Optional<User> response = userRepository.findById(id);
-
-        User user = response.get();
-
-        switch (role) {
-            case "cliente":
-                user.setRole(Role.CLIENT);
-                break;
-            case "propietario":
-                user.setRole(Role.ENTITY);
-                break;
-            case "admin":
-                user.setRole(Role.ADMIN);
-                break;
-            default:
-                user.setRole(Role.CLIENT);
-        }
-        userRepository.save(user);
-    }*/
-
     @Transactional
     public void adminDeleteUser(Long id) {
         userRepository.deleteById(id);

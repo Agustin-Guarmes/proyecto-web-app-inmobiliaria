@@ -22,7 +22,7 @@ public class AdminController {
         this.iImageService = iImageService;
     }
 
-    @GetMapping("/listaUsuarios")
+    @GetMapping("/")
     public String listUsers(ModelMap model) {
 
         List<User> users = userService.listUsers();

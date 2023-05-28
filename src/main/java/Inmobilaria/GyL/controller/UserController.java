@@ -120,6 +120,15 @@ public class UserController {
 
         return "appointments.html";
     }
+
+    @PostMapping("/invitado")
+    public String searchDni(@RequestParam Long dni){
+       if(userService.findByDNI(dni) == null){
+           return "redirect:/usuario/registrarse";
+       } else {
+           return "redirect:/usuario/iniciarSesion";
+       }
+    }
 }
 
 

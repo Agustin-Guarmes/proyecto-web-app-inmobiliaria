@@ -83,9 +83,9 @@
                             </a>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
-                            <a class="dropdown-item" th:href="@{/admin/listaUsuarios}">
+                            <a class="dropdown-item" th:href="@{/admin/}">
                                 <i class="bi bi-people pe-2"></i>
-                                Usuarios
+                                Gestiones
                             </a>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ENTITY')">
