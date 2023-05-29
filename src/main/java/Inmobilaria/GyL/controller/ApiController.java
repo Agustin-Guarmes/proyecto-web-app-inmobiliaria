@@ -24,4 +24,6 @@ public class ApiController {
     public List<Appointment> findAppointmentsForUser(@PathVariable("userId") Long userId) {
         return appointmentService.findAppointmentByUserId(userId);
     }
+
+
 }

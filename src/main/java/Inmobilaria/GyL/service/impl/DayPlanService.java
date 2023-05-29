@@ -5,6 +5,7 @@ import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.repository.DayPlanRepository;
 import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
+import Inmobilaria.GyL.service.ITimePeriodService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,9 +19,12 @@ public class DayPlanService implements IDayPlanService {
 
     private final IPropertyService propertyService;
 
-    public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService) {
+    private final ITimePeriodService timePeriodService;
+
+    public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService, ITimePeriodService timePeriodService) {
         this.dayPlanRepository = dayPlanRepository;
         this.propertyService = propertyService;
+        this.timePeriodService = timePeriodService;
     }
 
     @Override
@@ -31,6 +35,7 @@ public class DayPlanService implements IDayPlanService {
         dayPlan.setStart(start);
         dayPlan.setEnd(end);
         dayPlan.setProperty(property);
+        timePeriodService.saveAvailablePeriods(dayPlan, propertyId);
         return dayPlanRepository.save(dayPlan);
     }
 

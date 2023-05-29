@@ -71,7 +71,7 @@ public class Property {
         this.user = user;
         this.appointments = appointments;
         this.timetable = timetable;
-        this.duration = duration;
+        this.duration = 30;
         this.province = province;
         this.isRented = isRented;
     }

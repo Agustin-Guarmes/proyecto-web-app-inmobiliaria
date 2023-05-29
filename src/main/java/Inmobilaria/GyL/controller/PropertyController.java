@@ -1,11 +1,10 @@
 package Inmobilaria.GyL.controller;
 
-import Inmobilaria.GyL.entity.DayPlan;
-import Inmobilaria.GyL.entity.Offer;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequestMapping("/propiedades")
@@ -27,8 +25,9 @@ public class PropertyController {
 
     private IDayPlanService dayPlanService;
 
-    public PropertyController(IPropertyService propertyService) {
+    public PropertyController(IPropertyService propertyService, IDayPlanService dayPlanService) {
         this.propertyService = propertyService;
+        this.dayPlanService = dayPlanService;
     }
 
     @GetMapping("/lista/{id}")
@@ -96,12 +95,13 @@ public class PropertyController {
 
     @PostMapping("/disponibilidad/{propertyId}")
     public String addDayPlan(@PathVariable("propertyId") Long propertyId,
-                             @RequestParam LocalDate timetableDay,
+                             @RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate timetableDay,
                              @RequestParam LocalTime start,
                              @RequestParam LocalTime end) {
         dayPlanService.addDayPlan(propertyId, timetableDay, start, end);
-        return "redirect:/propiedades/modificar" + propertyId;
+        return "redirect:/propiedades/modificar/" + propertyId;
     }
+
 
 
 
