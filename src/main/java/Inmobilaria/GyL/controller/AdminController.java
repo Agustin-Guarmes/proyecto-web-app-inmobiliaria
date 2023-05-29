@@ -1,13 +1,12 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.User;
-import Inmobilaria.GyL.repository.UserRepository;
-import Inmobilaria.GyL.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import Inmobilaria.GyL.service.IImageService;
+import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,17 +14,21 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
+    private final IImageService iImageService;
 
-    @GetMapping("/listaUsuarios")
+    public AdminController(UserService userService, IImageService iImageService) {
+        this.userService = userService;
+        this.iImageService = iImageService;
+    }
+
+    @GetMapping("/")
     public String listUsers(ModelMap model) {
 
         List<User> users = userService.listUsers();
 
         model.put("users", users);
+        model.put("title", "MrHouse | ADMIN");
 
         return "into.html";
     }
@@ -33,24 +36,38 @@ public class AdminController {
     @GetMapping("/busquedaUsuarios")
     public String searchUsers(@RequestParam String word, ModelMap model) {
 
-        List<User> users = userRepository.findByName(word);
+        List<User> users = userService.findByName(word);
 
         model.put("users", users);
+        model.put("title", "MrHouse | Usuarios");
 
         return "into.html";
     }
 
-    @PostMapping("/cambioRol/{id}")
-    public String modifyRole(@RequestParam String role, @PathVariable Long id){
-
-        userService.adminModifyRole(id,role);
-
-        return "redirect:/admin/listaUsuarios";
+    @PostMapping("/modificarUsuario")
+    public String modifyUser(@RequestParam Long id,@RequestParam String role ,@RequestParam String name,@RequestParam Long dni,@RequestParam String email,@RequestParam String status) {
+        System.out.println(status + " VALGO ESTO!!");
+        userService.adminModifyUser(id,name,dni,role,email,status);
+        return "redirect:/admin/";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
-        return "redirect:/admin/listaUsuarios";
+    @GetMapping("/eliminar/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.adminDeleteUser(id);
+        return "redirect:/admin/";
     }
+
+
+    @GetMapping("/crearImg")
+    public String adminViewImg(ModelMap model){
+        model.put("title", "MrHouse | Usuarios");
+        return "adminCreateImg";
+    }
+
+    @PostMapping("/creaImg")
+    public String adminCreateIcon(MultipartFile icon) throws Exception {
+        iImageService.submitImg(icon);
+        return "redirect:/admin/crearImg";
+    }
+
 }

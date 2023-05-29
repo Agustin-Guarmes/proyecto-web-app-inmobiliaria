@@ -2,6 +2,7 @@ package Inmobilaria.GyL.entity;
 
 import Inmobilaria.GyL.enums.OfferStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -18,11 +19,11 @@ public class Offer {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Property property;
-
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @NotNull(message = ("Price is required"))
@@ -44,9 +45,6 @@ public class Offer {
         this.property = property;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public void setPrice(Double price) {
         this.price = price;
@@ -70,6 +68,14 @@ public class Offer {
 
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Double getPrice() {

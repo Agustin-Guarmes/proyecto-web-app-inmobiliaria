@@ -1,11 +1,8 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
-import Inmobilaria.GyL.entity.User;
-import Inmobilaria.GyL.repository.UserRepository;
-import Inmobilaria.GyL.service.UserService;
-import Inmobilaria.GyL.service.impl.PropertyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import Inmobilaria.GyL.service.IPropertyService;
+import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,48 +17,18 @@ import java.util.List;
 @RequestMapping("/usuario")
 public class UserController {
 
-    @Autowired
-    private PropertyService propertyService;
+    private final IPropertyService propertyService;
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
+    public UserController(IPropertyService propertyService, UserService userService) {
+        this.propertyService = propertyService;
+        this.userService = userService;
+    }
 
     @GetMapping("/registrarse")
-    public String register() {
+    public String register(ModelMap model) {
+        model.put("title", "MrHouse | Registro");
         return "register.html";
-    }
-
-    @GetMapping("/propiedades")
-    public String propiedades() {
-        return "properties.html";
-    }
-
-    @GetMapping("/")
-    public String index() {
-        return "index.html";
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listaPersonalizada")
-    public String listUsers(ModelMap model) {
-
-        List<User> users = userService.listUsers();
-
-        model.put("users", users);
-
-        return "into.html";
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listaPersonalizadaBusqueda")
-    public String searchUsers(@RequestParam String word, ModelMap model) {
-
-        List<User> users = userRepository.findByName(word);
-        model.put("users", users);
-        return "into.html";
     }
 
     @PostMapping("/registrar")
@@ -76,18 +43,21 @@ public class UserController {
     }
 
     @GetMapping("/iniciarSesion")
-    public String login() {
+    public String login(ModelMap model) {
+        model.put("title", "MrHouse | Ingreso");
         return "login.html";
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @GetMapping("/restablecerContrasena")
-    public String resetPassword() {
+    public String resetPassword(ModelMap model) {
+        model.put("title", "MrHouse | Contraseña");
         return "resetPassword.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @GetMapping("/perfil")
-    public String profile() {
+    public String profile(ModelMap model) {
+        model.put("title", "MrHouse | Perfil");
         return "profile.html";
     }
 
@@ -104,9 +74,9 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
     @PostMapping("/agregarPropiedad")
-    public String addProperty(@RequestParam Long idUser, @RequestParam String address, @RequestParam String location, @RequestParam String status, @RequestParam String type, @RequestParam int surface, @RequestParam double price, @RequestParam String description, @RequestParam MultipartFile[] files) {
+    public String addProperty(@RequestParam Long idUser, @RequestParam String address, @RequestParam String location,@RequestParam String province, @RequestParam String status, @RequestParam String type, @RequestParam int surface, @RequestParam double price, @RequestParam String description, @RequestParam MultipartFile[] files, @RequestParam int bathrooms, @RequestParam int bedrooms) {
         try {
-            propertyService.createProperty(userService.getOne(idUser), address, location, status, type, surface, price, description, Arrays.asList(files));
+            propertyService.createProperty(userService.getOne(idUser), address, location, province, status, type, surface, price, description, Arrays.asList(files), bathrooms, bedrooms);
         } catch (IOException ex) {
             ex.getMessage();
         }
@@ -118,25 +88,35 @@ public class UserController {
     public String listProperties(@PathVariable Long id, ModelMap model) {
         List<Property> properties = propertyService.findByUser(id);
         model.put("properties", properties);
+        model.put("title", "MrHouse | Propiedades");
+        return "myProperties.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
+    @GetMapping("/propiedadesCliente/{id}")
+    public String listPropertiesClient(@PathVariable Long id, ModelMap model) {
+        List<Property> properties = propertyService.clientProperties(id);
+        model.put("properties", properties);
+        model.put("title", "MrHouse | Propiedades");
         return "myProperties.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ENTITY')")
     @GetMapping("/gestionEnidad")
-    public String enteManagement() {
+    public String enteManagement(ModelMap model) {
+        model.put("title", "MrHouse | Gestion");
         return "enteManagement.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
-    @GetMapping("/contraseña/{id}")
-    public String modifyPassword(@PathVariable Long id) {
-        return "resetPassword.html";
-    }
+//    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
+//    @GetMapping("/contraseña/{id}")
+//    public String modifyPassword(@PathVariable Long id) {
+//        return "resetPassword.html";
+//    }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @PostMapping("/contraseña/{id}")
     public String modifyPassword(@PathVariable Long id, @RequestParam String password, @RequestParam String newPassword) {
-
         userService.modifyUserPassword(id, password, newPassword);
         return "redirect:/usuario/perfil";
     }
@@ -146,6 +126,15 @@ public class UserController {
         return "appointments.html";
     }
 
+    @PostMapping("/invitado")
+    public String searchDni(@RequestParam Long dni){
+       if(userService.findByDNI(dni) == null){
+           return "redirect:/usuario/registrarse";
+       } else {
+           return "redirect:/usuario/iniciarSesion";
+       }
+    }
 }
+
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="/fragments/head :: head"></head>
-    <body>
+    <body onload="loadTheme()">
         <div class="d-flex flex-column min-vh-100">
             <nav th:replace="/fragments/nav :: nav"></nav>
 
@@ -10,7 +10,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-6 col-md-8 col-12">
                             <div class="card">
-                                <div class="card-header mt-1">
+                                <div class="card-header pt-2">
                                     <h2 class="card-title">Registrar propiedad</h2>
                                 </div>
                                 <div class="card-body">
@@ -18,12 +18,30 @@
                                         <input type="number" name="idUser" th:value="${session.userSession.id}" hidden>
                                         <div class="mb-3">
                                             <label for="address" class="form-label">Dirección</label>
-                                            <input type="text" name="address" class="form-control" id="address" required>
+                                            <input type="text" name="address" class="form-control" id="address" placeholder="Calle false 123" required>
                                         </div>
+<!--                                        <div class="mb-3">-->
+<!--                                            <label for="location" class="form-label">Localidad | Provincia</label>-->
+<!--                                            <input type="text" name="location" class="form-control" id="location" placeholder="La plata, Buenos Aires" required>-->
+<!--                                        </div>-->
+<!--Preguntar si les parece bien!-->
                                         <div class="mb-3">
-                                            <label for="location" class="form-label">Locación</label>
-                                            <input type="text" name="location" class="form-control" id="location" required>
+                                            <label for="selectProvincias" class="form-label">Provincia</label>
+                                            <select name="province" id="selectProvincias" class="form-select" required>
+                                                <option hidden >Seleccionar una provincia</option>
+                                            </select>
                                         </div>
+                                        <span></span>
+
+                                        <div class="mb-3">
+                                            <label for="selectLocalidades" class="form-label">Localidad</label>
+                                            <select name="location" id="selectLocalidades" class="form-select" required>
+                                                <option hidden selected>Seleccionar una localidad</option>
+                                            </select>
+                                        </div>
+                                        <span></span>
+<!--fin pregunta-->
+
                                         <div class="mb-3">
                                             <label for="status" class="form-label">Estado</label>
                                             <select name="status" id="status" class="form-select" required>
@@ -43,23 +61,31 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="surface" class="form-label">Superficie</label>
-                                            <input type="number" name="surface" class="form-control" id="surface" required>
+                                            <input type="number" name="surface" class="form-control" id="surface" placeholder="123" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="bedrooms" class="form-label">Habitaciones</label>
+                                            <input type="number" name="bedrooms" class="form-control" id="bedrooms" placeholder="3" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="bathrooms" class="form-label">Baños</label>
+                                            <input type="number" name="bathrooms" class="form-control" id="bathrooms" placeholder="2" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="price" class="form-label">Precio</label>
-                                            <input type="number" name="price" class="form-control" id="price" required>
+                                            <input type="number" name="price" class="form-control" id="price" placeholder="120000" required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="description" class="form-label">Descripción</label>
-                                            <input type="text" name="description" class="form-control" id="description" required>
+                                            <input type="text" name="description" class="form-control" id="description" maxlength="200" placeholder="Casa moderna con vistas naturales, pileta y cochera al aire libre con techo." required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="files" class="form-label">Elegir imagen</label>
                                             <input type="file" multiple name="files" class="form-control" id="files" accept="image/*" required>
                                         </div>
                                         <div class="row justify-content-center">
-                                            <div class="col-md-8 col-12 d-grid">
-                                                <button type="submit" class="btn btn-primary my-3">Registrar propiedad</button>
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-primary my-3 w-100">Registrar propiedad</button>
                                             </div>
                                         </div>
                                     </form>
@@ -74,9 +100,10 @@
 
             <footer th:replace="/fragments/footer :: footer"></footer>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        <script src="/js/theme.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="/js/registerProperty.js"></script>
     </body>
 </html>
