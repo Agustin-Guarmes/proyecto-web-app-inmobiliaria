@@ -1,6 +1,7 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.exception.AlreadyExistsException;
 import Inmobilaria.GyL.service.IPropertyService;
 import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;

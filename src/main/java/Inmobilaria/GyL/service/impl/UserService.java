@@ -3,7 +3,7 @@ package Inmobilaria.GyL.service.impl;
 import Inmobilaria.GyL.entity.ImageUser;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.Role;
-import Inmobilaria.GyL.repository.ImageRepository;
+import Inmobilaria.GyL.exception.AlreadyExistsException;
 import Inmobilaria.GyL.repository.UserRepository;
 import Inmobilaria.GyL.service.IImageService;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +37,10 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws Exception {
-
+        User userFound = userRepository.findByDni(dni);
+        if (userFound != null) {
+            throw new AlreadyExistsException("Hay un usuario registrado con el DNI ingresado.");
+        }
         User user = new User();
 
         user.setEmail(email);
@@ -58,10 +61,10 @@ public class UserService implements UserDetailsService {
         }
         ImageUser image;
         user.setDni(dni);
-        if(icon.getSize() != 0){
+        if (icon.getSize() != 0) {
             image = imageService.submitImg(icon);
         } else {
-            if(role.equals("cliente") ){
+            if (role.equals("cliente")) {
                 image = imageService.findById("cliente");
             } else {
                 image = imageService.findById("propietario");
@@ -140,8 +143,8 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public User findByDNI(Long dni){
-       return userRepository.findByDni(dni);
+    public User findByDNI(Long dni) {
+        return userRepository.findByDni(dni);
     }
 
     /*EntityAdmin Services*/
@@ -155,19 +158,23 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status){
+    public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status) {
         Optional<User> response = userRepository.findById(id);
 
         System.out.println(status + "    Estoy en el adminModifyUser" + id);
 
-        if(response.isPresent()){
+        if (response.isPresent()) {
             User user = response.get();
 
             user.setName(name);
             user.setDni(dni);
             user.setEmail(email);
 
-            if(status == "true" ){ user.setStatus(true); } else { user.setStatus(false); }
+            if (status == "true") {
+                user.setStatus(true);
+            } else {
+                user.setStatus(false);
+            }
 
             switch (role) {
                 case "cliente":
