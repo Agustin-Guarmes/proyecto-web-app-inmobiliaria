@@ -2,16 +2,41 @@
   font-family: "Roboto", "Lato", "Montserrat", sans-serif;
 }
 
+/* NAVBAR */
+
 .navbar-logo{
     display: inline-block;
     vertical-align: middle;
-    width: 70px;
+    width: 100px;
   }
   .navbar-logo img{
     display: inline-block;
     width: 100%;
     height: auto;
   }
+  
+/* HEADER */
+
+.header-video{
+    position: relative;
+    height: 100vh;
+}
+
+.header-video video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+}
+
+.header-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+}
 
 /* NOTICIAS */
 
@@ -27,7 +52,6 @@
 }
 
 .news-item {
-    background-color: #fff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -54,8 +78,6 @@
 }
 
 .news-date {
-    font-style: italic;
-    color: #888;
     margin-bottom: 10px;
     }
 
@@ -63,65 +85,7 @@
     margin-bottom: 10px;
 }
 
-.news-item a {
-    color: blue;
-}
-
 /* FOOTER */
-
-.first {
-    margin-top: 40px;
-    margin-bottom: 50px;
-    color:  #2BC48A;
-}
-
-.first p {
-    font-size: 14px;
-}
-
-.second {
-    margin-top: 40px;
-    margin-bottom: 50px;
-    color:  #2BC48A;
-    text-align: center;
-}
-
-.second2 {
-    color:  #2BC48A;
-}
-
-.second li {
-    list-style: none;
-    padding-bottom: 30px;
-}
-
-.second a,
-.second2 a {
-    color:  #2BC48A;
-    text-decoration: none;
-    letter-spacing: 3px;
-    font-weight: bold;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.second a:hover,
-.second2 a:hover {
-    color: #687fcb;
-    transition: 0.2s;
-    text-shadow: 1px 1px 20px rgba(0, 0, 0, 1);
-    text-decoration: none
-}
-
-.line {
-    height: 5px;
-    background-color: rgba(0, 206, 172, 0.966);
-    width: 100%;
-}
-
-.container h2 {
-    text-align: center;
-}
 
 .logo {
     width: 100%;
@@ -136,30 +100,7 @@
     height: 150px;
 }
 
-
-.item {
-    margin-bottom: 20px;
-    background-color: #f2f2f2;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    text-align: center;
-}
-
-.item img {
-    max-width: 100%;
-    margin-bottom: 10px;
-}
-
-.line2 {
-    height: 3px;
-    background-color: rgba(0, 206, 172, 0.966);
-    width: 30%;
-    display: center;
-    justify-content:center
-}
-
-/* img */
+/* IMAGES */
 
 .img_into {
     width: 50px;
@@ -169,4 +110,16 @@
 .img_profile {
     width: 200px;
     height: 200px;
+}
+
+/* DETAIL PROPERTY */
+
+.container__card{
+    max-width: 1200px;
+    margin: auto;
+    margin-top: 100px;
+    perspective: 1000px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
