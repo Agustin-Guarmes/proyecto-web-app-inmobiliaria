@@ -1,7 +1,10 @@
 package Inmobilaria.GyL.controller;
 
+import Inmobilaria.GyL.entity.DayPlan;
+import Inmobilaria.GyL.entity.Offer;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -11,13 +14,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/propiedades")
 public class PropertyController {
 
     private IPropertyService propertyService;
+
+    private IDayPlanService dayPlanService;
 
     public PropertyController(IPropertyService propertyService) {
         this.propertyService = propertyService;
@@ -85,5 +93,16 @@ public class PropertyController {
         propertyService.addImageToProperty(id, Arrays.asList(files));
         return "redirect:/propiedades/modificar/" + id;
     }
+
+    @PostMapping("/disponibilidad/{propertyId}")
+    public String addDayPlan(@PathVariable("propertyId") Long propertyId,
+                             @RequestParam LocalDate timetableDay,
+                             @RequestParam LocalTime start,
+                             @RequestParam LocalTime end) {
+        dayPlanService.addDayPlan(propertyId, timetableDay, start, end);
+        return "redirect:/propiedades/modificar" + propertyId;
+    }
+
+
 
 }

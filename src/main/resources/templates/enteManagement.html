@@ -280,5 +280,44 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $('#calendar').calendar({
+
+            // select date on init
+            selectedDate: "02/15/2023",
+            // date format
+            format: "MM/DD/YYYY",
+            // custom next/prev icons
+            iconNext: '',
+            iconPrev: '',
+            // set the label of the date input
+            inputLabel: 'Set a date',
+            // set the placeholder of the date input
+            inputPlaceholder: 'Enter a date',
+            // hide the input and today button
+            hideInputs: false,
+            // enable dark mode
+            darkMode: false,
+            // or 'lite-purple'
+            theme: 'unstyled',
+            // custom styles here
+            styles: `
+      button {
+        color: blue
+      }
+    `,
+            // callback
+            onChange: (e) => {
+                console.log(e.detail);
+            },
+            onRender: (e) => {
+                console.log(e.detail.calendar);
+            },
+
+            });
+        });
+    </script>
     </body>
 </html>

@@ -205,4 +205,21 @@ public class Property {
     public void setProvince(String province) {
         this.province = province;
     }
+
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
+    public List<DayPlan> getTimetable() {
+        return timetable;
+    }
+
+    public void setTimetable(List<DayPlan> timetable) {
+        this.timetable = timetable;
+    }
 }
