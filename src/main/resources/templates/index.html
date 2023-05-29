@@ -1,238 +1,240 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head th:replace="/fragments/head :: head"></head>
-    <body onload="loadTheme()">
-        <nav th:replace="/fragments/nav :: nav"></nav>
+<head th:replace="/fragments/head :: head"></head>
+<body onload="loadTheme()">
+<nav th:replace="/fragments/nav :: nav"></nav>
 
-        <header class="bg-dark text-white text-center header-video">
-            <video src="/videos/Ciudad.m4v" autoplay muted loop></video>
+<header class="bg-dark text-white text-center header-video">
+    <video src="/videos/Ciudad.m4v" autoplay muted loop></video>
 
-            <div class="header-content d-flex align-items-center justify-content-center">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <!--
-                        <div class="col">
-                            <img src="/img/logo.svg" alt="logo" class="img-fluid">
-                        </div>
-                        -->
-                        <div class="col">                        
-                            <h1 class="display-4">Mr House</h1>
-                            <p class="lead">¡Encuentra tu lugar en el mundo!</p>
-                            <a th:href="@{/propiedades/lista}" class="btn btn-success btn-lg">Ver Propiedades</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <section>
-            <div class="container mt-5">
-                <h2 class="mb-4 text-center">Inmuebles más recientes</h2>
-
-                <div class="row d-flex align-items-center justify-content-center">
-                    <!--<div th:class="${#lists.size(properties)} > 1 ? 'd-none' : 'd-flex'" >
-                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                            <div class="card">
-                                <div class="position-relative">
-                                    <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
-                                    <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
-                                </div>
-                                <div class="card-body pt-1">
-                                    <h5 class="card-title">Nombre del Inmueble</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <i class="fas fa-bed me-2"></i>
-                                            Habitaciones: X
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fas fa-bath me-2"></i>
-                                            Baños: X
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fas fa-chart-area me-2"></i>
-                                            Área Total: X m²
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    Precio: $X.XXX.XXX
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                            <div class="card">
-                                <div class="position-relative">
-                                    <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
-                                    <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
-                                </div>
-                                <div class="card-body pt-1">
-                                    <h5 class="card-title">Nombre del Inmueble</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <i class="fas fa-bed me-2"></i>
-                                            Habitaciones: X
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fas fa-bath me-2"></i>
-                                            Baños: X
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fas fa-chart-area me-2"></i>
-                                            Área Total: X m²
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    Precio: $X.XXX.XXX
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                            <div class="card">
-                                <div class="position-relative">
-                                    <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
-                                    <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
-                                </div>
-                                <div class="card-body pt-1">
-                                    <h5 class="card-title">Nombre del Inmueble</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <i class="fas fa-bed me-2"></i>
-                                            Habitaciones: X
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fas fa-bath me-2"></i>
-                                            Baños: X
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fas fa-chart-area me-2"></i>
-                                            Área Total: X m²
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    Precio: $X.XXX.XXX
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                            <div class="card">
-                                <div class="position-relative">
-                                    <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
-                                    <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
-                                </div>
-                                <div class="card-body pt-1">
-                                    <h5 class="card-title">Nombre del Inmueble</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <i class="fas fa-bed me-2"></i>
-                                            Habitaciones: X
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fas fa-bath me-2"></i>
-                                            Baños: X
-                                        </li>
-                                        <li class="list-group-item">
-                                            <i class="fas fa-chart-area me-2"></i>
-                                            Área Total: X m²
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    Precio: $X.XXX.XXX
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
-<div class="card p-1 col-12 col-sm-6 col-lg-4 col-xl-3 m-3" th:each="property : ${properties}">
-                    <div class="position-relative" style="height:250px">
-                        <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top h-100"
-                             alt="Imagen del inmueble">
-                        <span class="badge bg-success position-absolute top-0 end-0"
-                              th:text="${property.status.name()} == 'FOR_SALE' ? 'En venta' : 'En Alquiler'"></span>
-                    </div>
-                    <div class="card-body pt-1">
-                        <h5 class="card-title" th:text="${property.address}"></h5>
-                        <h6 class="card-subtitle mb-2 text-muted"
-                            th:text="${property.location} + ' - ' + ${property.province}"></h6>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex flex-direcction-row align-items-center">
-                                <i class="fas fa-bed me-2"></i>
-                                <div th:text="'Habitaciones: ' + ${property.bedrooms}"></div>
-                            </li>
-                            <li class="list-group-item d-flex flex-direcction-row align-items-center">
-                                <i class="fas fa-bath me-2"></i>
-                                <div th:text="'Baños: ' + ${property.bathrooms}"></div>
-                            </li>
-                            <li class="list-group-item d-flex flex-direcction-row align-items-center">
-                                <i class="fas fa-chart-area me-2"></i>
-                                <div th:text="'Área Total: ' + ${property.surface}"></div>
-                            </li>
-                        </ul>
-                        <div class="text-muted" th:text="'$ ' + ${property.price}"></div>
-                    </div>
-                    <a class="card-footer btn btn-success mt-1 border-success" th:href="@{/propiedades/__${property.id}__}">Leer más</a>
-                </div>
-                </div>
-                
-            </div>
-        </div>
-    </section>
-
-    <section class="news-section py-5">
+    <div class="header-content d-flex align-items-center justify-content-center">
         <div class="container">
-            <h2>Últimas noticias</h2>
-            <div class="news-list mt-3">
-                <div class="news-item card">
-                    <!--                        <img src="https://th.bing.com/th?id=OIP.irRljjdjM0EJUuYQOsmA7gHaFK&w=299&h=208&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
-                    <!--                             alt="Imagen de la noticia 1">-->
-                    <h3>Reporte Inmobiliario</h3>
-                    <!--                        <p class="news-date">15 de mayo de 2023</p>-->
-                    <p>Toda la información actualizada y estadísticas exclusivas para todo aquel interesado en invertir en
-                        el mercado inmobiliario.</p>
-                    <a href="https://www.reporteinmobiliario.com/" class="link-success">Leer más</a>
+            <div class="row align-items-center">
+                <!--
+                <div class="col">
+                    <img src="/img/logo.svg" alt="logo" class="img-fluid">
                 </div>
-                <div class="news-item card">
-                    <!--                        <img src="https://th.bing.com/th?id=OIP.Y47Ju6xb2FccWk3r5yFgLgHaE8&w=306&h=204&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
-                    <!--                             alt="Imagen de la noticia 2">-->
-                    <h3>Mudarse al Conurbano: cuántos ambientes más se pueden comprar vendiendo un departamento en CABA</h3>
-                    <p class="news-date">18 de mayo de 2023</p>
-                    <p>Hay opciones de casas con jardín en varios distritos de Provincia con rápidos accesos a la Ciudad de
-                        Buenos Aires. Zonas y precios.</p>
-                    <a href="https://www.clarin.com/servicios/mudarse-conurbano-ambientes-pueden-comprar-vendiendo-departamento-caba_0_iusfTsnl1s.html" class="link-success">
-                        Leer más
-                    </a>
-                </div>
-                <div class="news-item card">
-                    <!--                        <img src="https://th.bing.com/th?id=OIP.uUce4_qoDUSmrn68AEbJhwHaFF&w=301&h=207&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
-                    <!--                             alt="Imagen de la noticia 3">-->
-                    <h3>La CPCI advierte de la mala ejecución del PRR</h3>
-                    <p class="news-date">17 de mayo de 2023</p>
-                    <p>La Confederación Portuguesa de la Construcción e Inmobiliaria muestra su preocupación por la actual
-                        actuación de PRR.</p>
-                    <a href="https://supercasa.pt/es-es/noticias/cpci-warns-of-weak-rrp-implementation-/n4244" class="link-success">Leer más</a>
-                </div>
-                <div class="news-item card">
-                    <!--                        <img src="https://th.bing.com/th?id=OIP.WhDfaehFlXHkJ2sOuFwC1QHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
-                    <!--                             alt="Imagen de la noticia 4">-->
-                    <h3>Properati</h3>
-                    <!--                        <p class="news-date">12 de mayo de 2023</p>-->
-                    <p>Datos, análisis y consejos sobre ciudades y el mercado inmobiliario</p>
-                    <a href="https://blog.properati.com.ar/" class="link-success">Leer más</a>
+                -->
+                <div class="col">
+                    <h1 class="display-4">Mr House</h1>
+                    <p class="lead">¡Encuentra tu lugar en el mundo!</p>
+                    <a th:href="@{/propiedades/lista}" class="btn btn-success btn-lg">Ver Propiedades</a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</header>
 
-    <footer th:replace="/fragments/footer :: footer"></footer>
-    <script src="/js/theme.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-    crossorigin="anonymous"></script>
+<section>
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Inmuebles más recientes</h2>
+
+        <div class="row d-flex align-items-center justify-content-center">
+           <!-- <div th:class="${#lists.size(properties)} > 1 ? 'd-none' : 'd-flex'">
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card">
+                        <div class="position-relative">
+                            <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
+                            <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
+                        </div>
+                        <div class="card-body pt-1">
+                            <h5 class="card-title">Nombre del Inmueble</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fas fa-bed me-2"></i>
+                                    Habitaciones: X
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-bath me-2"></i>
+                                    Baños: X
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-chart-area me-2"></i>
+                                    Área Total: X m²
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Precio: $X.XXX.XXX
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card">
+                        <div class="position-relative">
+                            <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
+                            <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
+                        </div>
+                        <div class="card-body pt-1">
+                            <h5 class="card-title">Nombre del Inmueble</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fas fa-bed me-2"></i>
+                                    Habitaciones: X
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-bath me-2"></i>
+                                    Baños: X
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-chart-area me-2"></i>
+                                    Área Total: X m²
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Precio: $X.XXX.XXX
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card">
+                        <div class="position-relative">
+                            <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
+                            <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
+                        </div>
+                        <div class="card-body pt-1">
+                            <h5 class="card-title">Nombre del Inmueble</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fas fa-bed me-2"></i>
+                                    Habitaciones: X
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-bath me-2"></i>
+                                    Baños: X
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-chart-area me-2"></i>
+                                    Área Total: X m²
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Precio: $X.XXX.XXX
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card">
+                        <div class="position-relative">
+                            <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
+                            <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
+                        </div>
+                        <div class="card-body pt-1">
+                            <h5 class="card-title">Nombre del Inmueble</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fas fa-bed me-2"></i>
+                                    Habitaciones: X
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-bath me-2"></i>
+                                    Baños: X
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-chart-area me-2"></i>
+                                    Área Total: X m²
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Precio: $X.XXX.XXX
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="card p-1 col-12 col-sm-6 col-lg-4 col-xl-3 m-3" th:each="property : ${properties}">
+                <div class="position-relative" style="height:250px">
+                    <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top h-100"
+                         alt="Imagen del inmueble">
+                    <span class="badge bg-success position-absolute top-0 end-0"
+                          th:text="${property.status.name()} == 'FOR_SALE' ? 'En venta' : 'En Alquiler'"></span>
+                </div>
+                <div class="card-body pt-1">
+                    <h5 class="card-title" th:text="${property.address}"></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"
+                        th:text="${property.location} + ' - ' + ${property.province}"></h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex flex-direcction-row align-items-center">
+                            <i class="fas fa-bed me-2"></i>
+                            <div th:text="'Habitaciones: ' + ${property.bedrooms}"></div>
+                        </li>
+                        <li class="list-group-item d-flex flex-direcction-row align-items-center">
+                            <i class="fas fa-bath me-2"></i>
+                            <div th:text="'Baños: ' + ${property.bathrooms}"></div>
+                        </li>
+                        <li class="list-group-item d-flex flex-direcction-row align-items-center">
+                            <i class="fas fa-chart-area me-2"></i>
+                            <div th:text="'Área Total: ' + ${property.surface}"></div>
+                        </li>
+                    </ul>
+                    <div class="text-muted" th:text="'$ ' + ${property.price}"></div>
+                </div>
+                <a class="card-footer btn btn-success mt-1 border-success" th:href="@{/propiedades/__${property.id}__}">Leer
+                    más</a>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section class="news-section py-5">
+    <div class="container">
+        <h2>Últimas noticias</h2>
+        <div class="news-list mt-3">
+            <div class="news-item card">
+                <!--                        <img src="https://th.bing.com/th?id=OIP.irRljjdjM0EJUuYQOsmA7gHaFK&w=299&h=208&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                <!--                             alt="Imagen de la noticia 1">-->
+                <h3>Reporte Inmobiliario</h3>
+                <!--                        <p class="news-date">15 de mayo de 2023</p>-->
+                <p>Toda la información actualizada y estadísticas exclusivas para todo aquel interesado en invertir en
+                    el mercado inmobiliario.</p>
+                <a href="https://www.reporteinmobiliario.com/" class="link-success">Leer más</a>
+            </div>
+            <div class="news-item card">
+                <!--                        <img src="https://th.bing.com/th?id=OIP.Y47Ju6xb2FccWk3r5yFgLgHaE8&w=306&h=204&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                <!--                             alt="Imagen de la noticia 2">-->
+                <h3>Mudarse al Conurbano: cuántos ambientes más se pueden comprar vendiendo un departamento en CABA</h3>
+                <p class="news-date">18 de mayo de 2023</p>
+                <p>Hay opciones de casas con jardín en varios distritos de Provincia con rápidos accesos a la Ciudad de
+                    Buenos Aires. Zonas y precios.</p>
+                <a href="https://www.clarin.com/servicios/mudarse-conurbano-ambientes-pueden-comprar-vendiendo-departamento-caba_0_iusfTsnl1s.html"
+                   class="link-success">
+                    Leer más
+                </a>
+            </div>
+            <div class="news-item card">
+                <!--                        <img src="https://th.bing.com/th?id=OIP.uUce4_qoDUSmrn68AEbJhwHaFF&w=301&h=207&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                <!--                             alt="Imagen de la noticia 3">-->
+                <h3>La CPCI advierte de la mala ejecución del PRR</h3>
+                <p class="news-date">17 de mayo de 2023</p>
+                <p>La Confederación Portuguesa de la Construcción e Inmobiliaria muestra su preocupación por la actual
+                    actuación de PRR.</p>
+                <a href="https://supercasa.pt/es-es/noticias/cpci-warns-of-weak-rrp-implementation-/n4244"
+                   class="link-success">Leer más</a>
+            </div>
+            <div class="news-item card">
+                <!--                        <img src="https://th.bing.com/th?id=OIP.WhDfaehFlXHkJ2sOuFwC1QHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                <!--                             alt="Imagen de la noticia 4">-->
+                <h3>Properati</h3>
+                <!--                        <p class="news-date">12 de mayo de 2023</p>-->
+                <p>Datos, análisis y consejos sobre ciudades y el mercado inmobiliario</p>
+                <a href="https://blog.properati.com.ar/" class="link-success">Leer más</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="/fragments/footer :: footer"></footer>
+<script src="/js/theme.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
 </body>
 </html>

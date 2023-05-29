@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Controller
 @RequestMapping("/propiedades")
@@ -84,6 +87,13 @@ public class PropertyController {
     public String addImgProperty(@RequestParam Long id, MultipartFile[] files) throws IOException {
         propertyService.addImageToProperty(id, Arrays.asList(files));
         return "redirect:/propiedades/modificar/" + id;
+    }
+
+    @GetMapping("/turnos/{id}")
+    public String appointment(@PathVariable Long id, ModelMap model){
+        List<Property> properties = propertyService.findByUser(id);
+        model.put("properties",properties);
+        return "appointmentProperty.html";
     }
 
 }
