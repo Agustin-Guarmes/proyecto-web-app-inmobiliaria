@@ -1,14 +1,16 @@
 package Inmobilaria.GyL.service.impl;
 
-import Inmobilaria.GyL.entity.*;
+import Inmobilaria.GyL.entity.Appointment;
+import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.repository.AppointmentRepository;
 import Inmobilaria.GyL.service.IAppointmentService;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService implements IAppointmentService {
