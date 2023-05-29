@@ -149,9 +149,7 @@
                         </div>
                     </div> -->
 
-
-                </div>
-                <div class="card p-1 col-12 col-sm-6 col-lg-4 col-xl-3 m-3" th:each="property : ${properties}">
+<div class="card p-1 col-12 col-sm-6 col-lg-4 col-xl-3 m-3" th:each="property : ${properties}">
                     <div class="position-relative" style="height:250px">
                         <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top h-100"
                              alt="Imagen del inmueble">
@@ -180,6 +178,8 @@
                     </div>
                     <a class="card-footer btn btn-success mt-1 border-success" th:href="@{/propiedades/__${property.id}__}">Leer más</a>
                 </div>
+                </div>
+                
             </div>
         </div>
     </section>
