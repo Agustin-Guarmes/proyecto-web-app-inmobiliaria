@@ -19,13 +19,24 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item" th:href="@{/propiedades/lista}">
+                            <a th:if="${session.userSession == null}" class="dropdown-item" th:href="@{/propiedades/lista/}">
                                 <i class="bi bi-shop pe-2"></i>
                                 Comprar propiedades
                             </a>
+                            <a th:if="${session.userSession != null}" class="dropdown-item" th:href="@{/propiedades/lista/__${session.userSession.id}__}">
+                                <i class="bi bi-shop pe-2"></i>
+                                Comprar propiedades
+                            </a>
+
                         </li>
                         <li sec:authorize="hasRole('ENTITY')">
                             <a class="dropdown-item" th:href="@{/usuario/propiedades/__${session.userSession.id}__}">
+                                <i class="bi bi-houses pe-2"></i>
+                                Mis propiedades
+                            </a>
+                        </li>
+                        <li sec:authorize="hasRole('CLIENT')">
+                            <a class="dropdown-item" th:href="@{/usuario/propiedadesCliente/__${session.userSession.id}__}">
                                 <i class="bi bi-houses pe-2"></i>
                                 Mis propiedades
                             </a>
@@ -72,9 +83,9 @@
                             </a>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
-                            <a class="dropdown-item" th:href="@{/admin/listaUsuarios}">
+                            <a class="dropdown-item" th:href="@{/admin/}">
                                 <i class="bi bi-people pe-2"></i>
-                                Usuarios
+                                Gestiones
                             </a>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ENTITY')">
@@ -96,13 +107,13 @@
                         Tema
                     </a>
                     <ul class="dropdown-menu">
-                        <li>
+                        <li style="cursor: pointer;">
                             <a onclick="clearTheme()" class="dropdown-item">
                                 <i class="bi bi-brightness-high-fill pe-2"></i>
                                 Claro
                             </a>
                         </li>
-                        <li>
+                        <li style="cursor: pointer;">
                             <a onclick="darkTheme()" class="dropdown-item">
                                 <i class="bi bi-moon-stars-fill pe-2"></i>
                                 Oscuro

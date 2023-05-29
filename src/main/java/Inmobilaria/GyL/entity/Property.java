@@ -17,6 +17,7 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String address;
+    private String province;
     private String location;
     @Enumerated(EnumType.STRING)
     private PropertyStatus status;
@@ -28,11 +29,6 @@ public class Property {
     private Integer surface;
     private Integer bathrooms;
     private Integer bedrooms;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     private Double price;
     private String description;
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -55,6 +51,38 @@ public class Property {
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<DayPlan> timetable;
+    private boolean isRented;
+
+    public Property() {
+    }
+
+    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration, String province, boolean isRented) {
+        this.address = address;
+        this.location = location;
+        this.status = status;
+        this.type = type;
+        this.surface = surface;
+        this.bathrooms = bathrooms;
+        this.bedrooms = bedrooms;
+        this.price = price;
+        this.description = description;
+        this.images = images;
+        this.offers = offers;
+        this.user = user;
+        this.appointments = appointments;
+        this.timetable = timetable;
+        this.duration = duration;
+        this.province = province;
+        this.isRented = isRented;
+    }
+
+    public boolean isRented() {
+        return isRented;
+    }
+
+    public void setRented(boolean rented) {
+        isRented = rented;
+    }
 
     private Integer duration;
 
@@ -74,9 +102,6 @@ public class Property {
         this.user = user;
     }
 
-    public Property() {
-    }
-
     public Integer getBathrooms() {
         return bathrooms;
     }
@@ -91,24 +116,6 @@ public class Property {
 
     public void setBedrooms(Integer bedrooms) {
         this.bedrooms = bedrooms;
-    }
-
-    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration) {
-        this.address = address;
-        this.location = location;
-        this.status = status;
-        this.type = type;
-        this.surface = surface;
-        this.bathrooms = bathrooms;
-        this.bedrooms = bedrooms;
-        this.price = price;
-        this.description = description;
-        this.images = images;
-        this.offers = offers;
-        this.user = user;
-        this.appointments = appointments;
-        this.timetable = timetable;
-        this.duration = duration;
     }
 
     public List<Offer> getOffers() {
@@ -189,5 +196,13 @@ public class Property {
 
     public void setImages(List<ImageProperty> images) {
         this.images = images;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 }

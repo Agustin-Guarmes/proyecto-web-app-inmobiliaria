@@ -9,19 +9,17 @@
 
     <main class="container mt-5">
         <div class="row g-4 justify-content-center">
-            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-
-                <div class="card p-1" th:each="property : ${properties}">
-                    <div class="position-relative">
-                        <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top"
+                <div class="card col-12 col-sm-6 col-lg-4 col-xl-3 m-3 p-1" th:each="property : ${properties}">
+                    <div class="position-relative" style="height:250px">
+                        <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top h-100"
                              alt="Imagen del inmueble">
-                        <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
+                        <span class="badge bg-success position-absolute top-0 end-0" th:text="${property.status.name()} == 'FOR_SALE' ? 'En venta' : 'En Alquiler'"></span>
                         <i th:class="${#lists.isEmpty(property.offers)} ? 'd-none' : 'fa-solid fa-bell text-primary position-absolute start-0'"></i>
                     </div>
                     <div class="card-body pt-1">
 
                         <h5 class="card-title" th:text="${property.address}"></h5>
-                        <h6 class="card-subtitle mb-2 text-muted" th:text="${property.location}"></h6>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="${property.location} + ' - ' + ${property.province}"></h6>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex flex-direcction-row align-items-center">
                                 <i class="fas fa-bed me-2"></i>
@@ -70,9 +68,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
         </div>
     </main>
     <div class="logo">

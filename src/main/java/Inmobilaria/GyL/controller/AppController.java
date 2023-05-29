@@ -11,7 +11,7 @@ public class AppController {
 
     @GetMapping("/")
     public String index(ModelMap model) {
-        model.put("title", " | Inicio");
+        model.put("title", "MrHouse | Inicio");
         return "index.html";
     }
 }

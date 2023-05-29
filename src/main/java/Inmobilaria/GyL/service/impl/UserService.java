@@ -140,31 +140,11 @@ public class UserService implements UserDetailsService {
         }
     }
 
-
-    /*EntityAdmin Services*/
-    @Transactional
-    public void adminModifyRole(Long id, String role) {
-
-        Optional<User> response = userRepository.findById(id);
-
-        User user = response.get();
-
-        switch (role) {
-            case "cliente":
-                user.setRole(Role.CLIENT);
-                break;
-            case "propietario":
-                user.setRole(Role.ENTITY);
-                break;
-            case "admin":
-                user.setRole(Role.ADMIN);
-                break;
-            default:
-                user.setRole(Role.CLIENT);
-        }
-        userRepository.save(user);
+    public User findByDNI(Long dni){
+       return userRepository.findByDni(dni);
     }
 
+    /*EntityAdmin Services*/
     @Transactional
     public void adminDeleteUser(Long id) {
         userRepository.deleteById(id);
@@ -174,12 +154,45 @@ public class UserService implements UserDetailsService {
         return userRepository.findByName(word);
     }
 
+    @Transactional
+    public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status){
+        Optional<User> response = userRepository.findById(id);
+
+        System.out.println(status + "    Estoy en el adminModifyUser" + id);
+
+        if(response.isPresent()){
+            User user = response.get();
+
+            user.setName(name);
+            user.setDni(dni);
+            user.setEmail(email);
+
+            if(status == "true" ){ user.setStatus(true); } else { user.setStatus(false); }
+
+            switch (role) {
+                case "cliente":
+                    user.setRole(Role.CLIENT);
+                    break;
+                case "propietario":
+                    user.setRole(Role.ENTITY);
+                    break;
+                case "admin":
+                    user.setRole(Role.ADMIN);
+                    break;
+                default:
+                    user.setRole(Role.CLIENT);
+            }
+            userRepository.save(user);
+        }
+
+    }
+
     /*End admin*/
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
 
-        if (user != null) {
+        if (user != null && user.isStatus() == false) {
 
             List<GrantedAuthority> permissions = new ArrayList();
 
@@ -196,6 +209,9 @@ public class UserService implements UserDetailsService {
             return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), permissions);
 
         } else {
+
+            /*Debo mandarlo a la vista*/
+            System.out.println("Esta cuenta fue bloqueda hasta nuevo aviso");
             return null;
         }
     }

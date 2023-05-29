@@ -4,7 +4,6 @@
 
 <body onload="loadTheme()">
 
-
 <div class="d-flex flex-column min-vh-100">
     <nav th:replace="/fragments/nav :: nav"></nav>
 
@@ -24,11 +23,28 @@
                                     <input type="text" class="form-control" name="address" id="name"
                                            th:value="${property.address}" required>
                                 </div>
+<!--                                <div class="mb-3">-->
+<!--                                    <label for="location" class="form-label">Localidad | Provincia</label>-->
+<!--                                    <input type="text" class="form-control" name="location" id="location"-->
+<!--                                           th:value="${property.location}" required>-->
+<!--                                </div>-->
+<!--principio-->
                                 <div class="mb-3">
-                                    <label for="location" class="form-label">Localidad | Provincia</label>
-                                    <input type="text" class="form-control" name="location" id="location"
-                                           th:value="${property.location}" required>
+                                    <label for="selectProvincias" class="form-label">Provincia</label>
+                                    <select name="province" id="selectProvincias" class="form-select" required>
+                                        <option  th:value="${property.province}" th:text="${property.province}" selected></option>
+                                    </select>
                                 </div>
+                                <span></span>
+
+                                <div class="mb-3">
+                                    <label for="selectLocalidades" class="form-label">Localidad</label>
+                                    <select name="location" id="selectLocalidades" class="form-select" required>
+                                        <option th:value="${property.location}" th:text="${property.location}" selected></option>
+                                    </select>
+                                </div>
+                                <span></span>
+<!--                         fin      -->
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Estado</label>
                                     <select name="status" id="status" class="form-select" required>
@@ -84,14 +100,14 @@
                             <hr>
 
                             <div class="card-header text-center">
-                                <h5 class="card-title mt-1">Editar propiedad</h5>
+                                <h5 class="card-title mt-1">Editar imagenes de propiedad</h5>
                             </div>
 
-                            <div class="propertyCardDetailImgSmall">
+                            <div class="propertyCardDetailImgSmall pe-2 ps-2 mt-3">
                                 <div class="row">
-                                    <div class="col" th:each="image : ${property.images}">
-                                        <img class="img-fluid" th:src="@{/image/propiedades/__${image.id}__}">
-                                        <a class="btn-close positon-absolute end-0" aria-label="Close"
+                                    <div class="col col-4 position-relative mb-3 p-0 pe-1 ps-1" th:each="image : ${property.images}">
+                                        <img class="img-fluid w-100 rounded" th:src="@{/image/propiedades/__${image.id}__}" style="height: 150px;">
+                                        <a th:class="${#lists.size(property.images)} > 1 ? 'btn-close btn-close-white me-1 position-absolute top-0 end-0' : 'd-none'" aria-label="Close" style="color: blue;"
                                            th:href="@{/image/eliminar/idImg/{idImg}/idProp/{idProp}(idImg = ${image.id}, idProp = ${property.id})}"></a>
                                     </div>
                                 </div>
@@ -106,7 +122,7 @@
                                            accept="image/*" required>
                                 </div>
                                 <div class="row justify-content-center">
-                                    <div class="col-md-8 col-12 d-grid">
+                                    <div class="col">
                                         <button type="submit" class="btn btn-primary w-100">Subir imagenes</button>
                                     </div>
                                 </div>
@@ -124,6 +140,8 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="/js/registerProperty.js"></script>
+<script src="/js/theme.js"></script>
 </body>
 
 

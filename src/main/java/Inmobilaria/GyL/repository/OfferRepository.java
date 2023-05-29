@@ -17,4 +17,10 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
 
     @Query("SELECT o FROM Offer o WHERE o.property.id = ?1")
     List<Offer> findByProperty(Long id);
+
+    @Query("SELECT o FROM Offer o WHERE o.user.id = ?2 AND o.property.id = ?1 AND (o.offerStatus = 'CLIENT_OFFER' OR o.offerStatus ='ENTITY_ACCEPTED' OR o.offerStatus = 'CLIENT_ACCEPTED') ")
+    List<Offer> findActiveOfferByUserAndProperty(Long propertyId, Long userId);
+
+    @Query("SELECT o FROM Offer o WHERE o.property.id = ?1 AND (o.offerStatus = 'CLIENT_OFFER' OR o.offerStatus = 'ENTITY_ACCEPTED')")
+    List<Offer> setInactive(Long id);
 }

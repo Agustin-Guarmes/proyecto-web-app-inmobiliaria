@@ -22,12 +22,13 @@ public class AdminController {
         this.iImageService = iImageService;
     }
 
-    @GetMapping("/listaUsuarios")
+    @GetMapping("/")
     public String listUsers(ModelMap model) {
 
         List<User> users = userService.listUsers();
 
         model.put("users", users);
+        model.put("title", "MrHouse | ADMIN");
 
         return "into.html";
     }
@@ -38,35 +39,34 @@ public class AdminController {
         List<User> users = userService.findByName(word);
 
         model.put("users", users);
+        model.put("title", "MrHouse | Usuarios");
 
         return "into.html";
     }
 
-    @PostMapping("/cambiarRol/{id}")
-    public String modifyRole(@RequestParam String role, @PathVariable Long id) {
-        System.out.println(id);
-
-        userService.adminModifyRole(id, role);
-
-        return "redirect:/admin/listaUsuarios";
+    @PostMapping("/modificarUsuario")
+    public String modifyUser(@RequestParam Long id,@RequestParam String role ,@RequestParam String name,@RequestParam Long dni,@RequestParam String email,@RequestParam String status) {
+        System.out.println(status + " VALGO ESTO!!");
+        userService.adminModifyUser(id,name,dni,role,email,status);
+        return "redirect:/admin/";
     }
 
     @GetMapping("/eliminar/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.adminDeleteUser(id);
-        return "redirect:/admin/listaUsuarios";
+        return "redirect:/admin/";
     }
 
 
     @GetMapping("/crearImg")
-    public String adminViewImg(){
+    public String adminViewImg(ModelMap model){
+        model.put("title", "MrHouse | Usuarios");
         return "adminCreateImg";
     }
 
     @PostMapping("/creaImg")
     public String adminCreateIcon(MultipartFile icon) throws Exception {
         iImageService.submitImg(icon);
-
         return "redirect:/admin/crearImg";
     }
 
