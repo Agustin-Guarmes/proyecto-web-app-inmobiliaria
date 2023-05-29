@@ -69,7 +69,6 @@ public class OfferService implements IOfferService {
 
     @Override
     public void createOffer(Long propertyId, Long clientId) {
-        /* Validar si el usuario que esta realizando la oferta sobre esta propiedad, tiene ofertas inactivas o rechazadas por el propietario. */
         List<Offer> validOffers = offerRepository.findActiveOfferByUserAndProperty(propertyId, clientId);
         if (validOffers.isEmpty()) {
             Property property = propertyService.findById(propertyId);

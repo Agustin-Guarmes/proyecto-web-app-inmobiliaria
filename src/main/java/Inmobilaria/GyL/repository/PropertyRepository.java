@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
@@ -53,4 +54,6 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("SELECT d FROM DayPlan d WHERE d.property.id = ?1")
     List<DayPlan> findAllTimetableByProperty(Long id);
 
+    @Query("SELECT p FROM Property p WHERE p.user.name like :word%")
+    List<Property> findByUserName(@Param("word") String word);
 }

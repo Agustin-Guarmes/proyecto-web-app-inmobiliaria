@@ -37,4 +37,6 @@ public interface IPropertyService {
     public List<Property> listProperties();
 
     void rentProperty(Property property);
+    
+    List<Property> findByUserName(String word);
 }

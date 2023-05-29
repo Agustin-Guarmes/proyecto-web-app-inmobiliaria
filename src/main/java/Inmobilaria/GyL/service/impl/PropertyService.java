@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -75,6 +77,12 @@ public class PropertyService implements IPropertyService {
         return pr.findAllEntity();
     }
 
+    public List<Property> listRandomProperties() {
+        List<Property> randomProperties = pr.findAllEntity();
+        Collections.shuffle(randomProperties);
+        return randomProperties.stream().limit(4).collect(Collectors.toList());
+    }
+
     @Override
     public void rentProperty(Property property) {
         property.setRented(true);
@@ -131,4 +139,8 @@ public class PropertyService implements IPropertyService {
         }
     }
 
+    @Override
+    public List<Property> findByUserName(String word) {
+        return pr.findByUserName(word);
+    }
 }
