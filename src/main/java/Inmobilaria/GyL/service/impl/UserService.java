@@ -3,7 +3,7 @@ package Inmobilaria.GyL.service.impl;
 import Inmobilaria.GyL.entity.ImageUser;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.Role;
-import Inmobilaria.GyL.exceptions.MyException;
+import Inmobilaria.GyL.exception.AlreadyExistsException;
 import Inmobilaria.GyL.repository.UserRepository;
 import Inmobilaria.GyL.service.IImageService;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,10 +36,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws MyException, Exception {
+    public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws AlreadyExistsException, Exception {
         User userFound = userRepository.findByDni(dni);
         if (userFound != null) {
-            throw new MyException("Hay un usuario registrado con el DNI ingresado.");
+            throw new AlreadyExistsException("Hay un usuario registrado con el DNI ingresado.");
         }
         User user = new User();
 
