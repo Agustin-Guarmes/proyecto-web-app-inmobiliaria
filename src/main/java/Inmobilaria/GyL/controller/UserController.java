@@ -1,6 +1,7 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.exceptions.MyException;
 import Inmobilaria.GyL.service.IPropertyService;
 import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,13 +33,13 @@ public class UserController {
     }
 
     @PostMapping("/registrar")
-    public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon) {
+    public String registered(@RequestParam String email, @RequestParam String password, @RequestParam String name, @RequestParam Long dni, @RequestParam String role, MultipartFile icon,ModelMap model) throws Exception {
         try {
             userService.createUser(email, password, name, dni, role, icon);
             return "redirect:/usuario/iniciarSesion";
-        } catch (Exception ex) {
-            ex.getMessage();
-            return "redirect:/usuario/registrase";
+        } catch (MyException ex) {
+            model.put("dniRegistrado", ex.getMessage());
+            return "register.html";
         }
     }
 
@@ -108,11 +109,11 @@ public class UserController {
         return "enteManagement.html";
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
-//    @GetMapping("/contraseña/{id}")
-//    public String modifyPassword(@PathVariable Long id) {
-//        return "resetPassword.html";
-//    }
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
+    @GetMapping("/contraseña/{id}")
+    public String modifyPassword(@PathVariable Long id) {
+        return "resetPassword.html";
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @PostMapping("/contraseña/{id}")
