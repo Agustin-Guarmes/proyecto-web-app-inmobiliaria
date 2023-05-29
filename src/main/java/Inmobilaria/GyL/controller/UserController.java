@@ -1,7 +1,7 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
-import Inmobilaria.GyL.exceptions.MyException;
+import Inmobilaria.GyL.exception.AlreadyExistsException;
 import Inmobilaria.GyL.service.IPropertyService;
 import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +37,7 @@ public class UserController {
         try {
             userService.createUser(email, password, name, dni, role, icon);
             return "redirect:/usuario/iniciarSesion";
-        } catch (MyException ex) {
+        } catch (AlreadyExistsException ex) {
             model.put("dniRegistrado", ex.getMessage());
             return "register.html";
         }
