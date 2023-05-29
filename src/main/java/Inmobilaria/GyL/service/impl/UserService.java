@@ -1,16 +1,11 @@
-package Inmobilaria.GyL.service;
+package Inmobilaria.GyL.service.impl;
 
 import Inmobilaria.GyL.entity.ImageUser;
-import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.enums.Role;
+import Inmobilaria.GyL.repository.ImageRepository;
 import Inmobilaria.GyL.repository.UserRepository;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import Inmobilaria.GyL.service.IImageService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,14 +17,23 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final IImageService imageService;
 
-    @Autowired
-    private ImageService imageService;
+    public UserService(UserRepository userRepository, IImageService imageService) {
+        this.userRepository = userRepository;
+        this.imageService = imageService;
+    }
 
     @Transactional
     public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws Exception {
@@ -40,9 +44,8 @@ public class UserService implements UserDetailsService {
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setCreateDate(new Date());
         user.setName(name);
-        
+
         /*user.setRole(Role.valueOf(name));*/
-        
         switch (role) {
             case "cliente":
                 user.setRole(Role.CLIENT);
@@ -53,13 +56,19 @@ public class UserService implements UserDetailsService {
             default:
                 user.setRole(Role.CLIENT);
         }
-        
-        
+        ImageUser image;
         user.setDni(dni);
+        if(icon.getSize() != 0){
+            image = imageService.submitImg(icon);
+        } else {
+            if(role.equals("cliente") ){
+                image = imageService.findById("cliente");
+            } else {
+                image = imageService.findById("propietario");
+            }
+        }
 
-        ImageUser image = imageService.submitImg(icon);
         user.setIcon(image);
-
         userRepository.save(user);
     }
 
@@ -74,6 +83,21 @@ public class UserService implements UserDetailsService {
         return users;
     }
 
+    public void modifyUserPassword(Long id, String password, String newPassword) {
+
+        if (!password.equalsIgnoreCase(newPassword)) {
+            Optional<User> response = userRepository.findById(id);
+            if (response.isPresent()) {
+
+                User user = response.get();
+
+                user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+
+                userRepository.save(user);
+            }
+        }
+    }
+
     @Transactional
     public void modifyUser(Long id, String name, String password, MultipartFile icon) {
 
@@ -82,7 +106,7 @@ public class UserService implements UserDetailsService {
 
             User user = response.get();
 
-            if(new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+            if (new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 
                 user.setName(name);
 
@@ -108,7 +132,7 @@ public class UserService implements UserDetailsService {
 
             User user = response.get();
 
-            if(new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+            if (new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 
                 user.setName(name);
                 userRepository.save(user);
@@ -116,16 +140,59 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public User findByDNI(Long dni){
+       return userRepository.findByDni(dni);
+    }
+
+    /*EntityAdmin Services*/
     @Transactional
-    public void deleteUser(Long id) {
+    public void adminDeleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
+    public List<User> findByName(String word) {
+        return userRepository.findByName(word);
+    }
+
+    @Transactional
+    public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status){
+        Optional<User> response = userRepository.findById(id);
+
+        System.out.println(status + "    Estoy en el adminModifyUser" + id);
+
+        if(response.isPresent()){
+            User user = response.get();
+
+            user.setName(name);
+            user.setDni(dni);
+            user.setEmail(email);
+
+            if(status == "true" ){ user.setStatus(true); } else { user.setStatus(false); }
+
+            switch (role) {
+                case "cliente":
+                    user.setRole(Role.CLIENT);
+                    break;
+                case "propietario":
+                    user.setRole(Role.ENTITY);
+                    break;
+                case "admin":
+                    user.setRole(Role.ADMIN);
+                    break;
+                default:
+                    user.setRole(Role.CLIENT);
+            }
+            userRepository.save(user);
+        }
+
+    }
+
+    /*End admin*/
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
 
-        if (user != null) {
+        if (user != null && user.isStatus() == false) {
 
             List<GrantedAuthority> permissions = new ArrayList();
 
@@ -142,7 +209,12 @@ public class UserService implements UserDetailsService {
             return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), permissions);
 
         } else {
+
+            /*Debo mandarlo a la vista*/
+            System.out.println("Esta cuenta fue bloqueda hasta nuevo aviso");
             return null;
         }
     }
+
+
 }

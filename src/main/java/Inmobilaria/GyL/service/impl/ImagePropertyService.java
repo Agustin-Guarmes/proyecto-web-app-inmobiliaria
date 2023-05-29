@@ -3,6 +3,7 @@ package Inmobilaria.GyL.service.impl;
 import Inmobilaria.GyL.entity.ImageProperty;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.repository.ImagePropertyRepository;
+import Inmobilaria.GyL.service.IImagePropertyService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Service
-public class ImagePropertyService {
+public class ImagePropertyService implements IImagePropertyService {
 
     private final ImagePropertyRepository ipr;
 
@@ -18,6 +19,7 @@ public class ImagePropertyService {
         this.ipr = ipr;
     }
 
+    @Override
     public void saveImg(MultipartFile file, Property property) throws IOException {
         if (!file.isEmpty()) {
             try {
@@ -33,6 +35,7 @@ public class ImagePropertyService {
         }
     }
 
+    @Override
     public ImageProperty updateImg(MultipartFile file, String id) {
         if (!file.isEmpty()) {
             try {
@@ -52,15 +55,18 @@ public class ImagePropertyService {
         return null;
     }
 
+    @Override
     public ImageProperty findById(String id) {
         return ipr.findById(id).get();
     }
 
+    @Override
     public byte[] imgToBite(String id) {
         return ipr.findById(id).get().getContainer();
     }
 
-    public void deleteById(String id){
+    @Override
+    public void deleteById(String id) {
         ipr.deleteById(id);
     }
 }

@@ -1,6 +1,7 @@
 package Inmobilaria.GyL.repository;
 
 import Inmobilaria.GyL.entity.Appointment;
+import Inmobilaria.GyL.entity.DayPlan;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
@@ -9,12 +10,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
+    @Query("SELECT DISTINCT p FROM Property p INNER JOIN p.offers po WHERE po.property.user.id = ?1 OR (po.property.status ='FOR_RENT' AND po.user.id = ?1 AND po.offerStatus = 'CLIENT_ACCEPTED' AND po.property.isRented = true)")
+    List<Property> clientProperties(Long id);
+
+    @Query("SELECT p FROM Property p WHERE p.user.role = 'ENTITY' AND p.isRented = false")
+    List<Property> findAllEntity();
+
+    @Query("SELECT p FROM Property p WHERE p.user.id != ?1 AND p.isRented = false and p.user.role = 'ENTITY'")
+    List<Property> filteredProperties(Long id);
+
     @Query("SELECT p FROM Property p WHERE p.user.id = ?1")
     List<Property> findByUser(Long id);
+
     @Query("SELECT p FROM Property p WHERE p.type = ?1")
     List<Property> findByType(PropertyType type);
 
@@ -38,4 +50,10 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query("SELECT a FROM Appointment a WHERE a.property.id = ?1")
     List<Appointment> findAllAppointmentsByProperty(Long id);
+
+    @Query("SELECT d FROM DayPlan d WHERE d.property.id = ?1")
+    List<DayPlan> findAllTimetableByProperty(Long id);
+
+    @Query("SELECT p FROM Property p WHERE p.user.name like :word%")
+    List<Property> findByUserName(@Param("word") String word);
 }

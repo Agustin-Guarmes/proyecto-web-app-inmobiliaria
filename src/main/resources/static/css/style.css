@@ -1,4 +1,7 @@
 /* NAVBAR */
+*{
+    font-family: "Montse";
+}
 
 .navbar-logo{
     display: inline-block;
@@ -14,7 +17,6 @@
 /* NOTICIAS */
 
 .news-section {
-    background-color: #f8f8f8;
     text-align: center;
 }
   
@@ -158,3 +160,14 @@
     justify-content:center
 }
 
+/* img */
+
+.img_into {
+    width: 40px;
+    height: 40px;
+}
+
+.img_profile {
+    width: 200px;
+    height: 200px;
+}

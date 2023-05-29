@@ -1,253 +1,214 @@
 <!DOCTYPE html>
-<html lang="es-AR">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" type="text/css">
-        <link rel="stylesheet" href="/css/style.css" type="text/css">
-        <link rel="stylesheet" href="/css/style_properties.css" type="text/css">
-        <link rel="stylesheet" href="/css/style_header.css" type="text/css">
-        <link rel="icon" type="image/ico" href="/img/logo.svg">
-        <title>MrHouse</title>
-    </head>
-    <body>
-        <nav th:replace = "/fragments/nav :: nav"></nav>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/fragments/head :: head"></head>
+<body onload="loadTheme()">
+<nav th:replace="/fragments/nav :: nav"></nav>
 
+<main class="container1">
+    <div class="video_container">
+        <video src="/videos/Ciudad-1.m4v" autoplay muted loop></video>
+    </div>
 
-        <!-- Modal de Inicio de sesión -->
-        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="imagen">
+        <img class="img" src="/img/Logo-Proyecto.svg" alt="Mr House_logo">
+    </div>
+    <div class="main_container">
+        <h2>Mr House</h2>
+        <p>"Encuentra tu lugar en el mundo"</p>
+        <a th:href="@{/propiedades/lista}">Comienza Aqui</a>
+    </div>
+</main>
+
+<section>
+    <div class="container mt-5">
+        <h2>Inmuebles más recientes</h2>
+
+        <div class="row g-4">
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="position-relative">
+                        <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
+                        <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
                     </div>
-                    <div class="modal-body">
-                        <form th:action="@{/logincheck}" method="POST">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Ingrese su email">
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="Ingrese su contraseña">
-                            </div>
-                            <div class="d-grid gap-2 col-lg-6 col-12 mx-auto">
-                                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                            </div>
-                            <div class="">
-                                <button class="btn btn-link m-0 ps-0" data-bs-toggle="modal"
-                                        data-bs-target="#resetPasswordModal" data-bs-dismiss="modal">¿Has olvidado la
-                                    contraseña?</button>
-                            </div>
-                            <div>
-                                <button class="btn btn-outline-secondary m-0" data-bs-toggle="modal"
-                                        data-bs-target="#registerModal" data-bs-dismiss="modal">Crear cuenta nueva</button>
-                            </div>
-                        </form>
+                    <div class="card-body pt-1">
+                        <h5 class="card-title">Nombre del Inmueble</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
+                        <p class="card-text">Descripción detallada del inmueble. Puedes incluir información como el
+                            número de habitaciones, baños, área total, características especiales, etc.</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="fas fa-bed me-2"></i>
+                                Habitaciones: X
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-bath me-2"></i>
+                                Baños: X
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-chart-area me-2"></i>
+                                Área Total: X m²
+                            </li>
+                        </ul>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal de Registro -->
-        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="registerModalLabel">Registrarse</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form th:action="@{/usuario/registrar}" method="POST" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre">
-                            </div>
-                            <div class="mb-3">
-                                <label for="number" class="form-label">DNI</label>
-                                <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su dni">
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Correo electrónico</label>
-                                <input type="email" class="form-control" name="email" id="email"
-                                       placeholder="Ingrese su correo electrónico">
-                            </div>
-                            <div class="mb-3">
-                                <select name="role">
-                                    <option hidden selected>Elegir tipo de usuario</option>
-                                    <option value="cliente">Cliente</option>
-                                    <option value="propietario">Propietario</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <input type="file" class="form-control" id="icon" name="icon" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" name="password" id="password"
-                                       placeholder="Ingrese una contraseña">
-                            </div>
-
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Registrarse</button>
-                            </div>
-                            <div>
-                                <p class="m-0 p-0">
-                                    ¿Ya tienes una cuenta?
-                                    <button class="btn btn-link m-0 p-0" data-bs-toggle="modal" data-bs-target="#loginModal"
-                                            data-bs-dismiss="modal">Iniciar sesión</button>
-                                </p>
-                            </div>
-                        </form>
+                    <div class="card-footer text-muted">
+                        Precio: $X.XXX.XXX
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Modal de Restablecer Contraseña -->
-        <div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="resetPasswordModalLabel">Restablecer contraseña</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="position-relative">
+                        <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
+                        <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
                     </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Correo electrónico</label>
-                                <input type="email" class="form-control" id="email"
-                                       placeholder="Ingrese su correo electrónico">
-                            </div>
-
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Restablecer contraseña</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <main class="container1">
-            <div class="video_container">
-                <video src="/videos/Ciudad-1.m4v" autoplay muted loop></video>
-            </div>
-            <div class="overlay">
-            </div>
-            <div class="imagen">
-                <img class="img" src="/img/Logo-Proyecto.svg" alt="Mr House_logo">
-            </div>
-
-            <div class="main_container">
-                <h2>Mr House</h2>
-                <p>"Encuentra tu lugar en el mundo"</p>
-                <a th:href="@{/usuario/propiedades}" target="_blank">Comienza Aqui</a>
-            </div>
-        </main>
-
-
-        <section>
-            <div class="container mt-5">
-                <h2>Inmuebles más recientes</h2>
-                <div class="row gx-5 mt-4">
-                    <div class="col-md-6 col-lg-4 d-flex">
-                        <div class="item">
-                            <img src="/img/Venta-1.jpeg" alt="Imagen del inmueble 1">
-                            <p> <strong> <u>Av Flores 2486 - Wilde</u> </strong> </p>
-                            <p>
-                                🏡 Ambiente con mucha luz, con piso de porcelanato, cocina americana. <br>
-                                🛁 Baño completo.<br>
-                                ✔️ Placard y conexión a lavarropas.<br>
-                                📐 39 metros cuadrados totales. Distribución que habilita espacio para escritorio con luz
-                                natural.<br>
-                                🏢 Edificio de 6 años de antigüedad, SUM en primer piso y terraza de uso común.
-                            </p>
+                    <div class="card-body pt-1">
+                        <div class="text-center mb-1">
                         </div>
+                        <h5 class="card-title">Nombre del Inmueble</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
+                        <p class="card-text">Descripción detallada del inmueble. Puedes incluir información como el
+                            número de habitaciones, baños, área total, características especiales, etc.</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="fas fa-bed me-2"></i>
+                                Habitaciones: X
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-bath me-2"></i>
+                                Baños: X
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-chart-area me-2"></i>
+                                Área Total: X m²
+                            </li>
+                        </ul>
                     </div>
-
-                    <div class="col-md-6 col-lg-4 d-flex">
-                        <div class="item">
-                            <img src="/img/Venta-2.jpg" alt="Imagen del inmueble 2">
-                            <p> <strong> <u>Misiones 1734 - Caballito</u> </strong> </p>
-                            <p>
-                                🏡 Ambientes con mucha luz, balcón amplio con vista abierta al contrafrente.<br>
-                                🛁 Baño completo. <br>
-                                ✔️ Cocina completa con conexión de lavarropas.<br>
-                                📐 52,87 m² totales.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 d-flex">
-                        <div class="item">
-                            <img src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble 3">
-                            <p> <strong> <u>Canadá 9352 - Vicente López</u> </strong> </p>
-                            <p>
-                                🏡 2 dormitorios.<br>
-                                🛁 1 baño completo y toilette.<br>
-                                ✔️ Cocina comedor.<br>
-                                ✅ Balcón al frente, piso alto vista panorámica al amanecer y el atardecer.<br>
-                                📐 46 metros cuadrados totales.<br>
-                                🚗 Cochera fija.
-                            </p>
-                        </div>
+                    <div class="card-footer text-muted">
+                        Precio: $X.XXX.XXX
                     </div>
                 </div>
             </div>
-        </section>
-
-        <section class="news-section py-5">
-            <div class="container">
-                <h2>Últimas noticias</h2>
-                <div class="news-list mt-3">
-                    <div class="news-item">
-                        <img src="https://th.bing.com/th?id=OIP.irRljjdjM0EJUuYQOsmA7gHaFK&w=299&h=208&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
-                             alt="Imagen de la noticia 1">
-                        <h3>Nueva ley de vivienda aprobada</h3>
-                        <p class="news-date">15 de mayo de 2023</p>
-                        <p>Se ha aprobado una nueva ley que promueve el acceso a la vivienda para todos los ciudadanos.</p>
-                        <a href="pagina_principal.html">Leer más</a>
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="position-relative">
+                        <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
+                        <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
                     </div>
-                    <div class="news-item">
-                        <img src="https://th.bing.com/th?id=OIP.Y47Ju6xb2FccWk3r5yFgLgHaE8&w=306&h=204&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
-                             alt="Imagen de la noticia 2">
-                        <h3>Aumento en el mercado inmobiliario</h3>
-                        <p class="news-date">12 de mayo de 2023</p>
-                        <p>Se reporta un incremento en la demanda de propiedades en las zonas urbanas.</p>
-                        <a href="pagina_principal.html">Leer más</a>
+                    <div class="card-body pt-1">
+                        <div class="text-center mb-1">
+                        </div>
+                        <h5 class="card-title">Nombre del Inmueble</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
+                        <p class="card-text">Descripción detallada del inmueble. Puedes incluir información como el
+                            número de habitaciones, baños, área total, características especiales, etc.</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="fas fa-bed me-2"></i>
+                                Habitaciones: X
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-bath me-2"></i>
+                                Baños: X
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-chart-area me-2"></i>
+                                Área Total: X m²
+                            </li>
+                        </ul>
                     </div>
-                    <div class="news-item">
-                        <img src="https://th.bing.com/th?id=OIP.uUce4_qoDUSmrn68AEbJhwHaFF&w=301&h=207&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
-                             alt="Imagen de la noticia 3">
-                        <h3>Aumento en el mercado inmobiliario</h3>
-                        <p class="news-date">12 de mayo de 2023</p>
-                        <p>Se reporta un incremento en la demanda de propiedades en las zonas urbanas.</p>
-                        <a href="pagina_principal.html">Leer más</a>
-                    </div>
-                    <div class="news-item">
-                        <img src="https://th.bing.com/th?id=OIP.WhDfaehFlXHkJ2sOuFwC1QHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"
-                             alt="Imagen de la noticia 4">
-                        <h3>Aumento en el mercado inmobiliario</h3>
-                        <p class="news-date">12 de mayo de 2023</p>
-                        <p>Se reporta un incremento en la demanda de propiedades en las zonas urbanas.</p>
-                        <a href="pagina_principal.html">Leer más</a>
+                    <div class="card-footer text-muted">
+                        Precio: $X.XXX.XXX
                     </div>
                 </div>
             </div>
-        </section>
-        <div class="logo">
-            <img src="/img/logo.png" alt="logo">
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="position-relative">
+                        <img class="card-img-top" src="/img/Alquiler-3.1.jpg" alt="Imagen del inmueble">
+                        <span class="badge bg-success position-absolute top-0 end-0">En Venta</span>
+                    </div>
+                    <div class="card-body pt-1">
+                        <div class="text-center mb-1">
+                        </div>
+                        <h5 class="card-title">Nombre del Inmueble</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Ubicación del Inmueble</h6>
+                        <p class="card-text">Descripción detallada del inmueble. Puedes incluir información como el
+                            número de habitaciones, baños, área total, características especiales, etc.</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="fas fa-bed me-2"></i>
+                                Habitaciones: X
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-bath me-2"></i>
+                                Baños: X
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-chart-area me-2"></i>
+                                Área Total: X m²
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Precio: $X.XXX.XXX
+                    </div>
+                </div>
+            </div>
         </div>
-        <footer th:replace = "/fragments/footer :: footer"></footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    </div>
+</section>
+
+<section class="news-section py-5">
+    <div class="container">
+        <h2>Últimas noticias</h2>
+        <div class="news-list mt-3">
+            <div class="news-item">
+                <!--                        <img src="https://th.bing.com/th?id=OIP.irRljjdjM0EJUuYQOsmA7gHaFK&w=299&h=208&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                <!--                             alt="Imagen de la noticia 1">-->
+                <h3>Reporte Inmobiliario</h3>
+                <!--                        <p class="news-date">15 de mayo de 2023</p>-->
+                <p>Toda la información actualizada y estadísticas exclusivas para todo aquel interesado en invertir en
+                    el mercado inmobiliario.</p>
+                <a href="https://www.reporteinmobiliario.com/">Leer más</a>
+            </div>
+            <div class="news-item">
+                <!--                        <img src="https://th.bing.com/th?id=OIP.Y47Ju6xb2FccWk3r5yFgLgHaE8&w=306&h=204&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                <!--                             alt="Imagen de la noticia 2">-->
+                <h3>Mudarse al Conurbano: cuántos ambientes más se pueden comprar vendiendo un departamento en CABA</h3>
+                <p class="news-date">18 de mayo de 2023</p>
+                <p>Hay opciones de casas con jardín en varios distritos de Provincia con rápidos accesos a la Ciudad de
+                    Buenos Aires. Zonas y precios.</p>
+                <a href="https://www.clarin.com/servicios/mudarse-conurbano-ambientes-pueden-comprar-vendiendo-departamento-caba_0_iusfTsnl1s.html">Leer
+                    más</a>
+            </div>
+            <div class="news-item">
+                <!--                        <img src="https://th.bing.com/th?id=OIP.uUce4_qoDUSmrn68AEbJhwHaFF&w=301&h=207&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                <!--                             alt="Imagen de la noticia 3">-->
+                <h3>La CPCI advierte de la mala ejecución del PRR</h3>
+                <p class="news-date">17 de mayo de 2023</p>
+                <p>La Confederación Portuguesa de la Construcción e Inmobiliaria muestra su preocupación por la actual
+                    actuación de PRR.</p>
+                <a href="https://supercasa.pt/es-es/noticias/cpci-warns-of-weak-rrp-implementation-/n4244">Leer más</a>
+            </div>
+            <div class="news-item">
+                <!--                        <img src="https://th.bing.com/th?id=OIP.WhDfaehFlXHkJ2sOuFwC1QHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2"-->
+                <!--                             alt="Imagen de la noticia 4">-->
+                <h3>Properati</h3>
+                <!--                        <p class="news-date">12 de mayo de 2023</p>-->
+                <p>Datos, análisis y consejos sobre ciudades y el mercado inmobiliario</p>
+                <a href="https://blog.properati.com.ar/">Leer más</a>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="logo">
+    <img src="/img/logo.png" alt="logo">
+</div>
+<footer th:replace="/fragments/footer :: footer"></footer>
+<script src="/js/theme.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    </body>
-</html>
+</body>
 
+</html>

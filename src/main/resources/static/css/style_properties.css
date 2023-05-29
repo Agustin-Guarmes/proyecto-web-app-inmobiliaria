@@ -10,10 +10,6 @@ h1{
     color: black;
 }
 
-body{
-    background: #687fcb;
-}
-
 .container__card{
     max-width: 1200px;
     margin: auto;
@@ -88,15 +84,15 @@ body{
 }
 .overlay {
     background-color: rgba(255, 255, 255, 0.6);
-    height: 95%;
+    height: 100%;
     backdrop-filter: blur(5px);
     position: fixed;
     z-index: -100;
     width: 95%;
     top: 30px;
     left: 35px;
-    border-radius: 20px;
+    border: solid 1px #646470;
+    box-shadow: 10px 10px 30px #646470;
 }
- 
- 
+
 
