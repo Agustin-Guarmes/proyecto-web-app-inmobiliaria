@@ -131,4 +131,8 @@ public class PropertyService implements IPropertyService {
         }
     }
 
+    @Override
+    public List<Property> findByUserName(String word){
+        return pr.findByUserName(word);
+    }
 }

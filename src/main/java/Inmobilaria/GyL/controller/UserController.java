@@ -108,11 +108,11 @@ public class UserController {
         return "enteManagement.html";
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
-//    @GetMapping("/contraseña/{id}")
-//    public String modifyPassword(@PathVariable Long id) {
-//        return "resetPassword.html";
-//    }
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
+    @GetMapping("/contraseña/{id}")
+    public String modifyPassword(@PathVariable Long id) {
+        return "resetPassword.html";
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @PostMapping("/contraseña/{id}")
