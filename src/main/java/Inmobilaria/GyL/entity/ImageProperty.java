@@ -35,10 +35,6 @@ public class ImageProperty {
         this.id = id;
     }
 
-    public String getMime() {
-        return mime;
-    }
-
     public void setMime(String mime) {
         this.mime = mime;
     }

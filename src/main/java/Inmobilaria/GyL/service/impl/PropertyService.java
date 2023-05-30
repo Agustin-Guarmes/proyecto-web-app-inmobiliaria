@@ -12,7 +12,6 @@ import Inmobilaria.GyL.service.IPropertyService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Collections;
@@ -158,7 +157,12 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
-    public List<Property> findAll(){
+    public List<Property> findAll() {
         return pr.findAll();
+    }
+
+    @Override
+    public void setPropertyState(Property p) {
+        pr.save(p);
     }
 }

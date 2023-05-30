@@ -161,43 +161,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByName(word);
     }
 
-    @Transactional
-    public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status) {
-        Optional<User> response = userRepository.findById(id);
-
-        System.out.println(status + "    Estoy en el adminModifyUser   " + id);
-
-        if (response.isPresent()) {
-            User user = response.get();
-
-            user.setName(name);
-            user.setDni(dni);
-            user.setEmail(email);
-
-            if (status.equals("false")) {
-                user.setActive(false);
-            } else {
-                user.setActive(true);
-            }
-
-            switch (role) {
-                case "cliente":
-                    user.setRole(Role.CLIENT);
-                    break;
-                case "propietario":
-                    user.setRole(Role.ENTITY);
-                    break;
-                case "admin":
-                    user.setRole(Role.ADMIN);
-                    break;
-                default:
-                    user.setRole(Role.CLIENT);
-            }
-            userRepository.save(user);
-        }
-
-    }
-
     /*End admin*/
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -220,12 +183,17 @@ public class UserService implements UserDetailsService {
             return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), permissions);
 
         } else {
-
             /*Debo mandarlo a la vista*/
-            System.out.println("Esta cuenta fue bloqueda hasta nuevo aviso");
             return null;
         }
     }
 
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
 
+    @Transactional
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
 }

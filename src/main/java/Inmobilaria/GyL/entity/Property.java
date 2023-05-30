@@ -53,6 +53,7 @@ public class Property {
     private List<DayPlan> timetable;
     private boolean isRented;
     private boolean isActive;
+    private Integer duration;
 
     public Property() {
     }
@@ -86,15 +87,9 @@ public class Property {
         isActive = active;
     }
 
-    public boolean isRented() {
-        return isRented;
-    }
-
     public void setRented(boolean rented) {
         isRented = rented;
     }
-
-    private Integer duration;
 
     public Integer getDuration() {
         return duration;
@@ -132,10 +127,6 @@ public class Property {
         return offers;
     }
 
-    public void setOffers(List<Offer> offers) {
-        this.offers = offers;
-    }
-
     public Long getId() {
         return id;
     }
@@ -162,10 +153,6 @@ public class Property {
 
     public void setStatus(PropertyStatus status) {
         this.status = status;
-    }
-
-    public LocalDate getCreateDate() {
-        return createDate;
     }
 
     public PropertyType getType() {
@@ -198,14 +185,6 @@ public class Property {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<ImageProperty> getImages() {
-        return images;
-    }
-
-    public void setImages(List<ImageProperty> images) {
-        this.images = images;
     }
 
     public String getProvince() {

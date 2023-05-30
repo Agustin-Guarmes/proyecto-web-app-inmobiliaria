@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @Controller
@@ -52,7 +53,7 @@ public class AdminController {
                     model.put("properties", iPropertyService.findByUser(user.getId()));
                     model.put("users", user);
                 }
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 model.put("title", "MrHouse | Busqueda");
                 return "into.html";
             }
@@ -63,19 +64,13 @@ public class AdminController {
 
     @PostMapping("/modificarUsuario")
     public String modifyUser(@RequestParam Long id, @RequestParam String role, @RequestParam String name, @RequestParam Long dni, @RequestParam String email, @RequestParam String status) {
-        userService.adminModifyUser(id, name, dni, role, email, status);
+        iOfferService.adminModifyUser(id, name, dni, role, email, status);
         return "redirect:/admin/";
     }
 
     @PostMapping("/modificarPropiedad")
     public String modifyProperty(@RequestParam Long id, @RequestParam String status) {
-        boolean isActive;
-        if(status.equals("true")){
-            isActive = true;
-        } else {
-            isActive = false;
-        }
-        iOfferService.toggleActivePropertyAndOffers(id,isActive);
+        iOfferService.toggleActivePropertyAndOffers(id, Boolean.valueOf(status));
         return "redirect:/admin/";
     }
 

@@ -24,7 +24,4 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
 
     @Query("SELECT o FROM Offer o WHERE o.property.id = ?1 AND (o.offerStatus = 'CLIENT_OFFER' OR o.offerStatus = 'ENTITY_ACCEPTED')")
     List<Offer> setInactive(Long id);
-    @Modifying(clearAutomatically = true)
-    @Query("UPDATE Offer o SET o.offerStatus = 'INACTIVE_OFFER' WHERE o.property.id = ?1")
-    void deactivatePropertyOffers(Long id);
 }

@@ -25,7 +25,6 @@ public class PropertyController {
 
     @GetMapping("/lista/{id}")
     public String propiedadesFiltradas(@PathVariable Long id,ModelMap model) {
-        System.out.println(id);
         model.put("properties", propertyService.filteredProperties(id));
         model.put("title", "MrHouse | Propiedades");
         return "propertiesTest.html";

@@ -125,10 +125,47 @@ public class OfferService implements IOfferService {
         }
     }
 
-    public void toggleActivePropertyAndOffers(Long id, boolean isActive) {
-        offerRepository.deactivatePropertyOffers(id);
-        propertyService.toggleActiveProperty(id, isActive);
+    public void toggleActivePropertyAndOffers(Long id, boolean status) {
+        Property property = propertyService.findById(id);
+        property.setActive(Boolean.valueOf(status));
+        propertyService.setPropertyState(property);
+        for (Offer offer : property.getOffers()) {
+            offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
+            offerRepository.save(offer);
+        }
     }
 
+    @Override
+    public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status) {
+        Optional<User> response = userService.findById(id);
 
+        if (response.isPresent()) {
+            User user = response.get();
+
+            user.setName(name);
+            user.setDni(dni);
+            user.setEmail(email);
+
+            if(user.isActive() != Boolean.valueOf(status)){
+                for (Property property : user.getProperties()) {
+                    toggleActivePropertyAndOffers(property.getId(), Boolean.valueOf(status));
+                }
+            }
+
+            user.setActive(Boolean.valueOf(status));
+
+            switch (role) {
+                case "propietario":
+                    user.setRole(Role.ENTITY);
+                    break;
+                case "admin":
+                    user.setRole(Role.ADMIN);
+                    break;
+                default:
+                    user.setRole(Role.CLIENT);
+            }
+            userService.updateUser(user);
+
+        }
+    }
 }

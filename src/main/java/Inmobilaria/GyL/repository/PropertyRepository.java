@@ -51,7 +51,10 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     List<Property> findByStatus(PropertyStatus status);
 
     @Query("SELECT p FROM Property p WHERE p.price <= ?1")
-    List<Property> findByPrice(Integer surface);
+    List<Property> findByPrice(Integer price);
+
+    @Query("SELECT p FROM Property p WHERE p.price BETWEEN ?1 AND ?2")
+    List<Property> findByPriceBetween(Integer low, Integer high);
 
     @Query("SELECT a FROM Appointment a WHERE a.property.id = ?1")
     List<Appointment> findAllAppointmentsByProperty(Long id);
