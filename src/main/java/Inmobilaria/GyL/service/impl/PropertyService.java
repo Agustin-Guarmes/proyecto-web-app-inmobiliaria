@@ -80,9 +80,11 @@ public class PropertyService implements IPropertyService {
     @Override
     public List<Property> listRandomProperties(Long id) {
         List<Property> randomProperties;
-        if (id.equals("null")) {
+        if (id == null) {
+            System.out.println("dsa" + id);
             randomProperties = pr.findAllEntity();
         } else {
+            System.out.println("asd" + id);
             randomProperties = pr.filteredProperties(id);
         }
         Collections.shuffle(randomProperties);

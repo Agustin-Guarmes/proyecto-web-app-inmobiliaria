@@ -20,9 +20,8 @@ public class AppController {
     }
     
     @GetMapping("/")
-    public String index(ModelMap model,@RequestParam(defaultValue = "null") Long id) {
+    public String index(ModelMap model,@RequestParam(required = false) Long id) {
         List<Property> properties = propertyService.listRandomProperties(id);
-        System.out.println("ESTOY ACAAAAAAAAAAAAAAAAAAAAAAAA" + properties);
         model.put("properties",properties);
         model.put("title", "MrHouse | Inicio");
         return "index.html";
