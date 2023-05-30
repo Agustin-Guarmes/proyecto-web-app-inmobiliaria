@@ -124,4 +124,9 @@ public class OfferService implements IOfferService {
             offer.setOfferStatus(OfferStatus.INACTIVE_OFFER);
         }
     }
+
+    public void toggleActivePropertyAndOffers(Long id, boolean isActive) {
+        propertyService.toggleActiveProperty(id, isActive);
+        offerRepository.deactivatePropertyOffers(id);
+    }
 }

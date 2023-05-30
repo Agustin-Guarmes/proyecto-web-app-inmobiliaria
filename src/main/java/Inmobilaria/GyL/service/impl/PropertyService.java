@@ -37,6 +37,7 @@ public class PropertyService implements IPropertyService {
         property.setUser(user);
         setPropertyAttributes(address, location, province, status, type, surface, price, description, property, bathrooms, bedrooms);
         property.setRented(false);
+        property.setActive(true);
         pr.save(property);
         for (MultipartFile img : imgs) {
             ips.saveImg(img, property);
@@ -149,5 +150,15 @@ public class PropertyService implements IPropertyService {
     @Override
     public List<Property> findByUserName(String word) {
         return pr.findByUserName(word);
+    }
+
+    @Override
+    public void toggleActiveProperty(Long id, boolean isActive) {
+        pr.deactivateProperty(id, isActive);
+    }
+
+    @Override
+    public List<Property> findAll(){
+        return pr.findAll();
     }
 }
