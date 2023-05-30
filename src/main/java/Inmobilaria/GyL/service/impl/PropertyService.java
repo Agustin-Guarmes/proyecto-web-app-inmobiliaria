@@ -80,7 +80,7 @@ public class PropertyService implements IPropertyService {
     public List<Property> listRandomProperties() {
         List<Property> randomProperties = pr.findAllEntity();
         Collections.shuffle(randomProperties);
-        return randomProperties.stream().limit(4).collect(Collectors.toList());
+        return randomProperties.stream().limit(3).collect(Collectors.toList());
     }
 
     @Override

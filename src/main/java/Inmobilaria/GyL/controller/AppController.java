@@ -21,7 +21,6 @@ public class AppController {
     @GetMapping("/")
     public String index(ModelMap model) {
         List<Property> properties = propertyService.listRandomProperties();
-        System.out.println("ESTOY ACAAAAAAAAAAAAAAAAAAAAAAAA" + properties);
         model.put("properties",properties);
         model.put("title", "MrHouse | Inicio");
         return "index.html";

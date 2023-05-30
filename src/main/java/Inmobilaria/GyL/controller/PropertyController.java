@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Controller
 @RequestMapping("/propiedades")
@@ -102,7 +105,11 @@ public class PropertyController {
         return "redirect:/propiedades/modificar/" + propertyId;
     }
 
-
-
+    @GetMapping("/turnos/{id}")
+    public String appointment(@PathVariable Long id, ModelMap model){
+        List<Property> properties = propertyService.findByUser(id);
+        model.put("properties",properties);
+        return "appointmentProperty.html";
+    }
 
 }

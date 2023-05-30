@@ -202,7 +202,7 @@
                                         <div class="row">
                                             <div class='col-sm-12'>
                                                 <div class="form-group">
-                                                    <div id='datepicker'></div>
+                                                    <div id='datetimepicker'></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -218,9 +218,11 @@
     <footer th:replace="/fragments/footer :: footer"></footer>
 </div>
 <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <script src="/js/registerProperty.js"></script>
@@ -229,17 +231,17 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/moment.js"></script>
 <script type="text/javascript" src="/js/fullcalendar.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"
-        integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 
 
 <script>
-    $('#datepicker').datepicker();
-    $('#datepicker').on('changeDate', function() {
-        $('#my_hidden_input').val(
-            $('#datepicker').datepicker('getFormattedDate')
-        );
+    $(function () {
+        $('#datetimepicker').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            locale: 'es',
+            format: 'DD.MM.YYYY'
+        });
     });
 </script>
 </body>
