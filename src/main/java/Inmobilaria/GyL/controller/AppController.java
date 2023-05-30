@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/")
@@ -19,8 +20,8 @@ public class AppController {
     }
     
     @GetMapping("/")
-    public String index(ModelMap model) {
-        List<Property> properties = propertyService.listRandomProperties();
+    public String index(ModelMap model,@RequestParam(defaultValue = "null") Long id) {
+        List<Property> properties = propertyService.listRandomProperties(id);
         System.out.println("ESTOY ACAAAAAAAAAAAAAAAAAAAAAAAA" + properties);
         model.put("properties",properties);
         model.put("title", "MrHouse | Inicio");
