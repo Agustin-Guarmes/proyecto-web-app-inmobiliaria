@@ -6,6 +6,7 @@ import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
