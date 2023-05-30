@@ -18,8 +18,6 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @Controller
 @RequestMapping("/propiedades")
 public class PropertyController {
