@@ -24,10 +24,10 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("UPDATE Property p SET p.isActive = ?2 WHERE p.id = ?1")
     void deactivateProperty(Long id, boolean isActive);
 
-    @Query("SELECT p FROM Property p WHERE p.user.id != ?1 AND p.isRented = false AND p.user.role = 'ENTITY' AND AND p.isActive = true")
+    @Query("SELECT p FROM Property p WHERE p.user.id != ?1 AND p.isRented = false AND p.user.role = 'ENTITY' AND p.isActive = true")
     List<Property> filteredProperties(Long id);
 
-    @Query("SELECT p FROM Property p WHERE p.user.id = ?1 AND AND p.isActive = true")
+    @Query("SELECT p FROM Property p WHERE p.user.id = ?1 AND p.isActive = true")
     List<Property> findByUser(Long id);
 
     @Query("SELECT p FROM Property p WHERE p.type = ?1")
