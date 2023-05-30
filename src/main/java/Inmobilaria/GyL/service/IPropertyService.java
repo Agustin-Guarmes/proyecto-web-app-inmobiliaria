@@ -40,4 +40,8 @@ public interface IPropertyService {
     void rentProperty(Property property);
 
     List<Property> findByUserName(String word);
+
+    void toggleActiveProperty(Long id, boolean isActive);
+
+    List<Property> findAll();
 }

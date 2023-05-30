@@ -52,11 +52,12 @@ public class Property {
     @JsonIgnore
     private List<DayPlan> timetable;
     private boolean isRented;
+    private boolean isActive;
 
     public Property() {
     }
 
-    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration, String province, boolean isRented) {
+    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration, String province, boolean isRented, boolean isActive) {
         this.address = address;
         this.location = location;
         this.status = status;
@@ -74,6 +75,15 @@ public class Property {
         this.duration = duration;
         this.province = province;
         this.isRented = isRented;
+        this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public boolean isRented() {
