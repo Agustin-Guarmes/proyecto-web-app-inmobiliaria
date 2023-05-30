@@ -59,7 +59,6 @@ public class PropertyController {
     public String modifyProperty(@PathVariable Long idUser, @RequestParam Long id, @RequestParam String address, @RequestParam String location, @RequestParam String province,
                                  @RequestParam String status, @RequestParam String type, @RequestParam int surface,
                                  @RequestParam Double price, @RequestParam String description, @RequestParam int bathrooms, @RequestParam int bedrooms) {
-
         propertyService.updateProperty(id, address, location, province, status, type, surface, price, description, bathrooms, bedrooms);
         return "redirect:/usuario/propiedades/" + idUser;
     }

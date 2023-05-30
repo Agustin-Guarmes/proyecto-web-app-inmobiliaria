@@ -12,6 +12,7 @@ import Inmobilaria.GyL.service.IPropertyService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Collections;
@@ -77,8 +78,14 @@ public class PropertyService implements IPropertyService {
         return pr.findAllEntity();
     }
 
-    public List<Property> listRandomProperties() {
-        List<Property> randomProperties = pr.findAllEntity();
+    @Override
+    public List<Property> listRandomProperties(Long id) {
+        List<Property> randomProperties;
+        if (id == 0) {
+            randomProperties = pr.findAllEntity();
+        } else {
+            randomProperties = pr.filteredProperties(Long.valueOf(id));
+        }
         Collections.shuffle(randomProperties);
         return randomProperties.stream().limit(3).collect(Collectors.toList());
     }
