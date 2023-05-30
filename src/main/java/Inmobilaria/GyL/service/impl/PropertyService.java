@@ -86,7 +86,7 @@ public class PropertyService implements IPropertyService {
             randomProperties = pr.filteredProperties(id);
         }
         Collections.shuffle(randomProperties);
-        return randomProperties.stream().limit(4).collect(Collectors.toList());
+        return randomProperties.stream().limit(3).collect(Collectors.toList());
     }
 
     @Override
