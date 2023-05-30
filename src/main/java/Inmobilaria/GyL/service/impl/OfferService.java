@@ -126,7 +126,9 @@ public class OfferService implements IOfferService {
     }
 
     public void toggleActivePropertyAndOffers(Long id, boolean isActive) {
-        propertyService.toggleActiveProperty(id, isActive);
         offerRepository.deactivatePropertyOffers(id);
+        propertyService.toggleActiveProperty(id, isActive);
     }
+
+
 }

@@ -6,6 +6,7 @@ import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,8 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("SELECT p FROM Property p WHERE p.user.role = 'ENTITY' AND p.isRented = false AND p.isActive = true")
     List<Property> findAllEntity();
 
-    @Query("UPDATE Property p SET p.isActive = ?2 WHERE p.id = ?1")
+    @Modifying(clearAutomatically = true)
+    @Query("update Property p set p.isActive = ?2 where p.id = ?1")
     void deactivateProperty(Long id, boolean isActive);
 
     @Query("SELECT p FROM Property p WHERE p.user.id != ?1 AND p.isRented = false AND p.user.role = 'ENTITY' AND p.isActive = true")

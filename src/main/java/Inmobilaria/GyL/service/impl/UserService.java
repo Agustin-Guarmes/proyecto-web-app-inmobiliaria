@@ -37,17 +37,21 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws AlreadyExistsException, Exception {
-        User userFound = userRepository.findByDni(dni);
-        if (userFound != null) {
+        User userFoundByDni = userRepository.findByDni(dni);
+        User userFoundByEmail = userRepository.findByEmail(email);
+        if (userFoundByDni != null) {
             throw new AlreadyExistsException("Hay un usuario registrado con el DNI ingresado.");
+        } else if (userFoundByEmail != null) {
+            throw new AlreadyExistsException("Hay un usuario registrado con el EMAIL ingresado.");
         }
+
         User user = new User();
 
         user.setEmail(email);
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setCreateDate(new Date());
         user.setName(name);
-
+        user.setActive(true);
         /*user.setRole(Role.valueOf(name));*/
         switch (role) {
             case "cliente":
@@ -161,7 +165,7 @@ public class UserService implements UserDetailsService {
     public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status) {
         Optional<User> response = userRepository.findById(id);
 
-        System.out.println(status + "    Estoy en el adminModifyUser" + id);
+        System.out.println(status + "    Estoy en el adminModifyUser   " + id);
 
         if (response.isPresent()) {
             User user = response.get();
@@ -170,10 +174,10 @@ public class UserService implements UserDetailsService {
             user.setDni(dni);
             user.setEmail(email);
 
-            if (status == "true") {
-                user.setStatus(true);
+            if (status.equals("false")) {
+                user.setActive(false);
             } else {
-                user.setStatus(false);
+                user.setActive(true);
             }
 
             switch (role) {
@@ -199,7 +203,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
 
-        if (user != null && user.isStatus() == false) {
+        if (user != null && user.isActive() == true) {
 
             List<GrantedAuthority> permissions = new ArrayList();
 

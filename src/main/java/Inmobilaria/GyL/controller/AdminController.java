@@ -3,6 +3,7 @@ package Inmobilaria.GyL.controller;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.service.IImageService;
+import Inmobilaria.GyL.service.IOfferService;
 import Inmobilaria.GyL.service.IPropertyService;
 import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
-import javax.xml.bind.DatatypeConverter;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,17 +19,19 @@ public class AdminController {
     private final UserService userService;
     private final IImageService iImageService;
     private final IPropertyService iPropertyService;
+    private final IOfferService iOfferService;
 
-    public AdminController(UserService userService, IImageService iImageService, IPropertyService iPropertyService) {
+    public AdminController(UserService userService, IImageService iImageService, IPropertyService iPropertyService, IOfferService iOfferService) {
         this.userService = userService;
         this.iImageService = iImageService;
         this.iPropertyService = iPropertyService;
+        this.iOfferService = iOfferService;
     }
 
     @GetMapping("/")
-    public String listUsers(ModelMap model) {
+    public String bashboard(ModelMap model) {
         List<User> users = userService.listUsers();
-        List<Property> properties = iPropertyService.listProperties();
+        List<Property> properties = iPropertyService.findAll();
         model.put("properties", properties);
         model.put("users", users);
         model.put("title", "MrHouse | ADMIN");
@@ -65,9 +67,27 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
+    @PostMapping("/modificarPropiedad")
+    public String modifyProperty(@RequestParam Long id, @RequestParam String status) {
+        boolean isActive;
+        if(status.equals("true")){
+            isActive = true;
+        } else {
+            isActive = false;
+        }
+        iOfferService.toggleActivePropertyAndOffers(id,isActive);
+        return "redirect:/admin/";
+    }
+
     @GetMapping("/eliminar/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.adminDeleteUser(id);
+        return "redirect:/admin/";
+    }
+
+    @GetMapping("/eliminarPropiedad/{id}")
+    public String deleteProperty(@PathVariable Long id) {
+        iPropertyService.deleteProperty(id);
         return "redirect:/admin/";
     }
 
