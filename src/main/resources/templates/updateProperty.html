@@ -7,7 +7,7 @@
 <div class="d-flex flex-column min-vh-100">
     <nav th:replace="/fragments/nav :: nav"></nav>
 
-    <section class="flex-grow-1 d-flex align-items-center justify-content-center">
+    <main class="flex-grow-1 d-flex align-items-center justify-content-center">
         <div class="container">
             <div class="row justify-content-center my-3">
                 <div class="col-lg-6 col-md-8 col-12">
@@ -23,12 +23,6 @@
                                     <input type="text" class="form-control" name="address" id="name"
                                            th:value="${property.address}" required>
                                 </div>
-<!--                                <div class="mb-3">-->
-<!--                                    <label for="location" class="form-label">Localidad | Provincia</label>-->
-<!--                                    <input type="text" class="form-control" name="location" id="location"-->
-<!--                                           th:value="${property.location}" required>-->
-<!--                                </div>-->
-<!--principio-->
                                 <div class="mb-3">
                                     <label for="selectProvincias" class="form-label">Provincia</label>
                                     <select name="province" id="selectProvincias" class="form-select" required>
@@ -36,7 +30,6 @@
                                     </select>
                                 </div>
                                 <span></span>
-
                                 <div class="mb-3">
                                     <label for="selectLocalidades" class="form-label">Localidad</label>
                                     <select name="location" id="selectLocalidades" class="form-select" required>
@@ -44,7 +37,6 @@
                                     </select>
                                 </div>
                                 <span></span>
-<!--                         fin      -->
                                 <div class="mb-3">
                                     <label for="status" class="form-label">Estado</label>
                                     <select name="status" id="status" class="form-select" required>
@@ -89,20 +81,14 @@
                                     <input type="text" name="description" class="form-control" id="description"
                                            maxlength="200" th:value="${property.description}" required>
                                 </div>
-
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-primary">Modificar</button>
                                 </div>
-
-
                             </form>
-<!--                            cambiar linea para diferenciar los form-->
                             <hr>
-
                             <div class="card-header text-center">
                                 <h5 class="card-title mt-1">Editar imagenes de propiedad</h5>
                             </div>
-
                             <div class="propertyCardDetailImgSmall pe-2 ps-2 mt-3">
                                 <div class="row">
                                     <div class="col col-4 position-relative mb-3 p-0 pe-1 ps-1" th:each="image : ${property.images}">
@@ -112,7 +98,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <form th:action="@{/propiedades/usuarioAgregaImagenes}" method="POST"
                                   enctype="multipart/form-data">
                                 <input type="number" name="id" hidden th:value="${property.id}">
@@ -127,13 +112,12 @@
                                     </div>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
     <footer th:replace="/fragments/footer :: footer"></footer>
 </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
