@@ -77,8 +77,16 @@ public class PropertyService implements IPropertyService {
         return pr.findAllEntity();
     }
 
-    public List<Property> listRandomProperties() {
-        List<Property> randomProperties = pr.findAllEntity();
+    @Override
+    public List<Property> listRandomProperties(Long id) {
+        List<Property> randomProperties;
+        if (id == null) {
+            System.out.println("dsa" + id);
+            randomProperties = pr.findAllEntity();
+        } else {
+            System.out.println("asd" + id);
+            randomProperties = pr.filteredProperties(id);
+        }
         Collections.shuffle(randomProperties);
         return randomProperties.stream().limit(3).collect(Collectors.toList());
     }
