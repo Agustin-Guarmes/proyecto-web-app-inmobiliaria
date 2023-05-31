@@ -13,30 +13,36 @@ public interface IPropertyService {
     void createProperty(User user, String address, String location, String province, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs, Integer bathrooms, Integer bedrooms) throws IOException;
 
     void updateProperty(Long id, String address, String location, String province, String status, String type, Integer surface, Double price, String description, Integer bathrooms, Integer bedrooms);
-     List<Property> clientProperties(Long id);
+
+    List<Property> clientProperties(Long id);
 
     List<Property> findByUser(Long userId);
 
     Property findById(Long id);
 
-
     void deleteProperty(Long id);
-
-    /*void updateProperty(Long id, String address, Integer surface, Double price);*/
 
     List<Appointment> findAllAppointmentsByProperty(Long id);
 
     void changeUser(Property property, User user);
 
+    List<Property> listRandomProperties(Long id);
+
     List<DayPlan> findAllTimetableByProperty(Long id);
 
-    public void addImageToProperty(Long id, List<MultipartFile> imgs) throws IOException;
+    void addImageToProperty(Long id, List<MultipartFile> imgs) throws IOException;
 
-    public List<Property> filteredProperties(Long id);
+    List<Property> filteredProperties(Long id);
 
-    public List<Property> listProperties();
+    List<Property> listProperties();
 
     void rentProperty(Property property);
-    
+
     List<Property> findByUserName(String word);
+
+    void toggleActiveProperty(Long id, boolean isActive);
+
+    List<Property> findAll();
+
+    void setPropertyState(Property p);
 }

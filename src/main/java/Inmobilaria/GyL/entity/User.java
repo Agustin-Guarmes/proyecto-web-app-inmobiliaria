@@ -2,7 +2,6 @@ package Inmobilaria.GyL.entity;
 
 import Inmobilaria.GyL.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,6 +18,7 @@ public class User {
     private String email;
     private String password;
     private Long dni;
+    private boolean isActive;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -36,7 +36,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Offer> offers;
-    private boolean status;
+
     public User() {
     }
 
@@ -50,13 +50,6 @@ public class User {
 
     public Long getId() {
         return id;
-    }
-    public List<Offer> getOffers() {
-        return offers;
-    }
-
-    public void setOffers(List<Offer> offers) {
-        this.offers = offers;
     }
 
     public Long getDni() {
@@ -119,11 +112,11 @@ public class User {
         this.icon = icon;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

@@ -36,6 +36,7 @@ public class PropertyService implements IPropertyService {
         property.setUser(user);
         setPropertyAttributes(address, location, province, status, type, surface, price, description, property, bathrooms, bedrooms);
         property.setRented(false);
+        property.setActive(true);
         pr.save(property);
         for (MultipartFile img : imgs) {
             ips.saveImg(img, property);
@@ -77,8 +78,14 @@ public class PropertyService implements IPropertyService {
         return pr.findAllEntity();
     }
 
-    public List<Property> listRandomProperties() {
-        List<Property> randomProperties = pr.findAllEntity();
+    @Override
+    public List<Property> listRandomProperties(Long id) {
+        List<Property> randomProperties;
+        if (id == 0) {
+            randomProperties = pr.findAllEntity();
+        } else {
+            randomProperties = pr.filteredProperties(Long.valueOf(id));
+        }
         Collections.shuffle(randomProperties);
         return randomProperties.stream().limit(3).collect(Collectors.toList());
     }
@@ -142,5 +149,20 @@ public class PropertyService implements IPropertyService {
     @Override
     public List<Property> findByUserName(String word) {
         return pr.findByUserName(word);
+    }
+
+    @Override
+    public void toggleActiveProperty(Long id, boolean isActive) {
+        pr.deactivateProperty(id, isActive);
+    }
+
+    @Override
+    public List<Property> findAll() {
+        return pr.findAll();
+    }
+
+    @Override
+    public void setPropertyState(Property p) {
+        pr.save(p);
     }
 }

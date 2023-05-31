@@ -4,7 +4,6 @@ package Inmobilaria.GyL.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 import java.util.Date;
 

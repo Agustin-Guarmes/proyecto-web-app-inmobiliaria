@@ -17,7 +17,9 @@ public interface IOfferService {
 
     void createOffer(Long propertyId, Long clientId);
 
+    void toggleActivePropertyAndOffers(Long id, boolean isActive);
 
-    /*Ente */
-    public void offerResponse(Long userId, Long offerId, String response);
+    void offerResponse(Long userId, Long offerId, String response);
+
+    void adminModifyUser(Long id, String name, Long dni, String role, String email, String status);
 }

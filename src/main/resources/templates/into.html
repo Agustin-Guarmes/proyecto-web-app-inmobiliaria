@@ -73,8 +73,8 @@
                                     <td class="p-0 pt-2" style="width: 70px;">
                                         <div class="form-check form-switch ps-0">
                                             <select name="status" class="form-select me-2">
-                                                <option value="true" th:selected="${user.status == true}">🚫</option>
-                                                <option value="false" th:selected="${user.status == false}">✅</option>
+                                                <option value="true" th:selected="${user.isActive == true}">✅</option>
+                                                <option value="false" th:selected="${user.isActive == false}">🚫</option>
                                             </select>
                                         </div>
                                     </td>
@@ -119,7 +119,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <!-- Modal Eliminar-->
@@ -173,29 +172,28 @@
                             <tbody th:each="property : ${properties}">
                                 <tr>
                             <form th:action="@{/admin/modificarPropiedad}" method="POST">
-                                <input type="number" hidden class="form-control" name="id" id="id" th:value="${property.id}">
+                                <input type="number" hidden class="form-control" name="id" id="idProperty" th:value="${property.id}">
                                 <td th:text="${property.id}" class="pt-3"></td>
                                 <td>
-                                    <input type="text" class="form-control" name="name" id="name" th:value="${property.address}">
+                                    <input type="text" class="form-control" name="address" th:value="${property.address}" disabled>
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" style="width: 150px;" th:value="${property.user.name} + ' - ID: ' + ${property.user.id}" disabled>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="location" id="dni" th:value="${property.location}">
+                                    <input type="text" class="form-control" name="location" th:value="${property.location}" disabled>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" th:value="${property.province}" >
+                                    <input type="text" class="form-control" th:value="${property.province}" disabled>
                                 </td>
                                 <td>
-                                    <input type="number" class="form-control" name="price" th:value="${property.price}">
+                                    <input type="number" class="form-control" name="price" th:value="${property.price}" disabled>
                                 </td>
-
                                 <td class="p-0 pt-2" style="width: 70px;">
                                     <div class="form-check form-switch p-0">
                                         <select name="status" class="form-select me-2">
-                                            <option value="true" >🚫</option> <!--th:selected="${property.status == true}"-->
-                                            <option value="false" selected>✅</option> <!--th:selected="${property.status == false}"-->
+                                            <option value="true" th:selected="${property.isActive == true}">✅</option>
+                                            <option value="false" th:selected="${property.isActive == false}">🚫</option>
                                         </select>
                                     </div>
                                 </td>
@@ -216,15 +214,13 @@
                                         </button>
                                     </div>
                                 </td>
-
-
                                 <!-- Comienza Modal guardar-->
                                 <div class="modal fade" th:id="'saveModalProperty' + ${property.id}" tabindex="-1"
                                      aria-labelledby="saveModalPropertyLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="saveModalLabel">Confirmación de
+                                                <h5 class="modal-title" id="saveModalPropertyLabel">Confirmación de
                                                     edición</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
@@ -242,14 +238,13 @@
                                     </div>
 
                                 </div>
-
                                 <!-- Modal Eliminar-->
                                 <div class="modal fade" th:id="'deleteModalProperty' + ${property.id}" tabindex="-1"
                                      aria-labelledby="deleteModalPropertyLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel">Confirmación de
+                                                <h5 class="modal-title" id="deleteModalPropertyLabel">Confirmación de
                                                     eliminación</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
@@ -261,12 +256,11 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                     Cancelar
                                                 </button>
-                                                <a class="btn btn-primary" th:href="@{/admin/eliminar/__${property.id}__}">Eliminar</a>
+                                                <a class="btn btn-primary" th:href="@{/admin/eliminarPropiedad/__${property.id}__}">Eliminar</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <!--                                Termino los modales-->
                             </form>
                             </tr>

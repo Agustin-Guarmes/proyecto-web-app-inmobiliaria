@@ -1,6 +1,8 @@
 package Inmobilaria.GyL.service.impl;
 
 import Inmobilaria.GyL.entity.ImageUser;
+import Inmobilaria.GyL.entity.Offer;
+import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.exception.AlreadyExistsException;
@@ -37,17 +39,21 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void createUser(String email, String password, String name, Long dni, String role, MultipartFile icon) throws AlreadyExistsException, Exception {
-        User userFound = userRepository.findByDni(dni);
-        if (userFound != null) {
+        User userFoundByDni = userRepository.findByDni(dni);
+        User userFoundByEmail = userRepository.findByEmail(email);
+        if (userFoundByDni != null) {
             throw new AlreadyExistsException("Hay un usuario registrado con el DNI ingresado.");
+        } else if (userFoundByEmail != null) {
+            throw new AlreadyExistsException("Hay un usuario registrado con el EMAIL ingresado.");
         }
+
         User user = new User();
 
         user.setEmail(email);
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setCreateDate(new Date());
         user.setName(name);
-
+        user.setActive(true);
         /*user.setRole(Role.valueOf(name));*/
         switch (role) {
             case "cliente":
@@ -157,49 +163,12 @@ public class UserService implements UserDetailsService {
         return userRepository.findByName(word);
     }
 
-    @Transactional
-    public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status) {
-        Optional<User> response = userRepository.findById(id);
-
-        System.out.println(status + "    Estoy en el adminModifyUser" + id);
-
-        if (response.isPresent()) {
-            User user = response.get();
-
-            user.setName(name);
-            user.setDni(dni);
-            user.setEmail(email);
-
-            if (status == "true") {
-                user.setStatus(true);
-            } else {
-                user.setStatus(false);
-            }
-
-            switch (role) {
-                case "cliente":
-                    user.setRole(Role.CLIENT);
-                    break;
-                case "propietario":
-                    user.setRole(Role.ENTITY);
-                    break;
-                case "admin":
-                    user.setRole(Role.ADMIN);
-                    break;
-                default:
-                    user.setRole(Role.CLIENT);
-            }
-            userRepository.save(user);
-        }
-
-    }
-
     /*End admin*/
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
 
-        if (user != null && user.isStatus() == false) {
+        if (user != null && user.isActive() == true) {
 
             List<GrantedAuthority> permissions = new ArrayList();
 
@@ -216,12 +185,21 @@ public class UserService implements UserDetailsService {
             return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), permissions);
 
         } else {
-
             /*Debo mandarlo a la vista*/
-            System.out.println("Esta cuenta fue bloqueda hasta nuevo aviso");
             return null;
         }
     }
 
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
 
+    @Transactional
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
+
+    public List<Offer> findByEntityTheOffers(Long id){
+        return userRepository.findByEntity(id);
+    }
 }

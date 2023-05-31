@@ -35,6 +35,8 @@ public class Property {
     @JsonIgnore
     private List<ImageProperty> images;
 
+
+
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Offer> offers;
@@ -53,11 +55,13 @@ public class Property {
     private List<DayPlan> timetable;
 
     private boolean isRented;
+    private boolean isActive;
+    private Integer duration;
 
     public Property() {
     }
 
-    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration, String province, boolean isRented) {
+    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration, String province, boolean isRented, boolean isActive) {
         this.address = address;
         this.location = location;
         this.status = status;
@@ -75,17 +79,20 @@ public class Property {
         this.duration = 30;
         this.province = province;
         this.isRented = isRented;
+        this.isActive = isActive;
     }
 
-    public boolean isRented() {
-        return isRented;
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public void setRented(boolean rented) {
         isRented = rented;
     }
-
-    private Integer duration;
 
     public Integer getDuration() {
         return duration;
@@ -123,10 +130,6 @@ public class Property {
         return offers;
     }
 
-    public void setOffers(List<Offer> offers) {
-        this.offers = offers;
-    }
-
     public Long getId() {
         return id;
     }
@@ -153,10 +156,6 @@ public class Property {
 
     public void setStatus(PropertyStatus status) {
         this.status = status;
-    }
-
-    public LocalDate getCreateDate() {
-        return createDate;
     }
 
     public PropertyType getType() {
@@ -191,14 +190,6 @@ public class Property {
         this.description = description;
     }
 
-    public List<ImageProperty> getImages() {
-        return images;
-    }
-
-    public void setImages(List<ImageProperty> images) {
-        this.images = images;
-    }
-
     public String getProvince() {
         return province;
     }
@@ -206,7 +197,6 @@ public class Property {
     public void setProvince(String province) {
         this.province = province;
     }
-
 
     public List<Appointment> getAppointments() {
         return appointments;
@@ -222,5 +212,12 @@ public class Property {
 
     public void setTimetable(List<DayPlan> timetable) {
         this.timetable = timetable;
+    }
+
+    public List<ImageProperty> getImages() {
+        return images;
+    }
+    public void setImages(List<ImageProperty> images) {
+        this.images = images;
     }
 }
