@@ -1,13 +1,14 @@
 package Inmobilaria.GyL.entity;
 
-import Inmobilaria.GyL.enums.AppointmentState;
+import Inmobilaria.GyL.enums.AppointmentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalTime;
 
 @Entity
 public class Appointment implements Comparable<Appointment> {
@@ -16,25 +17,24 @@ public class Appointment implements Comparable<Appointment> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @NotNull(message = ("Appointment Date is required"))
-    private Date appointmentDate;
+    private LocalDate date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User client;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Property property;
 
-    @OneToOne
-    private TimePeriod timePeriod;
-
     @Enumerated(EnumType.STRING)
-    private AppointmentState state;
+    private AppointmentStatus state;
 
     @CreationTimestamp
-    private Date creationDate;
+    private LocalDate creationDate;
 
     private LocalDateTime start;
 
@@ -42,17 +42,26 @@ public class Appointment implements Comparable<Appointment> {
 
     private String title;
 
-    public Appointment(Long id, Date appointmentDate, User client, Property property, DayPlan dayPlan, TimePeriod timePeriod, AppointmentState state, Date creationDate, LocalDateTime startTime, LocalDateTime endTime, String title) {
-        this.id = id;
-        this.appointmentDate = appointmentDate;
+    public Appointment(LocalDate appointmentDate, User client, Property property,
+                       AppointmentStatus state, LocalDate creationDate,
+                       LocalDateTime start, LocalDateTime end) {
+        this.date = appointmentDate;
         this.client = client;
         this.property = property;
-        this.timePeriod = timePeriod;
         this.state = state;
         this.creationDate = creationDate;
-        this.start = startTime;
-        this.end = endTime;
-        this.title = title;
+        this.start = start;
+        this.end = end;
+    }
+
+    public Appointment(LocalDateTime start, LocalDateTime end, LocalDate appointmentDate,Property property,
+                       AppointmentStatus state) {
+        this.start = start;
+        this.end = end;
+        this.date = appointmentDate;
+        this.property = property;
+        this.state = state;
+//        this.title = title;
     }
 
     public Appointment() {
@@ -83,11 +92,11 @@ public class Appointment implements Comparable<Appointment> {
         this.property = property;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -95,15 +104,15 @@ public class Appointment implements Comparable<Appointment> {
         return id;
     }
 
-    public Date getAppointmentDate() {
-        return appointmentDate;
+    public LocalDate getDate() {
+        return date;
     }
 
     public User getClient() {
         return client;
     }
 
-    public AppointmentState getState() {
+    public AppointmentStatus getState() {
         return state;
     }
 
@@ -111,15 +120,15 @@ public class Appointment implements Comparable<Appointment> {
         this.id = id;
     }
 
-    public void setAppointmentDate(Date appointmentDate) {
-        this.appointmentDate = appointmentDate;
+    public void setDate(LocalDate appointmentDate) {
+        this.date = appointmentDate;
     }
 
     public void setClient(User client) {
         this.client = client;
     }
 
-    public void setState(AppointmentState state) {
+    public void setState(AppointmentStatus state) {
         this.state = state;
     }
 

@@ -30,9 +30,9 @@ public class ApiController {
     }
 
     @GetMapping("/property/{propertyId}/availableAppointments")
-    public List<TimePeriod> findAvailableAppointmentsForProperty(@PathVariable("propertyId") Long propertyId,
-                                                                 @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return timePeriodService.findAllTimePeriodsAvailableByDayAndProperty(propertyId, date);
+    public List<Appointment> findAvailableAppointmentsForProperty(@PathVariable("propertyId") Long propertyId,
+                                                                 @RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate date) {
+        return appointmentService.findAllAvailableAppointmentsByDayAndProperty(propertyId, date);
     }
 
 

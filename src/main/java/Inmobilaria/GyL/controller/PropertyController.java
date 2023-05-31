@@ -2,6 +2,7 @@ package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,13 +23,17 @@ import java.util.List;
 @RequestMapping("/propiedades")
 public class PropertyController {
 
-    private IPropertyService propertyService;
+    private final IPropertyService propertyService;
 
-    private IDayPlanService dayPlanService;
+    private final IDayPlanService dayPlanService;
 
-    public PropertyController(IPropertyService propertyService, IDayPlanService dayPlanService) {
+    private final IAppointmentService appointmentService;
+
+    public PropertyController(IPropertyService propertyService, IDayPlanService dayPlanService,
+                              IAppointmentService appointmentService) {
         this.propertyService = propertyService;
         this.dayPlanService = dayPlanService;
+        this.appointmentService = appointmentService;
     }
 
     @GetMapping("/lista/{id}")
@@ -100,6 +105,13 @@ public class PropertyController {
                              @RequestParam LocalTime start,
                              @RequestParam LocalTime end) {
         dayPlanService.addDayPlan(propertyId, timetableDay, start, end);
+        return "redirect:/propiedades/modificar/" + propertyId;
+    }
+
+    @PostMapping("/{propertyId}/reservarTurno")
+    public String makeAnAppointment(@PathVariable("propertyId") Long propertyId,
+                                    @RequestParam Long appointmentId, @SessionAttribute(required=false, name="userSession") User user) {
+        appointmentService.bookAppointment(appointmentId, user);
         return "redirect:/propiedades/modificar/" + propertyId;
     }
 

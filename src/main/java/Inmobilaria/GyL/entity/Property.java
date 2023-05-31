@@ -39,7 +39,7 @@ public class Property {
     @JsonIgnore
     private List<Offer> offers;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
@@ -51,6 +51,7 @@ public class Property {
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<DayPlan> timetable;
+
     private boolean isRented;
 
     public Property() {

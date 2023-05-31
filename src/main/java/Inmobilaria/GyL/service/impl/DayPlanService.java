@@ -3,6 +3,7 @@ package Inmobilaria.GyL.service.impl;
 import Inmobilaria.GyL.entity.DayPlan;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.repository.DayPlanRepository;
+import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
 import Inmobilaria.GyL.service.ITimePeriodService;
@@ -21,10 +22,13 @@ public class DayPlanService implements IDayPlanService {
 
     private final ITimePeriodService timePeriodService;
 
-    public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService, ITimePeriodService timePeriodService) {
+    private final IAppointmentService appointmentService;
+
+    public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService, ITimePeriodService timePeriodService, IAppointmentService appointmentService) {
         this.dayPlanRepository = dayPlanRepository;
         this.propertyService = propertyService;
         this.timePeriodService = timePeriodService;
+        this.appointmentService = appointmentService;
     }
 
     @Override
@@ -35,7 +39,7 @@ public class DayPlanService implements IDayPlanService {
         dayPlan.setStart(start);
         dayPlan.setEnd(end);
         dayPlan.setProperty(property);
-        timePeriodService.saveAvailablePeriods(dayPlan, propertyId);
+        appointmentService.saveAvailableAppointments(dayPlan, propertyId);
         return dayPlanRepository.save(dayPlan);
     }
 
