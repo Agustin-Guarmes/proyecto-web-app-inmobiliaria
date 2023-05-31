@@ -306,111 +306,31 @@
                                                 <table class="table table-hover">
                                                     <thead>
                                                     <tr>
-                                                        <th scope="col">ID</th>
                                                         <th scope="col">Dirección</th>
-                                                        <th scope="col">Dueño</th>
-                                                        <th scope="col">Localidad</th>
                                                         <th scope="col">Provincia</th>
+                                                        <th scope="col">Localidad</th>
                                                         <th scope="col">Precio</th>
-                                                        <th scope="col">Estado</th>
                                                         <th scope="col">Imagen</th>
                                                         <th scope="col">Acciones</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody th:each="property : ${properties}">
                                                     <tr>
-                                                        <form th:action="@{/admin/modificarPropiedad}" method="POST">
-                                                            <input type="number" hidden class="form-control" name="id" id="idProperty" th:value="${property.id}">
-                                                            <td th:text="${property.id}" class="pt-3"></td>
-                                                            <td>
-                                                                <input type="text" class="form-control" name="address" th:value="${property.address}" disabled>
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" class="form-control" style="width: 150px;" th:value="${property.user.name} + ' - ID: ' + ${property.user.id}" disabled>
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" class="form-control" name="location" th:value="${property.location}" disabled>
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" class="form-control" th:value="${property.province}" disabled>
-                                                            </td>
-                                                            <td>
-                                                                <input type="number" class="form-control" name="price" th:value="${property.price}" disabled>
-                                                            </td>
-                                                            <td class="p-0 pt-2" style="width: 70px;">
-                                                                <div class="form-check form-switch p-0">
-                                                                    <select name="status" class="form-select me-2">
-                                                                        <option value="true" th:selected="${property.isActive == true}">✅</option>
-                                                                        <option value="false" th:selected="${property.isActive == false}">🚫</option>
-                                                                    </select>
-                                                                </div>
+                                                            <td th:text="${property.address}"></td>
+                                                            <td th:text="${property.province}"></td>
+                                                            <td th:text="${property.location}"></td>
+                                                            <td th:text="${property.price}">
                                                             </td>
                                                             <td>
                                                                 <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="rounded-circle img_into ms-2" >
                                                             </td>
-                                                            <td class="ps-1">
+                                                            <td class="ps-3">
                                                                 <div class="btn-group" role="group">
-                                                                    <div class="btn btn-primary" data-bs-toggle="modal"
-                                                                         th:data-bs-target="'#saveModalProperty' + ${property.id}">
-                                                                        <i class="bi bi-save icon" data-bs-toggle="tooltip" data-bs-placement="right"
-                                                                           title="Guardar"></i>
+                                                                    <div class="btn btn-primary">
+                                                                        <a th:href="@{/propiedades/modificar/__${property.id}__}"><i class="bi bi-pencil-square"></i></a>
                                                                     </div>
-                                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                                            th:data-bs-target="'#deleteModalProperty' + ${property.id}">
-                                                                        <i class="bi bi-trash icon" data-bs-toggle="tooltip"
-                                                                           data-bs-placement="right" title="Eliminar"></i>
-                                                                    </button>
                                                                 </div>
                                                             </td>
-                                                            <!-- Comienza Modal guardar-->
-                                                            <div class="modal fade" th:id="'saveModalProperty' + ${property.id}" tabindex="-1"
-                                                                 aria-labelledby="saveModalPropertyLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="saveModalPropertyLabel">Confirmación de
-                                                                                edición</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                                    aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>¿Está seguro de que desea guardar los cambios?</p>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary"
-                                                                                    data-bs-dismiss="modal">Cancelar
-                                                                            </button>
-                                                                            <button type="submit" class="btn btn-primary">Guardar</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                            <!-- Modal Eliminar-->
-                                                            <div class="modal fade" th:id="'deleteModalProperty' + ${property.id}" tabindex="-1"
-                                                                 aria-labelledby="deleteModalPropertyLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="deleteModalPropertyLabel">Confirmación de
-                                                                                eliminación</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                                    aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>¿Está seguro de que desea eliminar los cambios?</p>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                                                Cancelar
-                                                                            </button>
-                                                                            <a class="btn btn-primary" th:href="@{/admin/eliminarPropiedad/__${property.id}__}">Eliminar</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!--                                Termino los modales-->
-                                                        </form>
                                                     </tr>
                                                     </tbody>
                                                 </table>
