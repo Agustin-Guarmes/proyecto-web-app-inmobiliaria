@@ -123,3 +123,14 @@
     justify-content: center;
     flex-wrap: wrap;
 }
+
+#Provincia, #Referencia, #Depto-Casa, #Superficie ,#Dormitorios, #Baños, #Precio, #Filtrar, #Button{
+   border:3px solid #13653f;
+   border-radius:22px;
+   padding:12px;
+}
+
+#superficiemin,#superficiemax, #preciominimo, #preciomaximo{
+    justify-content: center;
+    align-items: center;
+}

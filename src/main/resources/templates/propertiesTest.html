@@ -4,6 +4,77 @@
 <body onload="loadTheme()">
 <nav th:replace="/fragments/nav :: nav"></nav>
 
+<h1 class="mb-4 text-center">Propiedades</h1>
+
+<div class="container mt-5 d-flex align-items-center justify-content-center gap-3 ">
+    <select name="province" id="Provincia" class="w-25">
+        <option hidden selected>Provincia</option>
+        <option value="opcion1">Buenos Aires</option>
+        <option value="opcion2">Catamarca</option>
+        <option value="opcion3">Chaco</option>
+        <option value="opcion4">Chubut</option>
+        <option value="opcion5">Córdoba</option>
+        <option value="opcion6">Corrientes</option>
+        <option value="opcion7">Entre Ríos</option>
+        <option value="opcion8">Formosa</option>
+        <option value="opcion9">Jujuy</option>
+        <option value="opcion10">La Pampa</option>
+        <option value="opcion11">La Rioja</option>
+        <option value="opcion12">Mendoza</option>
+        <option value="opcion13">Misiones</option>
+        <option value="opcion14">Neuquén</option>
+        <option value="opcion15">Río Negro</option>
+        <option value="opcion16">Salta</option>
+        <option value="opcion17">San Juan</option>
+        <option value="opcion18">San Luis</option>
+        <option value="opcion19">Santa Cruz</option>
+        <option value="opcion20">Santa Fe</option>
+        <option value="opcion21">Santiago del Estero</option>
+        <option value="opcion22">Tierra del Fuego</option>
+        <option value="opcion23">Tucumán</option>
+    </select>
+
+    <select name="status" id="Referencia" class="w-25">
+        <option hidden selected>Compra/Venta</option>
+        <option value="opcion1">Comprar</option>
+        <option value="opcion2">Vender</option>
+    </select>
+
+    <select name="type" id="Depto-Casa" class="w-25">
+        <option hidden selected>Depto-Casa</option>
+        <option value="opcion1">Departamento</option>
+        <option value="opcion2">Casa</option>
+        <option value="opcion2">Piso</option>
+    </select>
+
+    <select name="bedrooms" id="Dormitorios" class="w-25">
+        <option hidden selected>Dormitorios</option>
+        <option value="opcion1">1</option>
+        <option value="opcion2">2</option>
+        <option value="opcion3">3</option>
+    </select>
+
+    <select name="bathrooms" id="Baños" class="w-25">
+        <option hidden selected>Baños</option>
+        <option value="opcion1">1</option>
+        <option value="opcion2">2</option>
+    </select>
+</div>   
+
+<div class="container mt-5 d-flex align-items-center justify-content-center gap-3"> 
+    <label for="surface">Superficie:</label>
+    <input id="superficiemin" type="number" placeholder="Min">
+    <input id="superficiemax" type="number" placeholder="Max">
+
+    <label for="number">Precio:</label>
+    <input name="preciominimo" type="number" min="1" placeholder="Min">
+    <input name="preciomaximo" type="number" max="999999999" placeholder="Max">
+</div>   
+
+<div class="container mt-5 d-flex align-items-center justify-content-center gap-3"> 
+    <button id="Button" type="button" class="btn btn-outline-light">Filtrar</button>
+</div>  
+
 <main class="container mt-5">
     <div class="row g-4 justify-content-center">
         <div class="card p-1 col-12 col-sm-6 col-lg-4 col-xl-3 m-3" th:each="property : ${properties}">
