@@ -136,6 +136,14 @@ public class UserController {
            return "redirect:/usuario/iniciarSesion";
        }
     }
+
+    @GetMapping("/gestion/{id}")
+    public String listOffersEntity(@PathVariable Long id, ModelMap model){
+        model.put("offers", userService.findByEntityTheOffers(id));
+        model.put("properties", propertyService.findByUser(id));
+        model.put("title", "MrHouse | Gestión");
+        return "enteManagement";
+    }
 }
 
 

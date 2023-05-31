@@ -61,10 +61,4 @@ public class OfferController {
             return "redirect:/ofertas/listaCliente/" + userId;
         }
     }
-
-    @GetMapping("/listaPropietario/{id}")
-    public String listOffersEntity(@PathVariable Long id, ModelMap model){
-        model.put("offers", offerService.findByUser(id));
-        return "enteManagement";
-    }
 }

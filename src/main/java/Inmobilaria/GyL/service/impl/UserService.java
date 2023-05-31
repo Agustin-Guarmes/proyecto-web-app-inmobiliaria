@@ -1,6 +1,8 @@
 package Inmobilaria.GyL.service.impl;
 
 import Inmobilaria.GyL.entity.ImageUser;
+import Inmobilaria.GyL.entity.Offer;
+import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.Role;
 import Inmobilaria.GyL.exception.AlreadyExistsException;
@@ -195,5 +197,9 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void updateUser(User user) {
         userRepository.save(user);
+    }
+
+    public List<Offer> findByEntityTheOffers(Long id){
+        return userRepository.findByEntity(id);
     }
 }

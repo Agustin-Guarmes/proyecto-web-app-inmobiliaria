@@ -16,7 +16,8 @@ import java.util.List;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
-    @Query("SELECT DISTINCT p FROM Property p INNER JOIN p.offers po WHERE po.property.user.id = ?1 OR (po.property.status ='FOR_RENT' AND po.user.id = ?1 AND po.offerStatus = 'CLIENT_ACCEPTED' AND po.property.isRented = true AND po.property.isActive = true)")
+    @Query("SELECT DISTINCT p FROM Property p INNER JOIN p.offers po WHERE po.property.user.id = ?1 OR " +
+            "(po.property.status ='FOR_RENT' AND po.user.id = ?1 AND po.offerStatus = 'CLIENT_ACCEPTED' AND po.property.isRented = true AND po.property.isActive = true)")
     List<Property> clientProperties(Long id);
 
     @Query("SELECT p FROM Property p WHERE p.user.role = 'ENTITY' AND p.isRented = false AND p.isActive = true")

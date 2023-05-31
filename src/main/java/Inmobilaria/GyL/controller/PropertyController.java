@@ -83,11 +83,4 @@ public class PropertyController {
         propertyService.addImageToProperty(id, Arrays.asList(files));
         return "redirect:/propiedades/modificar/" + id;
     }
-
-    @GetMapping("/turnos/{id}")
-    public String appointment(@PathVariable Long id, ModelMap model){
-        List<Property> properties = propertyService.findByUser(id);
-        model.put("properties",properties);
-        return "appointmentProperty.html";
-    }
 }
