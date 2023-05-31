@@ -2,11 +2,13 @@ package Inmobilaria.GyL.entity;
 
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -15,37 +17,116 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String address;
+    private String province;
     private String location;
     @Enumerated(EnumType.STRING)
     private PropertyStatus status;
     @CreationTimestamp
-    private Date createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate createDate;
     @Enumerated(EnumType.STRING)
     private PropertyType type;
     private Integer surface;
+    private Integer bathrooms;
+    private Integer bedrooms;
     private Double price;
     private String description;
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ImageProperty> images;
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+
+
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Offer> offers;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
+
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Appointment> appointments;
+
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<DayPlan> timetable;
+    private boolean isRented;
+    private boolean isActive;
+    private Integer duration;
 
     public Property() {
     }
 
-    public Property(String address, String location, PropertyStatus status, Date createDate, PropertyType type, Integer surface, Double price, String description, List<ImageProperty> images) {
+    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration, String province, boolean isRented, boolean isActive) {
         this.address = address;
         this.location = location;
         this.status = status;
-        this.createDate = createDate;
         this.type = type;
         this.surface = surface;
+        this.bathrooms = bathrooms;
+        this.bedrooms = bedrooms;
         this.price = price;
         this.description = description;
         this.images = images;
+        this.offers = offers;
+        this.user = user;
+        this.appointments = appointments;
+        this.timetable = timetable;
+        this.duration = duration;
+        this.province = province;
+        this.isRented = isRented;
+        this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setRented(boolean rented) {
+        isRented = rented;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer period) {
+        this.duration = period;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Integer getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(Integer bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public Integer getBedrooms() {
+        return bedrooms;
+    }
+
+    public void setBedrooms(Integer bedrooms) {
+        this.bedrooms = bedrooms;
+    }
+
+    public List<Offer> getOffers() {
+        return offers;
     }
 
     public Long getId() {
@@ -74,10 +155,6 @@ public class Property {
 
     public void setStatus(PropertyStatus status) {
         this.status = status;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
     }
 
     public PropertyType getType() {
@@ -112,10 +189,16 @@ public class Property {
         this.description = description;
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
     public List<ImageProperty> getImages() {
         return images;
     }
-
     public void setImages(List<ImageProperty> images) {
         this.images = images;
     }

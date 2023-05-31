@@ -1,12 +1,8 @@
 package Inmobilaria.GyL.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
 import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 @Entity
 public class ImageUser {
@@ -33,10 +29,6 @@ public class ImageUser {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getMime() {
-        return mime;
     }
 
     public void setMime(String mime) {

@@ -1,10 +1,13 @@
 package Inmobilaria.GyL.entity;
 
+import Inmobilaria.GyL.enums.OfferStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Offer {
@@ -13,39 +16,49 @@ public class Offer {
     private Long id;
 
     @CreationTimestamp
-    private Date creationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate creationDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Property property;
-
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @NotNull(message = ("Price is required"))
     private Double price;
+    @Enumerated(EnumType.STRING)
+    private OfferStatus offerStatus;
 
-    private Boolean state;
-
-    public Offer(Long id, Date creationDate, Property property, User user, Double price, Boolean state) {
-        this.id = id;
-        this.creationDate = creationDate;
+    public Offer(Property property, User user, Double price, OfferStatus offerStatus) {
         this.property = property;
         this.user = user;
         this.price = price;
-        this.state = state;
+        this.offerStatus = offerStatus;
     }
 
     public Offer() {
-
     }
 
+    public void setProperty(Property property) {
+        this.property = property;
+    }
+
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setOfferStatus(OfferStatus offerStatus) {
+        this.offerStatus = offerStatus;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
@@ -53,31 +66,23 @@ public class Offer {
         return property;
     }
 
-    public Double getPrice() {
-        return price;
+    public User getUser() {
+        return user;
     }
 
-    public Boolean getState() {
-        return state;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setProperty(Property property) {
-        this.property = property;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public void setState(Boolean state) {
-        this.state = state;
+    public OfferStatus getOfferStatus() {
+        return offerStatus;
     }
 }

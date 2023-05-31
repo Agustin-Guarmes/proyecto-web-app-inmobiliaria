@@ -1,8 +1,5 @@
 package Inmobilaria.GyL.enums;
 
 public enum PropertyStatus {
-    FORSALE,
-    FORRENT,
-    BOTHSTATUS,
-    NONE
+    FOR_SALE, FOR_RENT, BOTH_STATUS, NONE;
 }

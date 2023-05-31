@@ -1,15 +1,12 @@
 package Inmobilaria.GyL.entity;
 
 import Inmobilaria.GyL.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import org.hibernate.annotations.CreationTimestamp;
+import java.util.List;
+
 
 @Entity
 public class User {
@@ -21,19 +18,36 @@ public class User {
     private String email;
     private String password;
     private Long dni;
-    
+    private boolean isActive;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @CreationTimestamp
+    @Temporal(TemporalType.DATE)
     private Date createDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private ImageUser icon;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Property> properties;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Offer> offers;
 
     public User() {
     }
-    
+
+    public List<Property> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
+    }
+
     public Long getId() {
         return id;
     }
@@ -97,6 +111,12 @@ public class User {
     public void setIcon(ImageUser icon) {
         this.icon = icon;
     }
-    
-    
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }
