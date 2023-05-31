@@ -1,6 +1,7 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Offer;
+import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.service.IOfferService;
 import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,6 +36,7 @@ public class OfferController {
     public String listOffersClient(@PathVariable Long id, ModelMap model) {
         List<Offer> offers = offerService.findByUser(id);
         model.put("offers", offers);
+        model.put("title", "MrHouse | Ofertas");
         return "listOffersClient";
     }
 
@@ -41,6 +44,7 @@ public class OfferController {
     public String listOffersProperty(@PathVariable Long id, ModelMap model) {
         List<Offer> offers = offerService.findByProperty(id);
         model.put("offers", offers);
+        model.put("title", "MrHouse | Ofertas");
         return "listOffersEntity";
     }
 

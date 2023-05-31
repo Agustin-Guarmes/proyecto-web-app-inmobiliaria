@@ -1,5 +1,6 @@
 package Inmobilaria.GyL.repository;
 
+import Inmobilaria.GyL.entity.Offer;
 import Inmobilaria.GyL.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,10 +11,12 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
     @Query("SELECT u FROM User u WHERE u.email = :email")
     User findByEmail(@Param("email") String email);
-
     @Query("SELECT u FROM User u WHERE u.name like :word%")
     List<User> findByName(@Param("word") String word);
+    @Query("SELECT u FROM User u WHERE u.dni = :dni")
+    User findByDni(@Param("dni") Long dni);
+    @Query("SELECT o FROM Offer o WHERE o.property.user.id = ?1")
+    List<Offer> findByEntity(Long id);
 }

@@ -18,6 +18,7 @@ public class User {
     private String email;
     private String password;
     private Long dni;
+    private boolean isActive;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -49,14 +50,6 @@ public class User {
 
     public Long getId() {
         return id;
-    }
-
-    public List<Offer> getOffers() {
-        return offers;
-    }
-
-    public void setOffers(List<Offer> offers) {
-        this.offers = offers;
     }
 
     public Long getDni() {
@@ -119,4 +112,11 @@ public class User {
         this.icon = icon;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

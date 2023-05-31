@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="/fragments/head :: head"></head>
     <body onload="loadTheme()">
@@ -16,7 +16,7 @@
                                     <h5 class="card-title mt-1">Editar perfil</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form th:action="@{/usuario/perfil/__${session.userSession.id}__}" method="POST" enctype="multipart/form-data">
+                                    <form th:action="@{/admin/modificaUsuario}" method="POST" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <label for="name" class="form-label">Nombre</label>
                                             <input type="text" class="form-control" name="name" id="name" th:value="${session.userSession.name}">
@@ -49,7 +49,7 @@
                                             <input type="password" placeholder="Ingresá tu contraseña" class="form-control" name="password" id="password">
                                         </div>
                                         <div class="d-grid">
-                                            <button type="submit" class="btn btn-outline-primary">Guardar cambios</button>
+                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
                                         </div>
                                         <div class="text-center mt-3">
                                             <a th:href="@{/usuario/contraseña/__${session.userSession.id}__}" class="btn w-100 btn-outline-secondary">Restablecer contraseña</a>
@@ -60,6 +60,7 @@
                         </div>
                     </div>
                 </div>
+
             </section>
 
             <footer th:replace="/fragments/footer :: footer"></footer>

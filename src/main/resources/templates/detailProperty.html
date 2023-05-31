@@ -2,47 +2,92 @@
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="/fragments/head :: head">
     </head>
-        <style>
-            .propertyCardDetailImgSmall img{ width : 100%; border: 1px solid rgba(0,0,0,0.2); padding: 8px; margin: 10px 5px; cursor: pointer;  object-fit: contain; width: 100%; }
-            .propertyCardDetailImgSmall{ width: 12%; display: flex; }
-            .propertyCardDetailImg img{ height: 460px; border-radius: 4px; object-fit: contain; width: 100%; }
-            .propertyCardDetailImg{ padding: 0 10px; width: 100%; }
-            .propertyCardDetail{ width: 59%; }
-        </style>
+    <style>
+        .propertyCardDetailImgSmall img{ width : 100%; border: 1px solid rgba(0,0,0,0.2); padding: 8px; margin: 10px 5px; cursor: pointer;  object-fit: contain; width: 100%; }
+        .propertyCardDetailImgSmall{ width: 12%; display: flex; }
+        .propertyCardDetailImg img{ height: 460px; border-radius: 4px; object-fit: contain; width: 100%; }
+        .propertyCardDetailImg{ padding: 0 10px; width: 100%; }
+        .propertyCardDetail{ width: 59%; }
+
+
+    </style>
     <body onload="loadTheme()">
         <nav th:replace="/fragments/nav :: nav"></nav>
-        <main style="height: 65vh;">
+        <main>
             <div class="container__card">
                 <div class="propertyCardDetail">
                     <div class="propertyCardDetailImg">
                         <img id="imageBox" th:src="@{/image/propiedades/__${property.images[0].id}__}">
                     </div>
-                    <div class="propertyCardDetailImgSmall">
-                        <img th:each="image : ${property.images}" th:src="@{/image/propiedades/__${image.id}__}"
-                             onclick="myFuction(this)">
+                    <div class="d-flex flex-direction-row flex-wrap">
+                        <div th:each="image : ${property.images}" class="propertyCardDetailImgSmall me-2 col-2"
+                             style="height:100px; max-height:100px;">
+                            <img th:src="@{/image/propiedades/__${image.id}__}"
+                                 onclick="myFuction(this)">
+                        </div>
                     </div>
                 </div>
-                <div class="card" style="width: 18rem; max-height: 460px;">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="'Direccion - ' + ${property.address}"></h5>
+                <div class="card" style="width: 18rem; height: 535px;">
+                    <div class="card-header">
+                        <h5 class="card-title" th:text="'Dirección - ' + ${property.address}"></h5>
                         <p class="card-text" th:text="'Tipo - ' + ${property.type}"></p>
                     </div>
                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="'Descripción - ' + ${property.description}"></li>
+
                         <li class="list-group-item" th:text="'Localidad - ' + ${property.location}"></li>
                         <li class="list-group-item" th:text="'Superficie - ' + ${property.surface}"></li>
+                        <li class="list-group-item" th:text="'Baños - ' + ${property.bathrooms}"></li>
+                        <li class="list-group-item" th:text="'Habitaciones - ' + ${property.bedrooms}"></li>
                         <li class="list-group-item" th:text="'Precio $ ' + ${property.price}"></li>
-                        <li class="list-group-item" th:text="${property.description}"></li>
                     </ul>
-                    <div class="card-body">
-                        <a th:if="${session.userSession != null}" type="button" class="btn btn-outline-secondary"
+
+                    <div class="card-body d-flex" style="height:50px; max-height:50px;">
+                        <a th:if="${session.userSession != null}" type="button" class="btn btn-outline-secondary w-100 me-1"
+                           style="height:38px;"
                            th:href="@{/ofertas/realizar/user/{userId}/property/{propertyId}(userId=${session.userSession.id}, propertyId=${property.id})}">
                             Oferta
                         </a>
-                        <a type="button" class="btn btn-outline-secondary" href="#">
+                        <a th:if="${session.userSession == null}" class="btn btn-outline-secondary w-100 me-1"
+                           style="height:38px;"
+                           data-bs-toggle="modal" data-bs-target="#dniModal">
+                            Oferta
+                        </a>
+                        <a th:if="${session.userSession != null}" type="button" class="btn btn-outline-secondary w-100"
+                           style="height:38px;"
+                           href="#">
                             Turnos
                         </a>
                     </div>
+
                 </div>
+            </div>
+
+            <!--    Modal oferta guest-->
+            <div class="modal fade" id="dniModal" tabindex="-1"
+                 aria-labelledby="dniModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dniModalLabel">Ingrese su DNI</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <form th:action="@{/usuario/invitado}" method="POST">
+                            <div class="modal-body">
+                                <label for="dni" class="form-label">DNI</label>
+                                <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                        data-bs-dismiss="modal">Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-success">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </main>
 
@@ -93,10 +138,11 @@
                     </div>
                     <!-- Puedes agregar más campos -->
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">Solicitar Turno</button>
+                <button type="submit" class="btn btn-success mt-2">Solicitar Turno</button>
             </form>
         </div>
 
+<<<<<<< HEAD
         <div class="card" style="width: 18rem; max-height: 460px;">
             <div class="card-body">
                 <h5 class="card-title" th:text="'Direccion - ' + ${property.address}"></h5>
@@ -122,8 +168,10 @@
         <div class="logo">
             <img src="/img/logo.png" alt="logo">
         </div>
+=======
+>>>>>>> 60930666e2cdf70035700295d4e3fb9ad6a75cc3
 
-        <footer th:replace = "/fragments/footer :: footer"></footer>
+        <footer th:replace="/fragments/footer :: footer"></footer>
         <script src="/js/theme.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"

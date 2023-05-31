@@ -5,7 +5,13 @@
 
         <div class="d-flex flex-column min-vh-100">
             <nav th:replace="/fragments/nav :: nav"></nav>
-
+            <div th:if="${dniRegistrado != null}" class="w-100 p-5 d-flex justify-content-center align-items-center" >
+                <div class="card w-25 d-flex justify-content-center align-items-center p-1">
+                    <h4>Error!</h4>
+                    <div class="card-body" th:text="${dniRegistrado}"></div>
+                    <div class="card-body pt-0">Comunicarse info@ejemplo.com para corroborar su identidad</div> 
+                </div>
+            </div>
             <section class="flex-grow-1 d-flex align-items-center justify-content-center">
 
                 <div class="container">
@@ -31,7 +37,8 @@
                                             <input type="email" class="form-control" name="email" id="email" placeholder="Ingrese su correo electrónico" required>
                                         </div>
                                         <div class="mb-3">
-                                            <select name="role" class="form-select" required>
+                                            <label for="role" class="form-label">Tipo de usuario</label>
+                                            <select name="role" id="role" class="form-select" required>
                                                 <option hidden selected>Elegir tipo de usuario</option>
                                                 <option th:value="cliente">Cliente</option>
                                                 <option th:value="propietario">Propietario</option>
@@ -46,15 +53,24 @@
                                             <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
                                         </div>
                                         <div class="d-grid mb-2">
+<<<<<<< HEAD
                                             <button type="submit" class="btn btn-outline-primary btn-block flex-fill" style="margin: 5px">Registrarse</button>
                                             <a th:href="@{/}" class="btn btn-outline-secondary flex-fill" style="margin: 5px">Volver</a>
+=======
+                                            <button type="submit" class="btn btn-success">Registrarse</button>
+                                            <a th:href="@{/}" class="btn btn-outline-secondary mt-3">Volver</a>
+>>>>>>> 60930666e2cdf70035700295d4e3fb9ad6a75cc3
                                         </div>
                                     </div>
                                     <div class="card-footer">
                                         <div class="text-center">
                                             ¿Ya tienes una cuenta?
+<<<<<<< HEAD
                                             <!--<a th:href="@{/usuario/iniciarSesion}" class="btn btn-primary flex-fill" style="margin: 5px">Iniciar sesión</a>-->
                                             <a th:href="@{/usuario/iniciarSesion}" class="btn btn-link p-0">Iniciar sesión</a>
+=======
+                                            <a th:href="@{/usuario/iniciarSesion}"class="link-success p-0">Iniciar sesión</a>
+>>>>>>> 60930666e2cdf70035700295d4e3fb9ad6a75cc3
                                         </div>
                                     </div>
                                 </form>

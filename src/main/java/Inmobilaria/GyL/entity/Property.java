@@ -17,6 +17,7 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String address;
+    private String province;
     private String location;
     @Enumerated(EnumType.STRING)
     private PropertyStatus status;
@@ -28,16 +29,13 @@ public class Property {
     private Integer surface;
     private Integer bathrooms;
     private Integer bedrooms;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     private Double price;
     private String description;
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ImageProperty> images;
+
+
 
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
@@ -55,8 +53,45 @@ public class Property {
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<DayPlan> timetable;
-
+    private boolean isRented;
+    private boolean isActive;
     private Integer duration;
+
+    public Property() {
+    }
+
+    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration, String province, boolean isRented, boolean isActive) {
+        this.address = address;
+        this.location = location;
+        this.status = status;
+        this.type = type;
+        this.surface = surface;
+        this.bathrooms = bathrooms;
+        this.bedrooms = bedrooms;
+        this.price = price;
+        this.description = description;
+        this.images = images;
+        this.offers = offers;
+        this.user = user;
+        this.appointments = appointments;
+        this.timetable = timetable;
+        this.duration = duration;
+        this.province = province;
+        this.isRented = isRented;
+        this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setRented(boolean rented) {
+        isRented = rented;
+    }
 
     public Integer getDuration() {
         return duration;
@@ -72,9 +107,6 @@ public class Property {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Property() {
     }
 
     public Integer getBathrooms() {
@@ -93,30 +125,8 @@ public class Property {
         this.bedrooms = bedrooms;
     }
 
-    public Property(String address, String location, PropertyStatus status, PropertyType type, Integer surface, Integer bathrooms, Integer bedrooms, Double price, String description, List<ImageProperty> images, List<Offer> offers, User user, List<Appointment> appointments, List<DayPlan> timetable, Integer duration) {
-        this.address = address;
-        this.location = location;
-        this.status = status;
-        this.type = type;
-        this.surface = surface;
-        this.bathrooms = bathrooms;
-        this.bedrooms = bedrooms;
-        this.price = price;
-        this.description = description;
-        this.images = images;
-        this.offers = offers;
-        this.user = user;
-        this.appointments = appointments;
-        this.timetable = timetable;
-        this.duration = duration;
-    }
-
     public List<Offer> getOffers() {
         return offers;
-    }
-
-    public void setOffers(List<Offer> offers) {
-        this.offers = offers;
     }
 
     public Long getId() {
@@ -145,10 +155,6 @@ public class Property {
 
     public void setStatus(PropertyStatus status) {
         this.status = status;
-    }
-
-    public LocalDate getCreateDate() {
-        return createDate;
     }
 
     public PropertyType getType() {
@@ -183,10 +189,16 @@ public class Property {
         this.description = description;
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
     public List<ImageProperty> getImages() {
         return images;
     }
-
     public void setImages(List<ImageProperty> images) {
         this.images = images;
     }

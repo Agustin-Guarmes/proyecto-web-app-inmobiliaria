@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,10 +31,12 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
-    public void createProperty(User user, String address, String location, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs, Integer bathrooms, Integer bedrooms) throws IOException {
+    public void createProperty(User user, String address, String location, String province, String status, String type, Integer surface, Double price, String description, List<MultipartFile> imgs, Integer bathrooms, Integer bedrooms) throws IOException {
         Property property = new Property();
         property.setUser(user);
-        setPropertyAttributes(address, location, status, type, surface, price, description, property,bathrooms,bedrooms);
+        setPropertyAttributes(address, location, province, status, type, surface, price, description, property, bathrooms, bedrooms);
+        property.setRented(false);
+        property.setActive(true);
         pr.save(property);
         for (MultipartFile img : imgs) {
             ips.saveImg(img, property);
@@ -40,12 +44,11 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
-    public void updateProperty(Long id, String address, String location, String status, String type, Integer surface, Double price, String description,
-                               Integer bathrooms, Integer bedrooms) {
+    public void updateProperty(Long id, String address, String location, String province, String status, String type, Integer surface, Double price, String description, Integer bathrooms, Integer bedrooms) {
         Optional<Property> isFound = pr.findById(id);
         if (isFound.isPresent()) {
             Property updatedProperty = isFound.get();
-            setPropertyAttributes(address, location, status, type, surface, price, description, updatedProperty, bathrooms, bedrooms);
+            setPropertyAttributes(address, location, province, status, type, surface, price, description, updatedProperty, bathrooms, bedrooms);
             pr.save(updatedProperty);
         }
     }
@@ -56,13 +59,41 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
+    public List<Property> clientProperties(Long id) {
+        return pr.clientProperties(id);
+    }
+
+    @Override
     public Property findById(Long id) {
         return pr.findById(id).get();
     }
 
     @Override
+    public List<Property> filteredProperties(Long id) {
+        return pr.filteredProperties(id);
+    }
+
+    @Override
     public List<Property> listProperties() {
-        return pr.findAll();
+        return pr.findAllEntity();
+    }
+
+    @Override
+    public List<Property> listRandomProperties(Long id) {
+        List<Property> randomProperties;
+        if (id == 0) {
+            randomProperties = pr.findAllEntity();
+        } else {
+            randomProperties = pr.filteredProperties(Long.valueOf(id));
+        }
+        Collections.shuffle(randomProperties);
+        return randomProperties.stream().limit(3).collect(Collectors.toList());
+    }
+
+    @Override
+    public void rentProperty(Property property) {
+        property.setRented(true);
+        pr.save(property);
     }
 
     @Override
@@ -72,18 +103,6 @@ public class PropertyService implements IPropertyService {
             pr.deleteById(id);
         }
     }
-
-    /*@Override
-    public void updateProperty(Long id, String address, Integer surface, Double price) {
-        Optional<Property> isFound = pr.findById(id);
-        if (isFound.isPresent()) {
-            Property updatedProperty = isFound.get();
-            updatedProperty.setSurface(surface);
-            updatedProperty.setPrice(price);
-            updatedProperty.setAddress(address);
-            pr.save(updatedProperty);
-        }
-    }*/
 
     @Override
     public List<Appointment> findAllAppointmentsByProperty(Long id) {
@@ -103,7 +122,7 @@ public class PropertyService implements IPropertyService {
         return timetable;
     }
 
-    private void setPropertyAttributes(String address, String location, String status, String type, Integer surface, Double price, String description, Property updatedProperty, Integer bathrooms, Integer bedrooms) {
+    private void setPropertyAttributes(String address, String location, String province, String status, String type, Integer surface, Double price, String description, Property updatedProperty, Integer bathrooms, Integer bedrooms) {
         updatedProperty.setAddress(address);
         updatedProperty.setLocation(location);
 //        if(Arrays.asList(PropertyStatus.values()).contains(status))
@@ -114,6 +133,7 @@ public class PropertyService implements IPropertyService {
         updatedProperty.setDescription(description);
         updatedProperty.setBathrooms(bathrooms);
         updatedProperty.setBedrooms(bedrooms);
+        updatedProperty.setProvince(province);
     }
 
     @Override
@@ -126,4 +146,23 @@ public class PropertyService implements IPropertyService {
         }
     }
 
+    @Override
+    public List<Property> findByUserName(String word) {
+        return pr.findByUserName(word);
+    }
+
+    @Override
+    public void toggleActiveProperty(Long id, boolean isActive) {
+        pr.deactivateProperty(id, isActive);
+    }
+
+    @Override
+    public List<Property> findAll() {
+        return pr.findAll();
+    }
+
+    @Override
+    public void setPropertyState(Property p) {
+        pr.save(p);
+    }
 }
