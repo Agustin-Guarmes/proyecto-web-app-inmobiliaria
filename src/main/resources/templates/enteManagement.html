@@ -2,10 +2,8 @@
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head th:replace="/fragments/head :: head"></head>
     <body onload="loadTheme()">
-
         <div class="d-flex flex-column min-vh-100">
             <nav th:replace="/fragments/nav :: nav"></nav>
-
             <section class="flex-grow-1">
                 <div class="container">
                     <div class="row">
@@ -14,7 +12,6 @@
                                 <button class="btn btn-outline-dark p-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-controls="navbarNav">
                                     Contenido de la página <i class="fa fa-arrows-up-down mx-2"></i>
                                 </button>
-
                                 <div class="collapse navbar-collapse" id="navbarNav">
                                     <ul class="navbar-nav flex-column">
                                         <li class="nav-item">
@@ -52,7 +49,6 @@
                                 </div>
                             </nav>
                         </div>
-
                         <div class="col-md-9">
                             <div data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="0" class="scrollspy-example-2"
                                  tabindex="0">
@@ -73,10 +69,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div id="administrar-horarios">
                                     <h2>Administración de Horarios</h2>
-
                                     <div id="mis-horarios">
                                         <h3>Mis Horarios Publicados</h3>
                                         <div class="row">
@@ -138,7 +132,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div id="nuevo-horario">
                                         <h3>Publicar Horarios Nuevos</h3>
                                         <div class="row">
@@ -163,9 +156,7 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
                                 <div id="gestion-ofertas">
                                     <h2>Gestión de Ofertas</h2>
                                     <div id="ofertas-recibidas">
@@ -214,8 +205,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                     <div id="ofertas-resueltas">
                                         <h3>Respuestas a Ofertas</h3>
                                         <div class="row">
@@ -261,19 +250,44 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-
-
-
-
-
+                            <div class="container table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Dirección</th>
+                                        <th scope="col">Dia oferta</th>
+                                        <th scope="col">Precio propiedad</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Confirmación</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody th:each="offer : ${offers}">
+                                    <tr>
+                                        <td th:text="${offer.property.address}"></td>
+                                        <td th:text="${offer.creationDate}"></td>
+                                        <td th:text="${offer.price}"></td>
+                                        <td th:text="${offer.offerStatus.name() == 'CLIENT_OFFER'}
+                                                    ?'Pendiente':
+                                                    (${offer.offerStatus.name() == 'ENTITY_ACCEPTED'}
+                                                    ?'Confirmar':(${offer.offerStatus.name() == 'ENTITY_REJECTED'}
+                                                    ?'Rechazado' : 'Finalizado')
+                                                    )">
+                                        </td>
+                                        <td th:class="${offer.offerStatus.name() == 'CLIENT_OFFER'} ? ' ': 'd-none'">
+                                            <a class="btn btn-success"
+                                               th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Accept')}">Confirmar</a>
+                                            <a class="btn btn-danger"
+                                               th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Decline')}">Rechazar</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
-
             <footer th:replace="/fragments/footer :: footer"></footer>
         </div>
         <script src="/js/theme.js"></script>

@@ -35,6 +35,8 @@ public class Property {
     @JsonIgnore
     private List<ImageProperty> images;
 
+
+
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Offer> offers;
@@ -193,5 +195,11 @@ public class Property {
 
     public void setProvince(String province) {
         this.province = province;
+    }
+    public List<ImageProperty> getImages() {
+        return images;
+    }
+    public void setImages(List<ImageProperty> images) {
+        this.images = images;
     }
 }

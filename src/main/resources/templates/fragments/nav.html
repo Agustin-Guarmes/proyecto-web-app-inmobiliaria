@@ -95,7 +95,7 @@
                             </a>
                         </li>
                         <li th:if="${session.userSession != null}" sec:authorize="hasRole('ENTITY')">
-                            <a class="dropdown-item" th:href="@{/usuario/gestionEnidad}">
+                            <a class="dropdown-item" th:href="@{/ofertas/listaPropietario/__${session.userSession.id}__}">
                                 <i class="bi bi-bar-chart pe-2"></i>
                                 Mis gestiones</a>
                         </li>
