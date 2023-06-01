@@ -138,22 +138,17 @@ public class OfferService implements IOfferService {
     @Override
     public void adminModifyUser(Long id, String name, Long dni, String role, String email, String status) {
         Optional<User> response = userService.findById(id);
-
         if (response.isPresent()) {
             User user = response.get();
-
             user.setName(name);
             user.setDni(dni);
             user.setEmail(email);
-
             if(user.isActive() != Boolean.valueOf(status)){
                 for (Property property : user.getProperties()) {
                     toggleActivePropertyAndOffers(property.getId(), Boolean.valueOf(status));
                 }
             }
-
             user.setActive(Boolean.valueOf(status));
-
             switch (role) {
                 case "propietario":
                     user.setRole(Role.ENTITY);

@@ -36,6 +36,18 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("SELECT p FROM Property p WHERE p.type = ?1")
     List<Property> findByType(PropertyType type);
 
+    @Query("SELECT p FROM Property p WHERE p.status = ?1")
+    List<Property> findByStatus(PropertyStatus status);
+
+    @Query("SELECT p FROM Property p WHERE p.price <= ?1")
+    List<Property> findByPriceMinor(double price);
+
+    @Query("SELECT p FROM Property p WHERE p.price >= ?1")
+    List<Property> findByPriceBigger(double price);
+
+    @Query("SELECT p FROM Property p WHERE p.price BETWEEN ?1 AND ?2")
+    List<Property> findByPriceBetween(Integer low, Integer high);
+
     @Query("SELECT p FROM Property p WHERE p.surface >= ?1")
     List<Property> findBySurfaceBigger(Integer surface);
 
@@ -47,15 +59,6 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query("SELECT p FROM Property p WHERE p.location = ?1")
     List<Property> findByLocation(String location);
-
-    @Query("SELECT p FROM Property p WHERE p.status = ?1")
-    List<Property> findByStatus(PropertyStatus status);
-
-    @Query("SELECT p FROM Property p WHERE p.price <= ?1")
-    List<Property> findByPrice(Integer price);
-
-    @Query("SELECT p FROM Property p WHERE p.price BETWEEN ?1 AND ?2")
-    List<Property> findByPriceBetween(Integer low, Integer high);
 
     @Query("SELECT a FROM Appointment a WHERE a.property.id = ?1")
     List<Appointment> findAllAppointmentsByProperty(Long id);
