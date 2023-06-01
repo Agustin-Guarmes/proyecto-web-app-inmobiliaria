@@ -27,14 +27,14 @@ public class PropertyController {
     public String propiedadesFiltradas(@PathVariable Long id,ModelMap model) {
         model.put("properties", propertyService.filteredProperties(id));
         model.put("title", "MrHouse | Propiedades");
-        return "propertiesTest.html";
+        return "properties.html";
     }
 
     @GetMapping("/lista")
     public String propiedades(ModelMap model) {
         model.put("properties", propertyService.listProperties());
         model.put("title", "MrHouse | Propiedades");
-        return "propertiesTest.html";
+        return "properties.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")

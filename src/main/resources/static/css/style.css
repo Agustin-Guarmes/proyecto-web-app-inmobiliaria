@@ -124,7 +124,7 @@
     flex-wrap: wrap;
 }
 
-#Provincia, #Referencia, #Depto-Casa, #Superficie ,#Dormitorios, #Baños, #Precio, #Filtrar, #Button{
+#Provincia, #Referencia, #Depto-Casa, #Superficie ,#Dormitorios, #Baños, #Precio, #Filtrar, {
    border:3px solid #13653f;
    border-radius:22px;
    padding:12px;
