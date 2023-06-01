@@ -24,7 +24,7 @@ function provincia() {
                 ;
             });
 
-            let $options = `<option hidden >Elige una provincia</option>`;
+            let $options = `<option hidden value="null">Elige una provincia</option>`;
 
             provinces.forEach(e => $options += `<option value="${e.nombre}">${e.nombre}</option>`);
 
