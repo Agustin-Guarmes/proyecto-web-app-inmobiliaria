@@ -201,7 +201,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-5">
-                                                <select name="appointmentId" id="available-appointments">
+                                                <select name="appointmentId" id="available-appointments" th:data-property-id="${property.id}">
                                                 </select>
                                             </div>
                                             <button type="submit" class="btn btn-primary">
@@ -248,9 +248,10 @@
         });
         $('div tbody').on('click', 'tr > .day', function () {
             var selectedDate = $(this).data().day;
+            var propertyId = $('#available-appointments').attr('data-property-id');
 
             $.ajax({
-                url: '/api/property/2/availableAppointments',
+                url: '/api/property/' + propertyId + '/availableAppointments',
                 type: 'GET',
                 data: {
                     date: selectedDate
@@ -263,10 +264,9 @@
                         $('#available-appointments').append('<option id="' + value.id + '" value=' + value.id + '>' + formattedStart + '</option>');
                     });
                 }
-
             })
             $.ajax({
-                url: '/api/property/2/availableAppointments',
+                url: '/api/property/' + propertyId + '/availableAppointments',
                 type: 'GET',
                 dataType: "json",
                 success: function (response) {

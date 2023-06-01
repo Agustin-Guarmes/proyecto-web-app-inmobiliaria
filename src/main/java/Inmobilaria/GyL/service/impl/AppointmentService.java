@@ -70,11 +70,13 @@ public class AppointmentService implements IAppointmentService {
     public List<Appointment> saveAvailableAppointments(DayPlan dayPlan, Long id) {
         ArrayList<Appointment> availablePeriods = new ArrayList<>();
         Property property = propertyService.findById(id);
+
         Appointment availablePeriod = new Appointment(dayPlan.getTimetableDay().atTime(dayPlan.getStart()),
                 dayPlan.getTimetableDay().atTime(dayPlan.getStart()).plusMinutes(property.getDuration()),
                 dayPlan.getTimetableDay(),
                 property,
                 AppointmentStatus.AVAILABLE);
+
         while (availablePeriod.getEnd().toLocalTime().isBefore(dayPlan.getEnd()) ||
                 availablePeriod.getEnd().toLocalTime().equals(dayPlan.getEnd())) {
             availablePeriods.add(new Appointment(availablePeriod.getStart(),

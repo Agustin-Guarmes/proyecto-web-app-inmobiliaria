@@ -125,13 +125,7 @@
     flex-wrap: wrap;
 }
 
-* {
-    box-sizing: border-box;
-}
-.container {
-    max-width: 100%;
-}
-.wrapper {
+.wrapperr {
     background: #f5f5f5;
     width: 400px;
     height: 500px;
@@ -176,4 +170,14 @@
     color: #fff;
     background-color: #ff007d;
     border-color: #ff007d;
+}
+#Provincia, #Referencia, #Depto-Casa, #Superficie ,#Dormitorios, #Baños, #Precio, #Filtrar, #Button{
+   border:3px solid #13653f;
+   border-radius:22px;
+   padding:12px;
+}
+
+#superficiemin,#superficiemax, #preciominimo, #preciomaximo{
+    justify-content: center;
+    align-items: center;
 }

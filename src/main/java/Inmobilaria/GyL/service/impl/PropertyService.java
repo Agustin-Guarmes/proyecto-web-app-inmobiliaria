@@ -36,6 +36,7 @@ public class PropertyService implements IPropertyService {
         property.setUser(user);
         setPropertyAttributes(address, location, province, status, type, surface, price, description, property, bathrooms, bedrooms);
         property.setRented(false);
+        property.setDuration(30);
         property.setActive(true);
         pr.save(property);
         for (MultipartFile img : imgs) {
