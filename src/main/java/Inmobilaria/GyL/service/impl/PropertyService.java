@@ -165,4 +165,28 @@ public class PropertyService implements IPropertyService {
     public void setPropertyState(Property p) {
         pr.save(p);
     }
+
+    public List<Property> filterProperties(String propertyStatus, String propertyType, Double minPrice, Double maxPrice, String province) {
+        List<Property> availableProperties = pr.findAllEntity();
+        if (province != null)
+            availableProperties = availableProperties.stream().filter(p -> p.getProvince() == province).collect(Collectors.toList());
+        if (propertyStatus != null)
+            availableProperties = availableProperties.stream().filter(p -> p.getStatus() == PropertyStatus.valueOf(propertyStatus)).collect(Collectors.toList());
+        if (propertyType != null)
+            availableProperties = availableProperties.stream().filter(p -> p.getType() == PropertyType.valueOf(propertyType)).collect(Collectors.toList());
+        if (minPrice != null || maxPrice != null)
+            availableProperties = priceFilter(availableProperties, minPrice, maxPrice);
+        return availableProperties;
+    }
+
+    private List<Property> priceFilter(List<Property> properties, Double minPrice, Double maxPrice) {
+        if (minPrice != null && maxPrice != null && minPrice >= maxPrice) {
+            properties = properties.stream().filter(p -> p.getPrice() >= minPrice && p.getPrice() <= maxPrice).collect(Collectors.toList());
+        } else if (minPrice != null) {
+            properties = properties.stream().filter(p -> p.getPrice() <= minPrice).collect(Collectors.toList());
+        } else if (maxPrice != null) {
+            properties = properties.stream().filter(p -> p.getPrice() >= maxPrice).collect(Collectors.toList());
+        }
+        return properties;
+    }
 }
