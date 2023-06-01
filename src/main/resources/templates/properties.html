@@ -5,48 +5,46 @@
 <nav th:replace="/fragments/nav :: nav"></nav>
 
 <h1 class="mt-5 mb-4 text-center">Propiedades</h1>
-<form action="" method="post">
+<form th:action="@{/propiedades/filtrar}" method="post">
     <div class="container mt-5 d-flex align-items-center justify-content-center gap-3 ">
         <div class="w-50">
             <select name="province" id="selectProvincias" class="form-select border border-success">
-                <option hidden >Seleccionar una provincia</option>
+                <option hidden>Seleccionar una provincia</option>
             </select>
         </div>
 
         <select name="status" class="w-25 form-select border border-success">
-            <option hidden selected>Compra/Venta</option>
+            <option hidden value="null">Compra/Venta</option>
             <option value="FOR_SALE">Comprar</option>
-            <option value="FOR_RENT">Vender</option>
+            <option value="FOR_RENT">Alquilar</option>
         </select>
 
         <select name="type" class="w-25 form-select border border-success">
-            <option hidden selected>Depto-Casa</option>
+            <option hidden value="null">Depto-Casa</option>
             <option value="CASA">Casa</option>
             <option value="PISO">Piso</option>
             <option value="DEPARTAMENTO">Departamento</option>
         </select>
 
         <select name="bedrooms" class="w-25 form-select border border-success">
-            <option hidden selected>Dormitorios</option>
-            <option value="opcion1">1</option>
-            <option value="opcion2">2</option>
-            <option value="opcion3">3</option>
+            <option hidden value="null">Dormitorios</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5+</option>
         </select>
 
         <div class="w-50 d-flex align-items-center justify-content-center gap-3">
             <label>Precio:</label>
-            <input name="preciominimo" type="number" min="0" class="form-control border border-success" placeholder="Min">
-            <input name="preciomaximo" type="number" max="999999999" class="form-control border border-success" placeholder="Max">
+            <input name="minPrice" type="number" min="0" class="form-control border border-success" placeholder="Min 3000">
+            <input name="maxPrice" type="number" max="999999999" class="form-control border border-success" placeholder="Max 4000">
         </div>
 
         <div class="w-25">
             <button type="submit" class="btn btn-success">Filtrar</button>
         </div>
     </div>
-
-
-
-
 </form>
 <main class="container mt-5">
     <div class="row g-4 justify-content-center">

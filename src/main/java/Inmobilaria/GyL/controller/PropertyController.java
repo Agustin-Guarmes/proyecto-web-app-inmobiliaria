@@ -83,4 +83,10 @@ public class PropertyController {
         propertyService.addImageToProperty(id, Arrays.asList(files));
         return "redirect:/propiedades/modificar/" + id;
     }
+
+    @PostMapping("/filtrar")
+    public String filterProperty(@RequestParam(required = false) String status, @RequestParam(required = false) String type, @RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice, @RequestParam(required = false) String province, ModelMap model){
+        model.put("properties",propertyService.filterProperties(status,type,minPrice,maxPrice,province));
+        return "properties";
+    }
 }
