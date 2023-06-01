@@ -166,6 +166,7 @@ public class PropertyService implements IPropertyService {
         pr.save(p);
     }
 
+    @Override
     public List<Property> filterProperties(String propertyStatus, String propertyType, Double minPrice, Double maxPrice, String province) {
         List<Property> availableProperties = pr.findAllEntity();
         if (province != null)
