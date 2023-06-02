@@ -124,7 +124,6 @@ public class UserController {
 
     @GetMapping("/{user_id}/turnos")
     public String getAppointmentsForUser(@PathVariable("user_id") Long userId) {
-
         return "appointments.html";
     }
 
