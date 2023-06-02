@@ -124,7 +124,6 @@ public class UserController {
 
     @GetMapping("/{user_id}/turnos")
     public String getAppointmentsForUser(@PathVariable("user_id") Long userId) {
-
         return "appointments.html";
     }
 
@@ -142,9 +141,6 @@ public class UserController {
         model.put("offers", userService.findByEntityTheOffers(id));
         model.put("properties", propertyService.findByUser(id));
         model.put("title", "MrHouse | Gestión");
-        return "enteManagement";
+        return "enteManagement2";
     }
 }
-
-
-

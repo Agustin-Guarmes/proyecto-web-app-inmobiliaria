@@ -3,7 +3,10 @@ package Inmobilaria.GyL.service.impl;
 import Inmobilaria.GyL.entity.DayPlan;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.repository.DayPlanRepository;
+import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IDayPlanService;
+import Inmobilaria.GyL.service.IPropertyService;
+import Inmobilaria.GyL.service.ITimePeriodService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,23 +18,34 @@ public class DayPlanService implements IDayPlanService {
 
     private final DayPlanRepository dayPlanRepository;
 
-    public DayPlanService(DayPlanRepository dayPlanRepository) {
+    private final IPropertyService propertyService;
+
+    private final ITimePeriodService timePeriodService;
+
+    private final IAppointmentService appointmentService;
+
+    public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService, ITimePeriodService timePeriodService, IAppointmentService appointmentService) {
         this.dayPlanRepository = dayPlanRepository;
+        this.propertyService = propertyService;
+        this.timePeriodService = timePeriodService;
+        this.appointmentService = appointmentService;
     }
 
     @Override
-    public DayPlan createDayPlan(LocalDate timetableDay, LocalTime starTime, LocalTime endTime, Property property) {
+    public DayPlan addDayPlan(Long propertyId, LocalDate timetableDay, LocalTime start, LocalTime end) {
         DayPlan dayPlan = new DayPlan();
+        Property property = propertyService.findById(propertyId);
         dayPlan.setTimetableDay(timetableDay);
-        dayPlan.setStart(starTime);
-        dayPlan.setEnd(endTime);
+        dayPlan.setStart(start);
+        dayPlan.setEnd(end);
         dayPlan.setProperty(property);
+        appointmentService.saveAvailableAppointments(dayPlan, propertyId);
         return dayPlanRepository.save(dayPlan);
     }
 
     @Override
-    public List<DayPlan> findAllDayPlanByProperty(Property property) {
-        return dayPlanRepository.findAllByProperty(property.getId());
+    public List<DayPlan> findAllDayPlanByProperty(Long id) {
+        return dayPlanRepository.findAllByProperty(id);
     }
 
     @Override
