@@ -1,76 +1,214 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head th:replace="/fragments/head :: head"></head>
-    <body onload="loadTheme()">
-        <div class="d-flex flex-column min-vh-100">
-            <nav th:replace="/fragments/nav :: nav"></nav>
-            <section class="flex-grow-1">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <nav class="navbar navbar-expand-md navbar-light h-100">
-                                <button class="btn btn-outline-dark p-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-controls="navbarNav">
-                                    Contenido de la página <i class="fa fa-arrows-up-down mx-2"></i>
-                                </button>
-                                <div class="collapse navbar-collapse" id="navbarNav">
-                                    <ul class="navbar-nav flex-column">
+<head th:replace="/fragments/head :: head"></head>
+<body onload="loadTheme()">
+<div class="d-flex flex-column min-vh-100">
+    <nav th:replace="/fragments/nav :: nav"></nav>
+    <main class="flex-grow-1">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <nav class="navbar navbar-expand-md navbar-light h-100">
+                        <button class="btn btn-outline-dark p-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none collapsed"
+                                type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                                aria-expanded="false" aria-controls="navbarNav">
+                            Contenido de la página <i class="fa fa-arrows-up-down mx-2"></i>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav flex-column">
+                                <li class="nav-item">
+                                    <div class="nav-link" href="#administrar-horarios">Administración de horarios</div>
+                                    <ul class="nav flex-column ms-3">
                                         <li class="nav-item">
-                                            <div class="nav-link" href="#administrar-horarios">Administración de horarios</div>
-                                            <ul class="nav flex-column ms-3">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="#mis-horarios">Mis horarios publicados</a>
-                                                </li>
-<!--                                                <li class="nav-item">
-                                                    <a class="nav-link" href="#nuevo-horario">Publicar Horarios Nuevos</a></li>-->
-                                            </ul>
-                                        </li>
-                                        <li class="nav-item">
-                                            <div class="nav-link" href="#gestion-ofertas">Gestión de ofertas</div>
-                                            <ul class="nav flex-column ms-3">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="#ofertas-recibidas">Ofertas recibidas</a>
-                                                </li>
-<!--                                                <li class="nav-item"><a class="nav-link" href="#ofertas-resueltas">Respuestas a-->
-<!--                                                        Ofertas</a>                                              </li>-->
-                                            </ul>
-                                        </li>
-                                        <li class="nav-item">
-                                            <div class="nav-link" href="#gestion-inmuebles">Gestión de inmuebles</div>
-                                            <ul class="nav flex-column ms-3">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" th:href="@{/propiedades/formulario}">Publicar inmueble</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="#mis-inmuebles">Mis inmuebles</a>
-                                                </li>
-                                                <!--                                                <li class="nav-item"><a class="nav-link" href="#modificar-inmueble">Modificar-->
-                                                <!--                                                        Inmueble</a></li>-->
-                                            </ul>
+                                            <a class="nav-link" href="#mis-horarios">Mis horarios publicados</a>
                                         </li>
                                     </ul>
-                                </div>
-                            </nav>
+                                </li>
+                                <li class="nav-item">
+                                    <div class="nav-link" href="#gestion-ofertas">Gestión de ofertas</div>
+                                    <ul class="nav flex-column ms-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#ofertas-recibidas">Ofertas recibidas</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <div class="nav-link" href="#gestion-inmuebles">Gestión de inmuebles</div>
+                                    <ul class="nav flex-column ms-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link" th:href="@{/propiedades/formulario}">Publicar
+                                                inmueble</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#mis-inmuebles">Mis inmuebles</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="col-md-9">
-                            <div data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="0" class="scrollspy-example-2"
+                    </nav>
+                </div>
+                <div class="col-md-9">
+                    <section>
+                        <div class="row">
+                            <div class="container mt-3">
+                                <h2 class="mt-4 mb-4">Gestión de inmuebles</h2>
+                                <h3 class="mb-4">Mis inmuebles</h3>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Dirección</th>
+                                            <th scope="col">Provincia</th>
+                                            <th scope="col">Localidad</th>
+                                            <th scope="col">Precio</th>
+                                            <th scope="col">Imagen</th>
+                                            <th scope="col">Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody th:each="property : ${properties}">
+                                        <tr>
+                                            <td th:text="${property.address}" style="max-width: 100px;"></td>
+                                            <td th:text="${property.province}" style="max-width: 100px;"></td>
+                                            <td th:text="${property.location}" style="max-width: 100px;"></td>
+                                            <td th:text="${property.price}" style="max-width: 100px;">
+                                            </td>
+                                            <td style="max-width: 100px;">
+                                                <img th:src="@{/image/propiedades/__${property.images[0].id}__}"
+                                                     class="rounded-circle img_into ms-2">
+                                            </td>
+                                            <td class="ps-1" style="max-width: 100px;">
+                                                <div class="btn-group" role="group">
+                                                    <div class="btn btn-primary">
+                                                        <a th:href="@{/propiedades/modificar/__${property.id}__}"><i
+                                                                class="bi bi-pencil-square"></i></a>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                                        th:data-bs-target="'#appoinmentModalProperty' + ${property.id}">
+                                                    <i class="bi bi-calendar-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                        th:data-bs-target="'#deleteModalProperty' + ${property.id}">
+                                                    <i class="bi bi-trash icon" data-bs-toggle="tooltip"
+                                                       data-bs-placement="right" title="Eliminar"></i>
+                                                </button>
+                                                <!--Modal Turno-->
+                                                <div class="modal fade"
+                                                     th:id="'appoinmentModalProperty' + ${property.id}"
+                                                     tabindex="-1"
+                                                     aria-labelledby="appoinmentModalPropertyLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content p-3">
+                                                            <form>
+                                                                <h3>Publicar Horarios Nuevos</h3>
+                                                                <div class="form-group mb-2">
+                                                                    <label for="fecha" class="form-label">Fecha:</label>
+                                                                    <input type="date" id="fecha" name="fecha"
+                                                                           class="form-control" required>
+                                                                </div>
+                                                                <div class="form-group mb-2">
+                                                                    <label for="hora_inicio" class="form-label">Hora de
+                                                                        inicio:</label>
+                                                                    <input type="time" id="hora_inicio"
+                                                                           name="hora_inicio"
+                                                                           class="form-control" step="1800" required>
+                                                                </div>
+                                                                <div class="form-group mb-2">
+                                                                    <label for="hora_fin" class="form-label">Hora de
+                                                                        fin:</label>
+                                                                    <input type="time" id="hora_fin" name="hora_fin"
+                                                                           class="form-control" step="1800" required>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary">Publicar
+                                                                    Horarios
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--Fin Modal Turno-->
+                                                <!--Modal Eliminar-->
+                                                <div class="modal fade" th:id="'deleteModalProperty' + ${property.id}"
+                                                     tabindex="-1"
+                                                     aria-labelledby="deleteModalPropertyLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="deleteModalPropertyLabel">
+                                                                    Confirmación de
+                                                                    eliminación</h5>
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>¿Está seguro de que desea eliminar los cambios?</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">
+                                                                    Cancelar
+                                                                </button>
+                                                                <a class="btn btn-primary"
+                                                                   th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--Fin Modal Eliminar-->
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="gestion-ofertas">
+                            <h2 class="mt-4 mb-4">Gestión de ofertas</h2>
+                            <div id="ofertas-recibidas">
+                                <h3 class="mb-4">Ofertas recibidas</h3>
+                                <div class="row">
+                                    <div class="container col-12">
+                                        <table class="table table-hover col-12">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Dirección</th>
+                                                <th scope="col">Dia oferta</th>
+                                                <th scope="col">Precio propiedad</th>
+                                                <th scope="col">Estado</th>
+                                                <th scope="col">Confirmación</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody th:each="offer : ${offers}">
+                                            <tr>
+                                                <td th:text="${offer.property.address}"></td>
+                                                <td th:text="${offer.creationDate}"></td>
+                                                <td th:text="${offer.price}"></td>
+                                                <td th:text="${offer.offerStatus.name() == 'CLIENT_OFFER'}
+                                                    ?'Pendiente':
+                                                    (${offer.offerStatus.name() == 'ENTITY_ACCEPTED'}
+                                                    ?'Confirmar':(${offer.offerStatus.name() == 'ENTITY_REJECTED'}
+                                                    ?'Rechazado' : 'Finalizado')
+                                                    )">
+                                                </td>
+                                                <td th:class="${offer.offerStatus.name() == 'CLIENT_OFFER'} ? ' ': 'd-none'">
+                                                    <a class="btn btn-success"
+                                                       th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Accept')}">Confirmar</a>
+                                                    <a class="btn btn-danger"
+                                                       th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Decline')}">Rechazar</a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="0"
+                                 class="scrollspy-example-2"
                                  tabindex="0">
-<!--                                <div id="gestion-inmuebles">-->
-<!--                                    <h2>Gestión de Inmuebles</h2>-->
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-md-6">-->
-<!--                                            <h3 id="publicar-inmueble">Publicar Inmueble</h3>-->
-<!--                                            <form>-->
-<!--                                                &lt;!&ndash; formulario ya hecho &ndash;&gt;-->
-<!--                                            </form>-->
-<!--                                        </div>-->
-<!--                                        <div class="col-md-6">-->
-<!--                                            <h3 id="modificar-inmueble">Modificar Inmueble</h3>-->
-<!--                                            <form>-->
-<!--                                                &lt;!&ndash; mostrar los inmuebles &ndash;&gt;-->
-<!--                                            </form>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
                                 <div id="administrar-horarios">
                                     <h2 class="mt-4 mb-4">Administración de horarios</h2>
                                     <div id="mis-horarios">
@@ -79,310 +217,74 @@
                                             <div class="col-md-12">
                                                 <table class="table">
                                                     <thead>
-                                                        <tr>
-                                                            <th>Dirección</th>
-                                                            <th>Fecha</th>
-                                                            <th>Hora de inicio</th>
-                                                            <th>Hora de fin</th>
-                                                            <th>Acciones</th>
-                                                        </tr>
+                                                    <tr>
+                                                        <th>Dirección</th>
+                                                        <th>Fecha</th>
+                                                        <th>Hora de inicio</th>
+                                                        <th>Hora de fin</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <!-- Aquí se mostrarían los horarios publicados -->
-                                                        <tr>
-                                                            <td>asdasd</td>
-                                                            <td>Fecha 1</td>
-                                                            <td>Hora de inicio 1</td>
-                                                            <td>Hora de fin 1</td>
-                                                            <td>
-                                                                <!-- Botones de acciones (modificar, eliminar) -->
-                                                                <button class="btn btn-sm btn-primary">Modificar</button>
-                                                                <button class="btn btn-sm btn-danger">Eliminar</button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>asdasd</td>
-                                                            <td>Fecha 2</td>
-                                                            <td>Hora de inicio 2</td>
-                                                            <td>Hora de fin 2</td>
-                                                            <td>
-                                                                <!-- Botones de acciones (modificar, eliminar) -->
-                                                                <button class="btn btn-sm btn-primary">Modificar</button>
-                                                                <button class="btn btn-sm btn-danger">Eliminar</button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>asdasd</td>
-                                                            <td>Fecha 2</td>
-                                                            <td>Hora de inicio 2</td>
-                                                            <td>Hora de fin 2</td>
-                                                            <td>
-                                                                <!-- Botones de acciones (modificar, eliminar) -->
-                                                                <button class="btn btn-sm btn-primary">Modificar</button>
-                                                                <button class="btn btn-sm btn-danger">Eliminar</button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>asdasd</td>
-                                                            <td>Fecha 2</td>
-                                                            <td>Hora de inicio 2</td>
-                                                            <td>Hora de fin 2</td>
-                                                            <td>
-                                                                <!-- Botones de acciones (modificar, eliminar) -->
-                                                                <button class="btn btn-sm btn-primary">Modificar</button>
-                                                                <button class="btn btn-sm btn-danger">Eliminar</button>
-                                                            </td>
-                                                        </tr>
-                                                        <!-- ... y así sucesivamente para cada horario publicado -->
+                                                    <tr>
+                                                        <td>asdasd</td>
+                                                        <td>Fecha 1</td>
+                                                        <td>Hora de inicio 1</td>
+                                                        <td>Hora de fin 1</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-primary">Modificar</button>
+                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>asdasd</td>
+                                                        <td>Fecha 2</td>
+                                                        <td>Hora de inicio 2</td>
+                                                        <td>Hora de fin 2</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-primary">Modificar</button>
+                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>asdasd</td>
+                                                        <td>Fecha 2</td>
+                                                        <td>Hora de inicio 2</td>
+                                                        <td>Hora de fin 2</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-primary">Modificar</button>
+                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>asdasd</td>
+                                                        <td>Fecha 2</td>
+                                                        <td>Hora de inicio 2</td>
+                                                        <td>Hora de fin 2</td>
+                                                        <td>
+                                                            <button class="btn btn-sm btn-primary">Modificar</button>
+                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                                                        </td>
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-<!--                                    <div id="nuevo-horario">-->
-<!--                                        <h3>Publicar Horarios Nuevos</h3>-->
-<!--                                        <div class="row">-->
-<!--                                            <div class="col-md-12">-->
-<!--                                                <form>-->
-<!--                                                    <div class="form-group">-->
-<!--                                                        <label for="fecha">Fecha:</label>-->
-<!--                                                        <input type="date" id="fecha" name="fecha" class="form-control" required>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="form-group">-->
-<!--                                                        <label for="hora_inicio">Hora de inicio:</label>-->
-<!--                                                        <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" step="1800"-->
-<!--                                                               required>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="form-group">-->
-<!--                                                        <label for="hora_fin">Hora de fin:</label>-->
-<!--                                                        <input type="time" id="hora_fin" name="hora_fin" class="form-control" step="1800"-->
-<!--                                                               required>-->
-<!--                                                    </div>-->
-<!--                                                    <button type="submit" class="btn btn-primary">Publicar Horarios</button>-->
-<!--                                                </form>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
                                 </div>
-                                <div id="gestion-ofertas">
-                                    <h2 class="mt-4 mb-4">Gestión de ofertas</h2>
-                                    <div id="ofertas-recibidas">
-                                        <h3 class="mb-4">Ofertas recibidas</h3>
-<!--                                        <div class="row">-->
-<!--                                            <div class="col-md-12">-->
-<!--                                                <table class="table">-->
-<!--                                                    <thead>-->
-<!--                                                        <tr>-->
-<!--                                                            <th>Inmueble</th>-->
-<!--                                                            <th>Fecha</th>-->
-<!--                                                            <th>Oferta</th>-->
-<!--                                                            &lt;!&ndash; El estado creo se puede sacar porque estarian todas pendientes &ndash;&gt;-->
-<!--                                                            <th>Estado</th>-->
-<!--                                                            <th>Acciones</th>-->
-<!--                                                        </tr>-->
-<!--                                                    </thead>-->
-<!--                                                    <tbody>-->
-<!--                                                        &lt;!&ndash; Aquí se mostrarían las ofertas recibidas &ndash;&gt;-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Inmueble 1</td>-->
-<!--                                                            <td>Fecha 1</td>-->
-<!--                                                            <td>Oferta 1</td>-->
-<!--                                                            <td>Pendiente</td>-->
-<!--                                                            <td>-->
-<!--                                                                &lt;!&ndash; el boton de ver no se si carece de sentido &ndash;&gt;-->
-<!--                                                                <button class="btn btn-sm btn-primary">Ver</button>-->
-<!--                                                                <button class="btn btn-sm btn-success">Aceptar</button>-->
-<!--                                                                <button class="btn btn-sm btn-danger">Rechazar</button>-->
-<!--                                                            </td>-->
-<!--                                                        </tr>-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Inmueble 2</td>-->
-<!--                                                            <td>Fecha 2</td>-->
-<!--                                                            <td>Oferta 2</td>-->
-<!--                                                            <td>Pendiente</td>-->
-<!--                                                            <td>-->
-<!--                                                                <button class="btn btn-sm btn-primary">Ver</button>-->
-<!--                                                                <button class="btn btn-sm btn-success">Aceptar</button>-->
-<!--                                                                <button class="btn btn-sm btn-danger">Rechazar</button>-->
-<!--                                                            </td>-->
-<!--                                                        </tr>-->
-<!--                                                        &lt;!&ndash; ... y así sucesivamente para cada oferta recibida &ndash;&gt;-->
-<!--                                                    </tbody>-->
-<!--                                                </table>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div id="ofertas-resueltas">-->
-<!--                                        <h3>Respuestas a Ofertas</h3>-->
-<!--                                        <div class="row">-->
-<!--                                            <div class="col-md-12">-->
-<!--                                                <table class="table">-->
-<!--                                                    <thead>-->
-<!--                                                        <tr>-->
-<!--                                                            <th>Inmueble</th>-->
-<!--                                                            <th>Fecha</th>-->
-<!--                                                            <th>Oferta</th>-->
-<!--                                                            <th>Estado</th>-->
-<!--                                                            <th>Acciones</th>-->
-<!--                                                        </tr>-->
-<!--                                                    </thead>-->
-<!--                                                    <tbody>-->
-<!--                                                        &lt;!&ndash; Aquí se mostrarían las ofertas recibidas &ndash;&gt;-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Inmueble 3</td>-->
-<!--                                                            <td>Fecha 3</td>-->
-<!--                                                            <td>Oferta 3</td>-->
-<!--                                                            <td>Rechazada</td>-->
-<!--                                                            <td>-->
-<!--                                                                <button class="btn btn-sm btn-primary">Ver</button>-->
-<!--                                                                <button class="btn btn-sm btn-warning">Modificar</button>-->
-<!--                                                                <button class="btn btn-sm btn-danger">Eliminar</button>-->
-<!--                                                            </td>-->
-<!--                                                        </tr>-->
-<!--                                                        <tr>-->
-<!--                                                            <td>Inmueble 4</td>-->
-<!--                                                            <td>Fecha 4</td>-->
-<!--                                                            <td>Oferta 4</td>-->
-<!--                                                            <td>Aceptada</td>-->
-<!--                                                            <td>-->
-<!--                                                                <button class="btn btn-sm btn-primary">Ver</button>-->
-<!--                                                                <button class="btn btn-sm btn-warning">Modificar</button>-->
-<!--                                                                <button class="btn btn-sm btn-danger">Eliminar</button>-->
-<!--                                                            </td>-->
-<!--                                                        </tr>-->
-<!--                                                        &lt;!&ndash; ... y así sucesivamente para cada oferta recibida &ndash;&gt;-->
-<!--                                                    </tbody>-->
-<!--                                                </table>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-                                        <div class="row">
-
-
-                            <div class="container col-12">
-                                <table class="table table-hover col-12">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Dirección</th>
-                                        <th scope="col">Dia oferta</th>
-                                        <th scope="col">Precio propiedad</th>
-                                        <th scope="col">Estado</th>
-                                        <th scope="col">Confirmación</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody th:each="offer : ${offers}">
-                                    <tr>
-                                        <td th:text="${offer.property.address}"></td>
-                                        <td th:text="${offer.creationDate}"></td>
-                                        <td th:text="${offer.price}"></td>
-                                        <td th:text="${offer.offerStatus.name() == 'CLIENT_OFFER'}
-                                                    ?'Pendiente':
-                                                    (${offer.offerStatus.name() == 'ENTITY_ACCEPTED'}
-                                                    ?'Confirmar':(${offer.offerStatus.name() == 'ENTITY_REJECTED'}
-                                                    ?'Rechazado' : 'Finalizado')
-                                                    )">
-                                        </td>
-                                        <td th:class="${offer.offerStatus.name() == 'CLIENT_OFFER'} ? ' ': 'd-none'">
-                                            <a class="btn btn-success"
-                                               th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Accept')}">Confirmar</a>
-                                            <a class="btn btn-danger"
-                                               th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Decline')}">Rechazar</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
 
-                                    </div>
-                                    <div class="row">
-                                        <div class="container mt-3">
-
-                                            <h2 class="mt-4 mb-4">Gestión de inmuebles</h2>
-                                            <h3 class="mb-4">Mis inmuebles</h3>
-                                            <div class="table-responsive">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                    <tr>
-                                                        <th scope="col">Dirección</th>
-                                                        <th scope="col">Provincia</th>
-                                                        <th scope="col">Localidad</th>
-                                                        <th scope="col">Precio</th>
-                                                        <th scope="col">Imagen</th>
-                                                        <th scope="col">Acciones</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody th:each="property : ${properties}">
-                                                    <tr>
-                                                            <td th:text="${property.address}"></td>
-                                                            <td th:text="${property.province}"></td>
-                                                            <td th:text="${property.location}"></td>
-                                                            <td th:text="${property.price}">
-                                                            </td>
-                                                            <td>
-                                                                <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="rounded-circle img_into ms-2" >
-                                                            </td>
-                                                            <td class="ps-3">
-                                                                <div class="btn-group" role="group">
-                                                                    <div class="btn btn-primary">
-                                                                        <a th:href="@{/propiedades/modificar/__${property.id}__}"><i class="bi bi-pencil-square"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                    </div>
-                    </div>
+                    </section>
                 </div>
-            </section>
-            <footer th:replace="/fragments/footer :: footer"></footer>
+            </div>
         </div>
-        <script src="/js/theme.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    </main>
+</div>
+<footer th:replace="/fragments/footer :: footer"></footer>
+<script src="/js/theme.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-
-    <script>
-        $(function () {
-            $('#calendar').calendar({
-
-            // select date on init
-            selectedDate: "02/15/2023",
-            // date format
-            format: "MM/DD/YYYY",
-            // custom next/prev icons
-            iconNext: '',
-            iconPrev: '',
-            // set the label of the date input
-            inputLabel: 'Set a date',
-            // set the placeholder of the date input
-            inputPlaceholder: 'Enter a date',
-            // hide the input and today button
-            hideInputs: false,
-            // enable dark mode
-            darkMode: false,
-            // or 'lite-purple'
-            theme: 'unstyled',
-            // custom styles here
-            styles: `
-      button {
-        color: blue
-      }
-    `,
-            // callback
-            onChange: (e) => {
-                console.log(e.detail);
-            },
-            onRender: (e) => {
-                console.log(e.detail.calendar);
-            },
-
-            });
-        });
-    </script>
-    </body>
+</body>
 </html>

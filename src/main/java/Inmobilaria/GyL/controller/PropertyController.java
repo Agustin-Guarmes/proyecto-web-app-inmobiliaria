@@ -40,14 +40,14 @@ public class PropertyController {
     public String propiedadesFiltradas(@PathVariable Long id,ModelMap model) {
         model.put("properties", propertyService.filteredProperties(id));
         model.put("title", "MrHouse | Propiedades");
-        return "propertiesTest.html";
+        return "properties.html";
     }
 
     @GetMapping("/lista")
     public String propiedades(ModelMap model) {
         model.put("properties", propertyService.listProperties());
         model.put("title", "MrHouse | Propiedades");
-        return "propertiesTest.html";
+        return "properties.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
@@ -96,7 +96,6 @@ public class PropertyController {
         propertyService.addImageToProperty(id, Arrays.asList(files));
         return "redirect:/propiedades/modificar/" + id;
     }
-
     @PostMapping("/disponibilidad/{propertyId}")
     public String addDayPlan(@PathVariable("propertyId") Long propertyId,
                              @RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate timetableDay,
@@ -120,4 +119,9 @@ public class PropertyController {
         return "appointmentProperty.html";
     }
 
+    @PostMapping("/filtrar")
+    public String filterProperty(@RequestParam(required = false) String status, @RequestParam(required = false) String type, @RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice, @RequestParam(required = false) String province, ModelMap model){
+        model.put("properties",propertyService.filterProperties(status,type,minPrice,maxPrice,province));
+        return "properties";
+    }
 }
