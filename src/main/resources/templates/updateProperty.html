@@ -26,14 +26,16 @@
                                 <div class="mb-3">
                                     <label for="selectProvincias" class="form-label">Provincia</label>
                                     <select name="province" id="selectProvincias" class="form-select" required>
-                                        <option  th:value="${property.province}" th:text="${property.province}" selected></option>
+                                        <option th:value="${property.province}" th:text="${property.province}"
+                                                selected></option>
                                     </select>
                                 </div>
                                 <span></span>
                                 <div class="mb-3">
                                     <label for="selectLocalidades" class="form-label">Localidad</label>
                                     <select name="location" id="selectLocalidades" class="form-select" required>
-                                        <option th:value="${property.location}" th:text="${property.location}" selected></option>
+                                        <option th:value="${property.location}" th:text="${property.location}"
+                                                selected></option>
                                     </select>
                                 </div>
                                 <span></span>
@@ -78,7 +80,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Descripción</label>
-                                    <input type="text" name="description" class="form-control" id="description"
+                                    <input type="text-area" row="2" name="description" class="form-control"
+                                           id="description"
                                            maxlength="200" th:value="${property.description}" required>
                                 </div>
                                 <div class="d-grid">
@@ -91,9 +94,12 @@
                             </div>
                             <div class="propertyCardDetailImgSmall pe-2 ps-2 mt-3">
                                 <div class="row">
-                                    <div class="col col-4 position-relative mb-3 p-0 pe-1 ps-1" th:each="image : ${property.images}">
-                                        <img class="img-fluid w-100 rounded" th:src="@{/image/propiedades/__${image.id}__}" style="height: 150px;">
-                                        <a th:class="${#lists.size(property.images)} > 1 ? 'btn-close btn-close-white me-1 position-absolute top-0 end-0' : 'd-none'" aria-label="Close" style="color: blue;"
+                                    <div class="col col-4 position-relative mb-3 p-0 pe-1 ps-1"
+                                         th:each="image : ${property.images}">
+                                        <img class="img-fluid w-100 rounded"
+                                             th:src="@{/image/propiedades/__${image.id}__}" style="height: 150px;">
+                                        <a th:class="${#lists.size(property.images)} > 1 ? 'btn-close btn-close-white me-1 position-absolute top-0 end-0' : 'd-none'"
+                                           aria-label="Close" style="color: blue;"
                                            th:href="@{/image/eliminar/idImg/{idImg}/idProp/{idProp}(idImg = ${image.id}, idProp = ${property.id})}"></a>
                                     </div>
                                 </div>
@@ -112,6 +118,99 @@
                                     </div>
                                 </div>
                             </form>
+                            <hr>
+
+                            <div class="card-header text-center">
+                                <h5 class="card-title mt-1">Horarios de disponibilidad</h5>
+                            </div>
+                            <div id="administrar-horarios">
+                                <div id="mis-horarios">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Hora de inicio</th>
+                                                    <th>Hora de fin</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody th:each="dayPlan : ${property.timetable}">
+                                                <tr>
+                                                    <td th:text="${dayPlan.timetableDay}"></td>
+                                                    <td th:text="${dayPlan.start}"></td>
+                                                    <td th:text="${dayPlan.end}"></td>
+                                                    <td>
+                                                        <!-- Botones de acciones (modificar, eliminar) -->
+                                                        <button class="btn btn-sm btn-primary">Modificar</button>
+                                                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- ... y así sucesivamente para cada horario publicado -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="card-header text-center">
+                                    <h5 class="card-title mt-1">Publicar horarios nuevos</h5>
+                                </div>
+                                <div id="nuevo-horario">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form method="post"
+                                                  th:action="@{/propiedades/disponibilidad/__${property.id}__}">
+                                                <div class="form-group">
+                                                    <label for="fecha">Fecha:</label>
+                                                    <input type="date" id="fecha" name="timetableDay"
+                                                           class="form-control" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="hora_inicio">Hora de inicio:</label>
+                                                    <input type="time" id="hora_inicio" name="start"
+                                                           class="form-control" step="1800"
+                                                           required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="hora_fin">Hora de fin:</label>
+                                                    <input type="time" id="hora_fin" name="end" class="form-control"
+                                                           step="1800"
+                                                           required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">
+                                                    Publicar Horario
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-header text-center">
+                                    <h5 class="card-title mt-1">Turnos disponibles</h5>
+                                </div>
+                                <form method="post"
+                                      th:action="@{/propiedades/__${property.id}__/reservarTurno}">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class='col-sm-7'>
+                                                <div class="form-group">
+                                                    <div id='datetimepicker'></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <select name="appointmentId" id="available-appointments" th:data-property-id="${property.id}">
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">
+                                                Reservar Turno
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,12 +219,63 @@
     </main>
     <footer th:replace="/fragments/footer :: footer"></footer>
 </div>
+<script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <script src="/js/registerProperty.js"></script>
 <script src="/js/theme.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/moment.js"></script>
+<script type="text/javascript" src="/js/fullcalendar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+<script type="text/javascript"
+        src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+
+
+<script>
+    $(function () {
+        $('#datetimepicker').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            locale: 'en',
+            format: 'yyyy-MM-dd',
+        });
+        $('div tbody').on('click', 'tr > .day', function () {
+            var selectedDate = $(this).data().day;
+            var propertyId = $('#available-appointments').attr('data-property-id');
+
+            $.ajax({
+                url: '/api/property/' + propertyId + '/availableAppointments',
+                type: 'GET',
+                data: {
+                    date: selectedDate
+                },
+                dataType: "json",
+                success: function (response) {
+                    $("#available-appointments").empty();
+                    $.each(response, function (i, value) {
+                        let formattedStart = moment(value.start).format('HH:mm');
+                        $('#available-appointments').append('<option id="' + value.id + '" value=' + value.id + '>' + formattedStart + '</option>');
+                    });
+                }
+            })
+            $.ajax({
+                url: '/api/property/' + propertyId + '/availableAppointments',
+                type: 'GET',
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                }
+            });
+        })
+    });
+</script>
 </body>
 
 
