@@ -145,6 +145,3 @@ public class UserController {
         return "enteManagement2";
     }
 }
-
-
-
