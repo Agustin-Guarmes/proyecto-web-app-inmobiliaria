@@ -141,9 +141,6 @@ public class UserController {
         model.put("offers", userService.findByEntityTheOffers(id));
         model.put("properties", propertyService.findByUser(id));
         model.put("title", "MrHouse | Gestión");
-        return "enteManagement";
+        return "enteManagement2";
     }
 }
-
-
-
