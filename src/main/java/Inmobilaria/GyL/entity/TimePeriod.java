@@ -1,8 +1,11 @@
 package Inmobilaria.GyL.entity;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 public class TimePeriod implements Comparable<TimePeriod> {
@@ -14,6 +17,10 @@ public class TimePeriod implements Comparable<TimePeriod> {
     private LocalTime start;
 
     private LocalTime end;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date appointmentDate;
 
     @ManyToOne
     private Property property;

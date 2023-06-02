@@ -4,6 +4,7 @@ import Inmobilaria.GyL.entity.DayPlan;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.TimePeriod;
 import Inmobilaria.GyL.repository.TimePeriodRepository;
+import Inmobilaria.GyL.service.IPropertyService;
 import Inmobilaria.GyL.service.ITimePeriodService;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,11 @@ public class TimePeriodService implements ITimePeriodService {
 
     private final TimePeriodRepository timePeriodRepository;
 
-    public TimePeriodService(TimePeriodRepository timePeriodRepository) {
+    private final IPropertyService propertyService;
+
+    public TimePeriodService(TimePeriodRepository timePeriodRepository, IPropertyService propertyService) {
         this.timePeriodRepository = timePeriodRepository;
+        this.propertyService = propertyService;
     }
 
     private List<TimePeriod> findAllPeriodsByProperty(Property property, LocalDate date) {
@@ -35,16 +39,16 @@ public class TimePeriodService implements ITimePeriodService {
     }
 
     /*Calcula los turnos disponibles a partir de la disponibilidad ingresada por el Ente*/
-    private List<TimePeriod> saveAvailablePeriods(List<DayPlan> availableDayPlan, Property property) {
+    @Override
+    public List<TimePeriod> saveAvailablePeriods(DayPlan dayPlan, Long id) {
         ArrayList<TimePeriod> availablePeriods = new ArrayList<>();
-        for (DayPlan period : availableDayPlan) {
-            TimePeriod availablePeriod = new TimePeriod(period.getStart(), period.getStart().plusMinutes(property.getDuration()), property);
-            while (availablePeriod.getEnd().isBefore(period.getEnd()) || availablePeriod.getEnd().equals(period.getEnd())) {
-                availablePeriods.add(availablePeriod);
-                timePeriodRepository.save(availablePeriod);
-                availablePeriod.setStart(availablePeriod.getEnd());
-                availablePeriod.setEnd(availablePeriod.getEnd().plusMinutes(property.getDuration()));
-            }
+        Property property = propertyService.findById(id);
+        TimePeriod availablePeriod = new TimePeriod(dayPlan.getStart(), dayPlan.getStart().plusMinutes(property.getDuration()), property);
+        while (availablePeriod.getEnd().isBefore(dayPlan.getEnd()) || availablePeriod.getEnd().equals(dayPlan.getEnd())) {
+            availablePeriods.add(new TimePeriod(availablePeriod.getStart(), availablePeriod.getStart().plusMinutes(property.getDuration()), property));
+            timePeriodRepository.save(new TimePeriod(availablePeriod.getStart(), availablePeriod.getStart().plusMinutes(property.getDuration()), property));
+            availablePeriod.setStart(availablePeriod.getEnd());
+            availablePeriod.setEnd(availablePeriod.getEnd().plusMinutes(property.getDuration()));
         }
         return availablePeriods;
     }

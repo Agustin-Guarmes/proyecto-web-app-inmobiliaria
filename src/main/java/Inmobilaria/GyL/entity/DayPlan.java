@@ -1,5 +1,7 @@
 package Inmobilaria.GyL.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,6 +20,8 @@ public class DayPlan implements Comparable<DayPlan> {
     private LocalTime end;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Property property;
 
     public DayPlan(LocalDate timetableDay, LocalTime startTime, LocalTime end, Property property) {
