@@ -18,12 +18,13 @@
   })
 })()
 
+//validación de la confirmación de la contraseña
 const passwordInput = document.getElementById('password');
 const confirmPasswordInput = document.getElementById('confirmPassword');
 const error1Feedback = document.getElementById('error1');
 const error2Feedback = document.getElementById('error2');
 
-confirmPasswordInput.addEventListener('input', () => {
+function validateConfirmPassword() {
   if (confirmPasswordInput.value === '') {
     confirmPasswordInput.setCustomValidity(' ');
     error1Feedback.classList.remove('d-none');
@@ -37,26 +38,51 @@ confirmPasswordInput.addEventListener('input', () => {
     error1Feedback.classList.add('d-none');
     error2Feedback.classList.add('d-none');
   }
-});
+}
+//vuelve a ejecutar la validación de confirmPassword cada vez que se modifique la contraseña
+confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+passwordInput.addEventListener('input', validateConfirmPassword);
 
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-
-const regExEmail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-const regExPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
-
-emailInput.addEventListener('input', () => {
-  if (!regExEmail.test(emailInput.value)) {
-    emailInput.setCustomValidity('Correo electrónico inválido');
-  } else {
-    emailInput.setCustomValidity('');
-  }
-});
-
+//validación de la contraseña para que tenga entre 8 y 20 caracteres, con al menos una letra mayúscula, una letra minúscula y un dígito
 passwordInput.addEventListener('input', () => {
-  if (!regExPass.test(passwordInput.value)) {
-    passwordInput.setCustomValidity('La contraseña debe tener entre 8 y 20 caracteres, al menos una letra mayúscula, una letra minúscula y un dígito.');
+  var password = passwordInput.value;
+  if (password.length < 8 || password.length > 20 ||
+          !/[A-Z]/.test(password) ||
+          !/[a-z]/.test(password) ||
+          !/\d/.test(password)) {
+          passwordInput.setCustomValidity('invalid');
   } else {
     passwordInput.setCustomValidity('');
   }
 });
+
+//validación del dni para que sea un número de 7 a 9 dígitos
+    var dniInput = document.getElementById('dni');
+
+    dniInput.addEventListener('input', () => {
+      var dni = dniInput.value.trim();
+
+      if (!/^\d{7,9}$/.test(dni)) {
+        dniInput.setCustomValidity('invalid');
+      } else {
+        dniInput.setCustomValidity('');
+      }
+    });
+
+//validación para el correo electronico
+    var emailInput = document.getElementById('email');
+
+    emailInput.addEventListener('input', () => {
+      var email = emailInput.value.trim();
+
+      if (!isValidEmail(email)) {
+        emailInput.setCustomValidity('Ingrese un correo electrónico válido');
+      } else {
+        emailInput.setCustomValidity('');
+      }
+    });
+
+    function isValidEmail(email) {
+      var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+      return emailRegex.test(email);
+    }

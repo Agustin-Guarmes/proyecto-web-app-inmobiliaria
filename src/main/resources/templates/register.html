@@ -28,7 +28,7 @@
                                             <label for="name" class="form-label">Nombre</label>
                                             <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre" required>
                                             <div class="valid-feedback">
-                                                Nombre correcto!
+                                                Nombre válido!
                                             </div>
                                             <div class="invalid-feedback">
                                                 Por favor, ingrese su nombre.
@@ -38,7 +38,7 @@
                                             <label for="dni" class="form-label">DNI</label>
                                             <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI" required>
                                             <div class="valid-feedback">
-                                                DNI correcto!
+                                                DNI válido!
                                             </div>
                                             <div class="invalid-feedback">
                                                 Por favor, ingrese su DNI.
@@ -48,7 +48,7 @@
                                             <label for="email" class="form-label">Correo electrónico</label>
                                             <input type="email" class="form-control" name="email" id="email" placeholder="Ingrese su correo electrónico" required>
                                             <div class="valid-feedback">
-                                                Correo electrónico correcto!
+                                                Correo electrónico válido!
                                             </div>
                                             <div class="invalid-feedback">
                                                 Por favor, ingrese su correo electrónico.
@@ -76,10 +76,10 @@
                                             <label for="password" class="form-label">Contraseña</label>
                                             <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
                                             <div class="valid-feedback">
-                                                Contraseña ingresada!
+                                                Contraseña válida!
                                             </div>
                                             <div class="invalid-feedback">
-                                                Por favor, ingrese una contraseña.
+                                                Por favor, ingrese una contraseña que contenga entre 8 y 20 caracteres, con al menos una letra mayúscula, una letra minúscula y un dígito.
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -90,6 +90,9 @@
                                             </div>
                                             <div class="invalid-feedback d-none" id="error2" >
                                                 Las contraseñas no coinciden.
+                                            </div>
+                                            <div class="valid-feedback">
+                                                Contraseña confirmada!
                                             </div>
                                         </div>
                                         <div class="d-grid mb-2">
