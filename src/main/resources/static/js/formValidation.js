@@ -22,30 +22,45 @@
 const passwordInput = document.getElementById('password');
 const confirmPasswordInput = document.getElementById('confirmPassword');
 const error1Feedback = document.getElementById('error1');
-const error2Feedback = document.getElementById('error2');
+//const error2Feedback = document.getElementById('error2');
 
 function validateConfirmPassword() {
   if (confirmPasswordInput.value === '') {
     confirmPasswordInput.setCustomValidity(' ');
     error1Feedback.classList.remove('d-none');
-    error2Feedback.classList.add('d-none');
+    //error2Feedback.classList.add('d-none');
   } else if (confirmPasswordInput.value !== passwordInput.value) {
     confirmPasswordInput.setCustomValidity('invalid');
     error1Feedback.classList.add('d-none');
-    error2Feedback.classList.remove('d-none');
+    //error2Feedback.classList.remove('d-none');
   } else {
     confirmPasswordInput.setCustomValidity('');
     error1Feedback.classList.add('d-none');
-    error2Feedback.classList.add('d-none');
+    //error2Feedback.classList.add('d-none');
   }
 }
 //vuelve a ejecutar la validación de confirmPassword cada vez que se modifique la contraseña
-confirmPasswordInput.addEventListener('input', validateConfirmPassword);
-passwordInput.addEventListener('input', validateConfirmPassword);
+if (confirmPasswordInput) {
+    confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+    passwordInput.addEventListener('input', validateConfirmPassword);
+    //poder ver la confirmación de la contraseña
+    const toggleConfirmPasswordButton = document.getElementById('toggleConfirmPassword');
+    if (toggleConfirmPasswordButton) {
+    toggleConfirmPasswordButton.addEventListener('click', function () {
+      const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      confirmPasswordInput.setAttribute('type', type);
+
+      // Cambiar el icono del ojo
+      toggleConfirmPasswordButton.querySelector('i').classList.toggle('bi-eye');
+      toggleConfirmPasswordButton.querySelector('i').classList.toggle('bi-eye-slash');
+    });
+    }
+}
 
 //validación de la contraseña para que tenga entre 8 y 20 caracteres, con al menos una letra mayúscula, una letra minúscula y un dígito
+if (passwordInput) {
 passwordInput.addEventListener('input', () => {
-  var password = passwordInput.value;
+  let password = passwordInput.value;
   if (password.length < 8 || password.length > 20 ||
           !/[A-Z]/.test(password) ||
           !/[a-z]/.test(password) ||
@@ -55,10 +70,24 @@ passwordInput.addEventListener('input', () => {
     passwordInput.setCustomValidity('');
   }
 });
+    //poder ver la contraseña
+    const togglePasswordButton = document.getElementById('togglePassword');
+    if (togglePasswordButton) {
+    togglePasswordButton.addEventListener('click', function () {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+
+      // Cambiar el icono del ojo
+      togglePasswordButton.querySelector('i').classList.toggle('bi-eye');
+      togglePasswordButton.querySelector('i').classList.toggle('bi-eye-slash');
+    });
+    }
+}
+
 
 //validación del dni para que sea un número de 7 a 9 dígitos
-    var dniInput = document.getElementById('dni');
-
+var dniInput = document.getElementById('dni');
+if (dniInput) {
     dniInput.addEventListener('input', () => {
       var dni = dniInput.value.trim();
 
@@ -68,10 +97,11 @@ passwordInput.addEventListener('input', () => {
         dniInput.setCustomValidity('');
       }
     });
+}
 
 //validación para el correo electronico
-    var emailInput = document.getElementById('email');
-
+var emailInput = document.getElementById('email');
+if (emailInput) {
     emailInput.addEventListener('input', () => {
       var email = emailInput.value.trim();
 
@@ -81,6 +111,7 @@ passwordInput.addEventListener('input', () => {
         emailInput.setCustomValidity('');
       }
     });
+}
 
     function isValidEmail(email) {
       var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
