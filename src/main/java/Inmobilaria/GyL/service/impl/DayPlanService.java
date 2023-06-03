@@ -20,14 +20,11 @@ public class DayPlanService implements IDayPlanService {
 
     private final IPropertyService propertyService;
 
-    private final ITimePeriodService timePeriodService;
-
     private final IAppointmentService appointmentService;
 
     public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService, ITimePeriodService timePeriodService, IAppointmentService appointmentService) {
         this.dayPlanRepository = dayPlanRepository;
         this.propertyService = propertyService;
-        this.timePeriodService = timePeriodService;
         this.appointmentService = appointmentService;
     }
 
@@ -46,6 +43,11 @@ public class DayPlanService implements IDayPlanService {
     @Override
     public List<DayPlan> findAllDayPlanByProperty(Long id) {
         return dayPlanRepository.findAllByProperty(id);
+    }
+
+    @Override
+    public List<DayPlan> findAllDayPlanByUser(Long id) {
+        return dayPlanRepository.findAllByUser(id);
     }
 
     @Override

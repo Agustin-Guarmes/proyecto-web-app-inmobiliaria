@@ -100,14 +100,16 @@ public class PropertyController {
     public String addDayPlan(@PathVariable("propertyId") Long propertyId,
                              @RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate timetableDay,
                              @RequestParam LocalTime start,
-                             @RequestParam LocalTime end) {
+                             @RequestParam LocalTime end,
+                             @SessionAttribute(required=false, name="userSession") User user) {
         dayPlanService.addDayPlan(propertyId, timetableDay, start, end);
-        return "redirect:/propiedades/modificar/" + propertyId;
+        return "redirect:/usuario/gestion/" + user.getId();
     }
 
     @PostMapping("/{propertyId}/reservarTurno")
     public String makeAnAppointment(@PathVariable("propertyId") Long propertyId,
-                                    @RequestParam Long appointmentId, @SessionAttribute(required=false, name="userSession") User user) {
+                                    @RequestParam Long appointmentId,
+                                    @SessionAttribute(required=false, name="userSession") User user) {
         appointmentService.bookAppointment(appointmentId, user);
         return "redirect:/propiedades/modificar/" + propertyId;
     }

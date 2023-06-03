@@ -13,5 +13,8 @@ public interface IDayPlanService {
 
     List<DayPlan> findAllDayPlanByProperty(Long id);
 
+    List<DayPlan> findAllDayPlanByUser(Long id);
+
     void deleteDayPlan(Long id);
+
 }

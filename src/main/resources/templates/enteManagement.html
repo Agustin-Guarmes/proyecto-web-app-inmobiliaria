@@ -101,24 +101,25 @@
                                                      aria-labelledby="appoinmentModalPropertyLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content p-3">
-                                                            <form>
+                                                            <form method="post"
+                                                                  th:action="@{/propiedades/disponibilidad/__${property.id}__}">
                                                                 <h3>Publicar Horarios Nuevos</h3>
                                                                 <div class="form-group mb-2">
                                                                     <label for="fecha" class="form-label">Fecha:</label>
-                                                                    <input type="date" id="fecha" name="fecha"
+                                                                    <input type="date" id="fecha" name="timetableDay"
                                                                            class="form-control" required>
                                                                 </div>
                                                                 <div class="form-group mb-2">
                                                                     <label for="hora_inicio" class="form-label">Hora de
                                                                         inicio:</label>
                                                                     <input type="time" id="hora_inicio"
-                                                                           name="hora_inicio"
+                                                                           name="start"
                                                                            class="form-control" step="1800" required>
                                                                 </div>
                                                                 <div class="form-group mb-2">
                                                                     <label for="hora_fin" class="form-label">Hora de
                                                                         fin:</label>
-                                                                    <input type="time" id="hora_fin" name="hora_fin"
+                                                                    <input type="time" id="hora_fin" name="end"
                                                                            class="form-control" step="1800" required>
                                                                 </div>
                                                                 <button type="submit" class="btn btn-primary">Publicar
@@ -225,46 +226,20 @@
                                                         <th>Acciones</th>
                                                     </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody th:each="dayPlan : ${timetable}">
                                                     <tr>
-                                                        <td>asdasd</td>
-                                                        <td>Fecha 1</td>
-                                                        <td>Hora de inicio 1</td>
-                                                        <td>Hora de fin 1</td>
+                                                        <td th:text="${dayPlan.property.address}"></td>
+                                                        <td th:text="${dayPlan.timetableDay}"></td>
+                                                        <td th:text="${dayPlan.start}"></td>
+                                                        <td th:text="${dayPlan.end}"></td>
                                                         <td>
+                                                            <!-- Botones de acciones (modificar, eliminar) -->
                                                             <button class="btn btn-sm btn-primary">Modificar</button>
-                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>asdasd</td>
-                                                        <td>Fecha 2</td>
-                                                        <td>Hora de inicio 2</td>
-                                                        <td>Hora de fin 2</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary">Modificar</button>
-                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>asdasd</td>
-                                                        <td>Fecha 2</td>
-                                                        <td>Hora de inicio 2</td>
-                                                        <td>Hora de fin 2</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary">Modificar</button>
-                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>asdasd</td>
-                                                        <td>Fecha 2</td>
-                                                        <td>Hora de inicio 2</td>
-                                                        <td>Hora de fin 2</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary">Modificar</button>
-                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
-                                                        </td>
+                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                                    th:data-bs-target="'#deleteModalDayPlan' + ${dayPlan.id}">
+                                                                <i class="bi bi-trash icon" data-bs-toggle="tooltip"
+                                                                   data-bs-placement="right" title="Eliminar"></i>
+                                                            </button>
                                                     </tr>
                                                     </tbody>
                                                 </table>
