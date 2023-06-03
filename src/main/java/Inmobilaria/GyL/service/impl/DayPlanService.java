@@ -2,6 +2,7 @@ package Inmobilaria.GyL.service.impl;
 
 import Inmobilaria.GyL.entity.DayPlan;
 import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.repository.DayPlanRepository;
 import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IDayPlanService;
@@ -51,8 +52,11 @@ public class DayPlanService implements IDayPlanService {
     }
 
     @Override
-    public void deleteDayPlan(Long id) {
-        dayPlanRepository.deleteById(id);
+    public void deleteDayPlan(Long id, User user) {
+        DayPlan dayPlan = dayPlanRepository.findById(id).get();
+        Property property = dayPlan.getProperty();
+        if (propertyService.findByUser(user.getId()).contains(property) && ) {
+            dayPlanRepository.deleteById(id);
+        }
     }
-
 }

@@ -96,6 +96,7 @@ public class PropertyController {
         propertyService.addImageToProperty(id, Arrays.asList(files));
         return "redirect:/propiedades/modificar/" + id;
     }
+    @PreAuthorize("hasAnyRole('ROLE_ENTITY')")
     @PostMapping("/disponibilidad/{propertyId}")
     public String addDayPlan(@PathVariable("propertyId") Long propertyId,
                              @RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate timetableDay,
@@ -103,6 +104,14 @@ public class PropertyController {
                              @RequestParam LocalTime end,
                              @SessionAttribute(required=false, name="userSession") User user) {
         dayPlanService.addDayPlan(propertyId, timetableDay, start, end);
+        return "redirect:/usuario/gestion/" + user.getId();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
+    @GetMapping("/disponibilidad/eliminar/{id}")
+    public String deleteDayPlan(@PathVariable Long id,
+                                @SessionAttribute(required=false, name="userSession") User user) {
+        dayPlanService.deleteDayPlan(id, user);
         return "redirect:/usuario/gestion/" + user.getId();
     }
 

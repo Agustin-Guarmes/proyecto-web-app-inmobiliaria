@@ -219,6 +219,7 @@
                                                 <table class="table">
                                                     <thead>
                                                     <tr>
+                                                        <th>Id</th>
                                                         <th>Dirección</th>
                                                         <th>Fecha</th>
                                                         <th>Hora de inicio</th>
@@ -228,6 +229,7 @@
                                                     </thead>
                                                     <tbody th:each="dayPlan : ${timetable}">
                                                     <tr>
+                                                        <td th:text="${dayPlan.id}"></td>
                                                         <td th:text="${dayPlan.property.address}"></td>
                                                         <td th:text="${dayPlan.timetableDay}"></td>
                                                         <td th:text="${dayPlan.start}"></td>
@@ -235,11 +237,41 @@
                                                         <td>
                                                             <!-- Botones de acciones (modificar, eliminar) -->
                                                             <button class="btn btn-sm btn-primary">Modificar</button>
-                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                            <button type="button" class="btn btn-danger"
+                                                                    data-bs-toggle="modal"
                                                                     th:data-bs-target="'#deleteModalDayPlan' + ${dayPlan.id}">
                                                                 <i class="bi bi-trash icon" data-bs-toggle="tooltip"
                                                                    data-bs-placement="right" title="Eliminar"></i>
                                                             </button>
+                                                            <div class="modal fade" th:id="'deleteModalDayPlan' + ${dayPlan.id}"
+                                                                 tabindex="-1"
+                                                                 aria-labelledby="deleteModalDayPlanLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="deleteModalDayPlanLabel">
+                                                                                Confirmación de
+                                                                                eliminación</h5>
+                                                                            <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>¿Está seguro de que desea eliminar el horario publicado?</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">
+                                                                                Cancelar
+                                                                            </button>
+                                                                            <a class="btn btn-primary"
+                                                                               th:href="@{/propiedades/disponibilidad/eliminar/__${dayPlan.id}__}">Eliminar</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Fin Modal Eliminar-->
+                                                        </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>

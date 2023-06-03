@@ -24,6 +24,14 @@ public class DayPlan implements Comparable<DayPlan> {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Property property;
 
+    public DayPlan(Long id, LocalDate timetableDay, LocalTime start, LocalTime end, Property property) {
+        this.id = id;
+        this.timetableDay = timetableDay;
+        this.start = start;
+        this.end = end;
+        this.property = property;
+    }
+
     public DayPlan(LocalDate timetableDay, LocalTime startTime, LocalTime end, Property property) {
         this.timetableDay = timetableDay;
         this.start = startTime;
