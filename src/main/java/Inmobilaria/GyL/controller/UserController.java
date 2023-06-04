@@ -25,12 +25,15 @@ public class UserController {
 
     private final IDayPlanService dayPlanService;
 
+    private final IAppointmentService appointmentService;
+
     private final UserService userService;
 
     public UserController(IPropertyService propertyService, IDayPlanService dayPlanService,
-                          UserService userService) {
+                          IAppointmentService appointmentService, UserService userService) {
         this.propertyService = propertyService;
         this.dayPlanService = dayPlanService;
+        this.appointmentService = appointmentService;
         this.userService = userService;
     }
 
@@ -146,6 +149,7 @@ public class UserController {
 
     @GetMapping("/gestion/{id}")
     public String dashboardEnte(@PathVariable Long id, ModelMap model, @SessionAttribute(required=false, name="userSession") User user){
+        model.put("bookedAppointments", appointmentService.findAllBookedAppointmentByUser(user.getId()));
         model.put("timetable", dayPlanService.findAllDayPlanByUser(user.getId()));
         model.put("offers", userService.findByEntityTheOffers(id));
         model.put("properties", propertyService.findByUser(id));

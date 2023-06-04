@@ -1,10 +1,12 @@
 package Inmobilaria.GyL.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class DayPlan implements Comparable<DayPlan> {
@@ -24,6 +26,12 @@ public class DayPlan implements Comparable<DayPlan> {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Property property;
 
+    @OneToMany(mappedBy = "dayPlan", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Appointment> appointments;
+
+    private Boolean isActive;
+
     public DayPlan(Long id, LocalDate timetableDay, LocalTime start, LocalTime end, Property property) {
         this.id = id;
         this.timetableDay = timetableDay;
@@ -39,16 +47,16 @@ public class DayPlan implements Comparable<DayPlan> {
         this.property = property;
     }
 
+    public DayPlan() {
+
+    }
+
     public Property getProperty() {
         return property;
     }
 
     public void setProperty(Property property) {
         this.property = property;
-    }
-
-    public DayPlan() {
-
     }
 
     public void setId(Long id) {
@@ -81,6 +89,18 @@ public class DayPlan implements Comparable<DayPlan> {
 
     public LocalTime getEnd() {
         return end;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 
     @Override

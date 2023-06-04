@@ -12,6 +12,8 @@ public interface DayPlanRepository extends JpaRepository<DayPlan, Long> {
 
     List<DayPlan> findAllByProperty(Long id);
 
-    @Query("SELECT d FROM DayPlan d WHERE (d.property.user.id = ?1) ORDER BY d.property.id ASC, d.timetableDay ASC, d.start ASC")
+    @Query("SELECT d FROM DayPlan d " +
+            "WHERE (d.property.user.id = ?1) AND (d.isActive = true)" +
+            "ORDER BY d.property.id ASC, d.timetableDay ASC, d.start ASC")
     List<DayPlan> findAllByUser(Long id);
 }

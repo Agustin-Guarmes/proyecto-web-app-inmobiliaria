@@ -1,11 +1,13 @@
 package Inmobilaria.GyL.service.impl;
 
-import Inmobilaria.GyL.entity.*;
+import Inmobilaria.GyL.entity.Appointment;
+import Inmobilaria.GyL.entity.DayPlan;
+import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.AppointmentStatus;
 import Inmobilaria.GyL.repository.AppointmentRepository;
 import Inmobilaria.GyL.repository.TimePeriodRepository;
 import Inmobilaria.GyL.service.IAppointmentService;
-import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
 import org.springframework.stereotype.Service;
 
@@ -51,13 +53,23 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
+    public Appointment updateAppointment(Long id, AppointmentStatus appointmentStatus) {
+        Appointment appointment = appointmentRepository.findById(id).get();
+        if (!(appointment == null)){
+            appointment.setAppointmentStatus(appointmentStatus);
+            appointmentRepository.save(appointment);
+        }
+        return appointment;
+    }
+
+    @Override
     public void deleteAppointment(Long id) {
         appointmentRepository.deleteById(id);
     }
 
     @Override
-    public List<Appointment> findAppointmentByUserId(Long id) {
-        return appointmentRepository.findAllByUserId(id);
+    public List<Appointment> findAllBookedAppointmentByUser(Long id) {
+        return appointmentRepository.findAllBookedByUser(id);
     }
 
     @Override
@@ -67,28 +79,28 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public List<Appointment> saveAvailableAppointments(DayPlan dayPlan, Long id) {
+    public List<Appointment> saveAvailableAppointments(DayPlan dayPlan, Property property) {
         ArrayList<Appointment> availablePeriods = new ArrayList<>();
-        Property property = propertyService.findById(id);
-
-        Appointment availablePeriod = new Appointment(dayPlan.getTimetableDay().atTime(dayPlan.getStart()),
-                dayPlan.getTimetableDay().atTime(dayPlan.getStart()).plusMinutes(property.getDuration()),
-                dayPlan.getTimetableDay(),
+        Appointment availablePeriod = new Appointment(dayPlan.getTimetableDay(),
                 property,
-                AppointmentStatus.AVAILABLE);
+                AppointmentStatus.AVAILABLE,
+                dayPlan.getTimetableDay().atTime(dayPlan.getStart()),
+                dayPlan.getTimetableDay().atTime(dayPlan.getStart()).plusMinutes(property.getDuration()));
 
         while (availablePeriod.getEnd().toLocalTime().isBefore(dayPlan.getEnd()) ||
                 availablePeriod.getEnd().toLocalTime().equals(dayPlan.getEnd())) {
-            availablePeriods.add(new Appointment(availablePeriod.getStart(),
-                    availablePeriod.getStart().plusMinutes(property.getDuration()),
-                    dayPlan.getTimetableDay(),
+            availablePeriods.add(new Appointment(dayPlan.getTimetableDay(),
                     property,
-                    AppointmentStatus.AVAILABLE));
-            appointmentRepository.save(new Appointment(availablePeriod.getStart(),
-                    availablePeriod.getStart().plusMinutes(property.getDuration()),
-                    dayPlan.getTimetableDay(),
+                    dayPlan,
+                    AppointmentStatus.AVAILABLE,
+                    availablePeriod.getStart(),
+                    availablePeriod.getStart().plusMinutes(property.getDuration())));
+            appointmentRepository.save(new Appointment(dayPlan.getTimetableDay(),
                     property,
-                    AppointmentStatus.AVAILABLE));
+                    dayPlan,
+                    AppointmentStatus.AVAILABLE,
+                    availablePeriod.getStart(),
+                    availablePeriod.getStart().plusMinutes(property.getDuration())));
             availablePeriod.setStart(availablePeriod.getEnd());
             availablePeriod.setEnd(availablePeriod.getEnd().plusMinutes(property.getDuration()));
         }
@@ -99,8 +111,13 @@ public class AppointmentService implements IAppointmentService {
     public Appointment bookAppointment(Long id, User client) {
         Appointment appointment = appointmentRepository.findById(id).get();
         appointment.setClient(client);
-        appointment.setState(AppointmentStatus.BOOKED);
+        appointment.setAppointmentStatus(AppointmentStatus.BOOKED);
         appointmentRepository.save(appointment);
         return appointment;
+    }
+
+    @Override
+    public List<Appointment> findAllByDayPlan(Long id) {
+        return appointmentRepository.findAllByDayPlan_Id(id);
     }
 }

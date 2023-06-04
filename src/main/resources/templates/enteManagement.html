@@ -183,8 +183,8 @@
                                                 <th scope="col">Confirmación</th>
                                             </tr>
                                             </thead>
-                                            <tbody th:each="offer : ${offers}">
-                                            <tr>
+                                            <tbody>
+                                            <tr th:each="offer : ${offers}">
                                                 <td th:text="${offer.property.address}"></td>
                                                 <td th:text="${offer.creationDate}"></td>
                                                 <td th:text="${offer.price}"></td>
@@ -227,8 +227,8 @@
                                                         <th>Acciones</th>
                                                     </tr>
                                                     </thead>
-                                                    <tbody th:each="dayPlan : ${timetable}">
-                                                    <tr>
+                                                    <tbody>
+                                                    <tr th:each="dayPlan : ${timetable}">
                                                         <td th:text="${dayPlan.id}"></td>
                                                         <td th:text="${dayPlan.property.address}"></td>
                                                         <td th:text="${dayPlan.timetableDay}"></td>
@@ -257,6 +257,25 @@
                                                                                     aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">
+                                                                            <h5>El horario disponible seleccionado, tiene los siguientes turnos asociados:</h5>
+                                                                            <table class="table">
+                                                                                <thead>
+                                                                                <tr>
+                                                                                    <th>Fecha</th>
+                                                                                    <th>Hora de inicio</th>
+                                                                                    <th>Hora de fin</th>
+                                                                                    <th>Cliente</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                <tr th:each="appointment : ${bookedAppointments}" th:if="${appointment.dayPlan.id} == ${dayPlan.id}">
+                                                                                    <td th:text="${appointment.date}"></td>
+                                                                                    <td th:text="${appointment.startTime}"></td>
+                                                                                    <td th:text="${appointment.endTime}"></td>
+                                                                                    <td th:text="${appointment.client.name}"></td>
+                                                                                </tr>
+                                                                                </tbody>
+                                                                            </table>
                                                                             <p>¿Está seguro de que desea eliminar el horario publicado?</p>
                                                                         </div>
                                                                         <div class="modal-footer">

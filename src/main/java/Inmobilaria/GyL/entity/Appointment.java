@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 public class Appointment implements Comparable<Appointment> {
@@ -21,7 +22,6 @@ public class Appointment implements Comparable<Appointment> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", referencedColumnName = "id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User client;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,7 +30,7 @@ public class Appointment implements Comparable<Appointment> {
     private Property property;
 
     @Enumerated(EnumType.STRING)
-    private AppointmentStatus state;
+    private AppointmentStatus appointmentStatus;
 
     @CreationTimestamp
     private LocalDate creationDate;
@@ -41,25 +41,38 @@ public class Appointment implements Comparable<Appointment> {
 
     private String title;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dayplan_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private DayPlan dayPlan;
+
     public Appointment(LocalDate appointmentDate, User client, Property property,
-                       AppointmentStatus state, LocalDate creationDate,
-                       LocalDateTime start, LocalDateTime end) {
+                       AppointmentStatus appointmentStatus, LocalDateTime start, LocalDateTime end) {
         this.date = appointmentDate;
         this.client = client;
         this.property = property;
-        this.state = state;
-        this.creationDate = creationDate;
+        this.appointmentStatus = appointmentStatus;
         this.start = start;
         this.end = end;
     }
 
-    public Appointment(LocalDateTime start, LocalDateTime end, LocalDate appointmentDate,Property property,
-                       AppointmentStatus state) {
-        this.start = start;
-        this.end = end;
+    public Appointment(LocalDate appointmentDate, Property property, DayPlan dayPlan,
+                       AppointmentStatus appointmentStatus, LocalDateTime start, LocalDateTime end) {
         this.date = appointmentDate;
         this.property = property;
-        this.state = state;
+        this.dayPlan = dayPlan;
+        this.appointmentStatus = appointmentStatus;
+        this.start = start;
+        this.end = end;
+    }
+
+    public Appointment(LocalDate appointmentDate, Property property,
+                       AppointmentStatus appointmentStatus, LocalDateTime start, LocalDateTime end) {
+        this.date = appointmentDate;
+        this.property = property;
+        this.appointmentStatus = appointmentStatus;
+        this.start = start;
+        this.end = end;
 //        this.title = title;
     }
 
@@ -79,6 +92,14 @@ public class Appointment implements Comparable<Appointment> {
         return start;
     }
 
+    public LocalTime getStartTime() {
+        return start.toLocalTime();
+    }
+
+    public LocalTime getEndTime() {
+        return end.toLocalTime();
+    }
+
     public void setStart(LocalDateTime startTime) {
         this.start = startTime;
     }
@@ -89,14 +110,6 @@ public class Appointment implements Comparable<Appointment> {
 
     public void setProperty(Property property) {
         this.property = property;
-    }
-
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
     }
 
     public Long getId() {
@@ -111,8 +124,8 @@ public class Appointment implements Comparable<Appointment> {
         return client;
     }
 
-    public AppointmentStatus getState() {
-        return state;
+    public AppointmentStatus getAppointmentStatus() {
+        return appointmentStatus;
     }
 
     public void setId(Long id) {
@@ -127,8 +140,8 @@ public class Appointment implements Comparable<Appointment> {
         this.client = client;
     }
 
-    public void setState(AppointmentStatus state) {
-        this.state = state;
+    public void setAppointmentStatus(AppointmentStatus state) {
+        this.appointmentStatus = state;
     }
 
     public String getTitle() {
@@ -137,6 +150,14 @@ public class Appointment implements Comparable<Appointment> {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public DayPlan getDayPlan() {
+        return dayPlan;
+    }
+
+    public void setDayPlan(DayPlan dayPlan) {
+        this.dayPlan = dayPlan;
     }
 
     @Override

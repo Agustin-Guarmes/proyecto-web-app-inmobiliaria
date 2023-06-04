@@ -1,8 +1,10 @@
 package Inmobilaria.GyL.service.impl;
 
+import Inmobilaria.GyL.entity.Appointment;
 import Inmobilaria.GyL.entity.DayPlan;
 import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
+import Inmobilaria.GyL.enums.AppointmentStatus;
 import Inmobilaria.GyL.repository.DayPlanRepository;
 import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IDayPlanService;
@@ -37,8 +39,10 @@ public class DayPlanService implements IDayPlanService {
         dayPlan.setStart(start);
         dayPlan.setEnd(end);
         dayPlan.setProperty(property);
-        appointmentService.saveAvailableAppointments(dayPlan, propertyId);
-        return dayPlanRepository.save(dayPlan);
+        dayPlan.setIsActive(true);
+        DayPlan savedDayPlan = dayPlanRepository.save(dayPlan);
+        appointmentService.saveAvailableAppointments(savedDayPlan, property);
+        return savedDayPlan;
     }
 
     @Override
@@ -55,8 +59,17 @@ public class DayPlanService implements IDayPlanService {
     public void deleteDayPlan(Long id, User user) {
         DayPlan dayPlan = dayPlanRepository.findById(id).get();
         Property property = dayPlan.getProperty();
-        if (propertyService.findByUser(user.getId()).contains(property) && ) {
-            dayPlanRepository.deleteById(id);
+        if (propertyService.findByUser(user.getId()).contains(property)) {
+            List<Appointment> appointments = appointmentService.findAllByDayPlan(id);
+            for (Appointment appointment : appointments) {
+                if (appointment.getAppointmentStatus() == AppointmentStatus.BOOKED) {
+                    appointmentService.updateAppointment(appointment.getId(), AppointmentStatus.CANCELED);
+                } else {
+                    appointmentService.deleteAppointment(appointment.getId());
+                }
+            }
+            dayPlan.setIsActive(false);
+            dayPlanRepository.save(dayPlan);
         }
     }
 }
