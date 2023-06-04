@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -16,4 +17,9 @@ public interface DayPlanRepository extends JpaRepository<DayPlan, Long> {
             "WHERE (d.property.user.id = ?1) AND (d.isActive = true)" +
             "ORDER BY d.property.id ASC, d.timetableDay ASC, d.start ASC")
     List<DayPlan> findAllByUser(Long id);
+
+    @Query("SELECT d FROM DayPlan d " +
+            "WHERE (d.isActive = true) AND (d.property.user.id = ?1) AND (d.timetableDay = ?2)" +
+            "ORDER BY d.property.id ASC, d.timetableDay ASC, d.start ASC")
+    List<DayPlan> findAllByUserAndTimetableDay(Long id, LocalDate timetableDay);
 }

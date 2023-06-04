@@ -33,16 +33,36 @@ public class DayPlanService implements IDayPlanService {
 
     @Override
     public DayPlan addDayPlan(Long propertyId, LocalDate timetableDay, LocalTime start, LocalTime end) {
-        DayPlan dayPlan = new DayPlan();
         Property property = propertyService.findById(propertyId);
-        dayPlan.setTimetableDay(timetableDay);
-        dayPlan.setStart(start);
-        dayPlan.setEnd(end);
-        dayPlan.setProperty(property);
-        dayPlan.setIsActive(true);
-        DayPlan savedDayPlan = dayPlanRepository.save(dayPlan);
-        appointmentService.saveAvailableAppointments(savedDayPlan, property);
-        return savedDayPlan;
+        if (property != null && dayPlanIsAvailable(property, timetableDay, start, end)) {
+            DayPlan dayPlan = new DayPlan();
+            dayPlan.setTimetableDay(timetableDay);
+            dayPlan.setStart(start);
+            dayPlan.setEnd(end);
+            dayPlan.setProperty(property);
+            dayPlan.setIsActive(true);
+            DayPlan savedDayPlan = dayPlanRepository.save(dayPlan);
+            appointmentService.saveAvailableAppointments(savedDayPlan, property);
+            return savedDayPlan;
+        }
+        return null;
+    }
+
+    private boolean dayPlanIsAvailable(Property property, LocalDate timetableDay, LocalTime start, LocalTime end) {
+        List<DayPlan> dayPlans = dayPlanRepository.findAllByUserAndTimetableDay(property.getUser().getId(), timetableDay);
+        boolean isAvailable = true;
+        int i = 0;
+        while (isAvailable && i < dayPlans.size()) {
+            DayPlan dayPlan = dayPlans.get(i);
+            if (((start.isAfter(dayPlan.getStart()) || start.equals(dayPlan.getStart()))
+                    && (start.isBefore(dayPlan.getEnd()))) ||
+                    ((end.isBefore(dayPlan.getEnd()) || end.equals(dayPlan.getEnd()))
+                            && (end.isAfter(dayPlan.getStart())))) {
+                isAvailable = false;
+            }
+            i++;
+        }
+        return isAvailable;
     }
 
     @Override
