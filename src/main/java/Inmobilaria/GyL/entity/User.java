@@ -37,6 +37,10 @@ public class User {
     @JsonIgnore
     private List<Offer> offers;
 
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Appointment> appointments;
+
     public User() {
     }
 
@@ -118,5 +122,13 @@ public class User {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }

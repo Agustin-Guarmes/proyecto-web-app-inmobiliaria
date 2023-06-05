@@ -96,20 +96,32 @@ public class PropertyController {
         propertyService.addImageToProperty(id, Arrays.asList(files));
         return "redirect:/propiedades/modificar/" + id;
     }
+    @PreAuthorize("hasAnyRole('ROLE_ENTITY')")
     @PostMapping("/disponibilidad/{propertyId}")
     public String addDayPlan(@PathVariable("propertyId") Long propertyId,
                              @RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate timetableDay,
                              @RequestParam LocalTime start,
-                             @RequestParam LocalTime end) {
+                             @RequestParam LocalTime end,
+                             @SessionAttribute(required=false, name="userSession") User user) {
         dayPlanService.addDayPlan(propertyId, timetableDay, start, end);
-        return "redirect:/propiedades/modificar/" + propertyId;
+        return "redirect:/usuario/gestion/" + user.getId();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
+    @GetMapping("/disponibilidad/eliminar/{id}")
+    public String deleteDayPlan(@PathVariable Long id,
+                                @SessionAttribute(required=false, name="userSession") User user) {
+        dayPlanService.deleteDayPlan(id, user);
+        return "redirect:/usuario/gestion/" + user.getId();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @PostMapping("/{propertyId}/reservarTurno")
     public String makeAnAppointment(@PathVariable("propertyId") Long propertyId,
-                                    @RequestParam Long appointmentId, @SessionAttribute(required=false, name="userSession") User user) {
+                                    @RequestParam Long appointmentId,
+                                    @SessionAttribute(required=false, name="userSession") User user) {
         appointmentService.bookAppointment(appointmentId, user);
-        return "redirect:/propiedades/modificar/" + propertyId;
+        return "redirect:/propiedades/" + propertyId;
     }
 
     @GetMapping("/turnos/{id}")

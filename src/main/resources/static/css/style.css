@@ -140,37 +140,41 @@
     max-width: none !important;
 }
 
-
-/* Ab hier für dich interessant :) */
-
 .bootstrap-datetimepicker-widget table thead tr:first-child th:hover, .bootstrap-datetimepicker-widget table td.day:hover, .bootstrap-datetimepicker-widget table td.hour:hover, .bootstrap-datetimepicker-widget table td.minute:hover, .bootstrap-datetimepicker-widget table td.second:hover, .bootstrap-datetimepicker-widget table td span:hover {
-    /* Hintergrundfarbe für die angehoverte Auswahl */
     background: #f5f5f5;
 }
 .bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover,
 .bootstrap-datetimepicker-widget table td span.active {
-    /* Hintergrundfarbe für die aktive Auswahl */
     background-color: #ff007d;
     color: #ffffff;
 }
 .bootstrap-datetimepicker-widget table td.today:before {
-    /* Dreieckfarbe für den aktuellen Tag */
     border-bottom-color: #ff007d;
 }
 .bootstrap-datetimepicker-widget table td.active.today:before {
-    /* Dreieckfarbe, wenn aktueller Tag und Auswahl gleicher Tag ist */
     border-bottom-color: #fff;
 }
 .bootstrap-datetimepicker-widget a {
-    /* Für das Kalender-Icon, das Uhrzeit-Icon und die Pfeile in der Uhrzeitauswahl*/
     color: #ff007d;
 }
 .timepicker-picker .btn-primary {
-    /* Für den Button AM / PM*/
     color: #fff;
     background-color: #ff007d;
     border-color: #ff007d;
 }
+
+.has-appointments {
+    background-color: #198754;
+}
+
+.datepicker-container {
+    width: 320px;
+}
+
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+    border-radius: 25px;
+}
+
 #Provincia, #Referencia, #Depto-Casa, #Superficie ,#Dormitorios, #Baños, #Precio, #Filtrar, #Button{
    border:3px solid #13653f;
    border-radius:22px;
