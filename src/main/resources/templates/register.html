@@ -28,7 +28,7 @@
                                             <label for="name" class="form-label">Nombre</label>
                                             <input type="text" class="form-control" id="name" name="name" placeholder="Ingrese su nombre" required>
                                             <div class="valid-feedback">
-                                                Nombre correcto!
+                                                Nombre válido!
                                             </div>
                                             <div class="invalid-feedback">
                                                 Por favor, ingrese su nombre.
@@ -38,7 +38,7 @@
                                             <label for="dni" class="form-label">DNI</label>
                                             <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI" required>
                                             <div class="valid-feedback">
-                                                DNI correcto!
+                                                DNI válido!
                                             </div>
                                             <div class="invalid-feedback">
                                                 Por favor, ingrese su DNI.
@@ -48,7 +48,7 @@
                                             <label for="email" class="form-label">Correo electrónico</label>
                                             <input type="email" class="form-control" name="email" id="email" placeholder="Ingrese su correo electrónico" required>
                                             <div class="valid-feedback">
-                                                Correo electrónico correcto!
+                                                Correo electrónico válido!
                                             </div>
                                             <div class="invalid-feedback">
                                                 Por favor, ingrese su correo electrónico.
@@ -74,23 +74,35 @@
                                         </div>
                                         <div class="col-12">
                                             <label for="password" class="form-label">Contraseña</label>
-                                            <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
-                                            <div class="valid-feedback">
-                                                Contraseña ingresada!
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Por favor, ingrese una contraseña.
+                                            <div class="input-group has-validation">
+                                                <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" aria-describedby="inputGroupPrepend" required>
+                                                <button type="button" class="input-group-text" id="togglePassword">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <div class="invalid-feedback">
+                                                    Por favor, ingrese una contraseña que contenga entre 8 y 20 caracteres, con al menos una letra mayúscula, una letra minúscula y un dígito.
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
-                                            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Ingrese nuevamente la contraseña" required>
-                                            <div class="invalid-feedback" id="error1">
-                                                Por favor, ingrese la contraseña nuevamente.
+                                            <div class="input-group has-validation">
+                                                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Ingrese nuevamente la contraseña" aria-describedby="inputGroupPrepend" required>
+                                                <button type="button" class="input-group-text" id="toggleConfirmPassword">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <div class="invalid-feedback" id="error1">
+                                                    Por favor, ingrese la contraseña nuevamente.
+                                                </div>
                                             </div>
-                                            <div class="invalid-feedback d-none" id="error2" >
-                                                Las contraseñas no coinciden.
-                                            </div>
+                                            <!-- no lo toma por culpa del input-group, si lo meto dentro del div rompe la parte final del input
+                                                <div class="invalid-feedback d-none" id="error2" >
+                                                    Las contraseñas no coinciden.
+                                                </div>
+                                                <div class="valid-feedback">
+                                                    Las contraseñas coinciden!
+                                                </div>
+                                            -->
                                         </div>
                                         <div class="d-grid mb-2">
                                             <button type="submit" class="btn btn-success">Registrarse</button>
