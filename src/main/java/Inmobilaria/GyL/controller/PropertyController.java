@@ -121,7 +121,7 @@ public class PropertyController {
                                     @RequestParam Long appointmentId,
                                     @SessionAttribute(required=false, name="userSession") User user) {
         appointmentService.bookAppointment(appointmentId, user);
-        return "redirect:/propiedades/modificar/" + propertyId;
+        return "redirect:/propiedades/" + propertyId;
     }
 
     @GetMapping("/turnos/{id}")
