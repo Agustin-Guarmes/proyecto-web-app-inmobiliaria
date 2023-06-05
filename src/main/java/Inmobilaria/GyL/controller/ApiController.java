@@ -26,7 +26,8 @@ public class ApiController {
 
     @GetMapping("/user/{userId}/appointments")
     public List<Appointment> findAppointmentsForUser(@PathVariable("userId") Long userId) {
-        return appointmentService.findAppointmentByUserId(userId);
+        List<Appointment> appointments =  appointmentService.findAllBookedAppointmentByUser(userId);
+        return appointments;
     }
 
     @GetMapping("/property/{propertyId}/availableAppointments")

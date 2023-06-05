@@ -2,6 +2,7 @@ package Inmobilaria.GyL.service;
 
 import Inmobilaria.GyL.entity.DayPlan;
 import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.entity.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,5 +14,7 @@ public interface IDayPlanService {
 
     List<DayPlan> findAllDayPlanByProperty(Long id);
 
-    void deleteDayPlan(Long id);
+    List<DayPlan> findAllDayPlanByUser(Long id);
+
+    void deleteDayPlan(Long id, User user);
 }
