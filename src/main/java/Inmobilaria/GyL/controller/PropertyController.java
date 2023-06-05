@@ -115,6 +115,7 @@ public class PropertyController {
         return "redirect:/usuario/gestion/" + user.getId();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @PostMapping("/{propertyId}/reservarTurno")
     public String makeAnAppointment(@PathVariable("propertyId") Long propertyId,
                                     @RequestParam Long appointmentId,

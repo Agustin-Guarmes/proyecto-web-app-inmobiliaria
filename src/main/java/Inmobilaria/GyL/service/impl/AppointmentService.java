@@ -11,6 +11,7 @@ import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IPropertyService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,18 +29,6 @@ public class AppointmentService implements IAppointmentService {
         this.propertyService = ps;
     }
 
-//    @Override
-//    public void createAppointment(User client, Property property, Date appointmentDate, LocalTime start) {
-////        if(isAvailable(property.getId(),0 )) {
-//        Appointment appointment = new Appointment();
-//        appointment.setAppointmentDate(appointmentDate);
-//        appointment.setProperty(property);
-//        appointment.setClient(client);
-//        appointment.setStart(start);
-//        appointmentRepository.save(appointment);
-////        }
-//    }
-
     @Override
     public void updateAppointment(Long id, LocalDate appointmentDate) {
         Optional<Appointment> response = appointmentRepository.findById(id);
@@ -55,7 +44,7 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public Appointment updateAppointment(Long id, AppointmentStatus appointmentStatus) {
         Appointment appointment = appointmentRepository.findById(id).get();
-        if (!(appointment == null)){
+        if (!(appointment == null)) {
             appointment.setAppointmentStatus(appointmentStatus);
             appointmentRepository.save(appointment);
         }
@@ -110,10 +99,14 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public Appointment bookAppointment(Long id, User client) {
         Appointment appointment = appointmentRepository.findById(id).get();
-        appointment.setClient(client);
-        appointment.setAppointmentStatus(AppointmentStatus.BOOKED);
-        appointmentRepository.save(appointment);
-        return appointment;
+        List<Appointment> appointments = appointmentRepository.findAllByPropertyIdAndClientId(appointment.getProperty().getId(), client.getId());
+        if (appointments.isEmpty()) {
+            appointment.setClient(client);
+            appointment.setAppointmentStatus(AppointmentStatus.BOOKED);
+            appointmentRepository.save(appointment);
+            return appointment;
+        }
+        return null;
     }
 
     @Override
