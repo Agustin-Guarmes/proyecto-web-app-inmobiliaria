@@ -8,6 +8,23 @@
     <nav th:replace="/fragments/nav :: nav"></nav>
 
     <main class="container mt-5">
+
+        <h1 class="mb-4 text-center card-title">Propiedades</h1>
+
+        <form th:action="@{/propiedades/direccion}" method="post" class="d-flex align-items-center justify-content-center mb-5">
+            <div class="d-flex align-items-center justify-content-center gap-3">
+                <div>
+                    <input type="text" name="address" class="form-control" placeholder="Calle false 123" required>
+                </div>
+                <div class="w-25">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-filter pe-2"></i>
+                        Filtrar
+                    </button>
+                </div>
+            </div>
+        </form>
+
         <div class="row g-4 justify-content-center">
             <div class="card col-12 col-sm-6 col-lg-4 col-xl-3 m-3 p-1" th:each="property : ${properties}">
                 <div class="position-relative" style="height:250px">
