@@ -23,6 +23,31 @@ const passwordInput = document.getElementById('password');
 const confirmPasswordInput = document.getElementById('confirmPassword');
 const error1Feedback = document.getElementById('error1');
 //const error2Feedback = document.getElementById('error2');
+const iconValidatorSize = document.getElementById('icon');
+
+iconValidatorSize.addEventListener('change',
+  function (){
+        if(iconValidatorSize.files[0].size >= 1048576){
+            iconValidatorSize.setCustomValidity('Tamaño de imagen no soportado');
+        } else {
+            iconValidatorSize.setCustomValidity('');
+        }
+        fileValidation();
+  })
+
+  function fileValidation(){
+      let filePath = iconValidatorSize.value,
+          allowefExtensions = /(.jpg|.jpeg|.png)$/i;
+
+          console.log(filePath + "  Estoy acaaaaaaaaaaaaaaa!");
+
+      if(!allowefExtensions.exec(filePath)){
+          const $divCustomError = document.querySelector('.invalid-iconCustom');
+          $divCustomError.innerHTML = 'Carga un archivo de imagen válido(.jpg - .jpeg - .png)';
+          iconValidatorSize.setCustomValidity('invalid');
+          return false;
+      };
+  }
 
 function validateConfirmPassword() {
   if (confirmPasswordInput.value === '') {
