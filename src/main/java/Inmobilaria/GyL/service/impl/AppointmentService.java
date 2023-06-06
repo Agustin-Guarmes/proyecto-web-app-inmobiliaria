@@ -6,12 +6,10 @@ import Inmobilaria.GyL.entity.Property;
 import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.AppointmentStatus;
 import Inmobilaria.GyL.repository.AppointmentRepository;
-import Inmobilaria.GyL.repository.TimePeriodRepository;
 import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IPropertyService;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,7 @@ public class AppointmentService implements IAppointmentService {
     private final IPropertyService propertyService;
 
 
-    public AppointmentService(AppointmentRepository ar, IPropertyService ps, TimePeriodRepository timePeriodRepository) {
+    public AppointmentService(AppointmentRepository ar, IPropertyService ps) {
         this.appointmentRepository = ar;
         this.propertyService = ps;
     }
@@ -112,5 +110,19 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public List<Appointment> findAllByDayPlan(Long id) {
         return appointmentRepository.findAllByDayPlan_Id(id);
+    }
+
+    @Override
+    public List<Appointment> findAllAppointmentByUser(Long id) {
+        return appointmentRepository.findAllByProperty_User_Id(id);
+    }
+
+    @Override
+    public void cancelAppointment(Long id, User user) {
+        Appointment appointment = appointmentRepository.findById(id).get();
+        if(appointment.getAppointmentStatus()!=AppointmentStatus.CANCELED && appointment.getProperty().getUser().equals(user)) {
+            appointment.setAppointmentStatus(AppointmentStatus.CANCELED);
+            appointmentRepository.save(appointment);
+        }
     }
 }

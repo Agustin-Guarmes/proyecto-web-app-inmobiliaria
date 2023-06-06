@@ -149,6 +149,7 @@ public class UserController {
 
     @GetMapping("/gestion/{id}")
     public String dashboardEnte(@PathVariable Long id, ModelMap model, @SessionAttribute(required=false, name="userSession") User user){
+        model.put("allAppointments", appointmentService.findAllAppointmentByUser(user.getId()));
         model.put("bookedAppointments", appointmentService.findAllBookedAppointmentByUser(user.getId()));
         model.put("timetable", dayPlanService.findAllDayPlanByUser(user.getId()));
         model.put("offers", userService.findByEntityTheOffers(id));

@@ -9,7 +9,6 @@ import Inmobilaria.GyL.repository.DayPlanRepository;
 import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
-import Inmobilaria.GyL.service.ITimePeriodService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,7 +24,7 @@ public class DayPlanService implements IDayPlanService {
 
     private final IAppointmentService appointmentService;
 
-    public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService, ITimePeriodService timePeriodService, IAppointmentService appointmentService) {
+    public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService, IAppointmentService appointmentService) {
         this.dayPlanRepository = dayPlanRepository;
         this.propertyService = propertyService;
         this.appointmentService = appointmentService;

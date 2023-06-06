@@ -219,7 +219,6 @@
                                                 <table class="table">
                                                     <thead>
                                                     <tr>
-                                                        <th>Id</th>
                                                         <th>Dirección</th>
                                                         <th>Fecha</th>
                                                         <th>Hora de inicio</th>
@@ -229,7 +228,6 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr th:each="dayPlan : ${timetable}">
-                                                        <td th:text="${dayPlan.id}"></td>
                                                         <td th:text="${dayPlan.property.address}"></td>
                                                         <td th:text="${dayPlan.timetableDay}"></td>
                                                         <td th:text="${dayPlan.start}"></td>
@@ -297,8 +295,83 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="mis-turnos">
+                                        <h3 class="mb-4">Mis turnos</h3>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Dirección</th>
+                                                        <th>Fecha</th>
+                                                        <th>Hora de inicio</th>
+                                                        <th>Hora de fin</th>
+                                                        <th>Cliente</th>
+                                                        <th>Estado</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each="appointment : ${allAppointments}">
+                                                        <td th:text="${appointment.property.address}"></td>
+                                                        <td th:text="${appointment.date}"></td>
+                                                        <td th:text="${appointment.startTime}"></td>
+                                                        <td th:text="${appointment.endTime}"></td>
+                                                        <td>
+                                                            <span th:if="${appointment.client == null}"></span>
+                                                            <span th:unless="${appointment.client == null}" th:text="${appointment.client.name}"></span>
+                                                        </td>
+                                                        <td th:text="${appointment.appointmentStatus.name() == 'AVAILABLE'}
+                                                    ?'Disponiblle':
+                                                    (${appointment.appointmentStatus.name()  == 'BOOKED'}
+                                                    ?'Reservado':'Cancelado')">
+                                                        </td>
+                                                        <td>
+                                                            <!-- Botones de acciones (modificar, eliminar) -->
+                                                            <button type="button" class="btn btn-danger"
+                                                                    data-bs-toggle="modal"
+                                                                    th:data-bs-target="'#cancelModalAppointment' + ${appointment.id}">
+                                                                <i class="bi bi-x-circle" data-bs-toggle="tooltip"
+                                                                   data-bs-placement="right" title="Cancelar"></i>
+                                                            </button>
+                                                            <div class="modal fade" th:id="'cancelModalAppointment' + ${appointment.id}"
+                                                                 tabindex="-1"
+                                                                 aria-labelledby="cancelModalAppointmentLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="">
+                                                                                Confirmación de
+                                                                                cancelación</h5>
+                                                                            <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>¿Está seguro de que desea cancelar el turno seleccionado?</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">
+                                                                                Volver
+                                                                            </button>
+                                                                            <a class="btn btn-primary"
+                                                                               th:href="@{/propiedades/turnos/cancelar/__${appointment.id}__}">Cancelar Turno</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Fin Modal Eliminar-->
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
 
                     </section>

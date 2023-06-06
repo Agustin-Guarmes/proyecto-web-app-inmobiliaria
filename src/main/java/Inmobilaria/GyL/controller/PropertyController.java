@@ -131,8 +131,20 @@ public class PropertyController {
         return "appointmentProperty.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
+    @GetMapping("/turnos/cancelar/{id}")
+    public String cancelAppointment(@PathVariable Long id,
+                                @SessionAttribute(required=false, name="userSession") User user) {
+        appointmentService.cancelAppointment(id, user);
+        return "redirect:/usuario/gestion/" + user.getId();
+    }
+
     @PostMapping("/filtrar")
-    public String filterProperty(@RequestParam(required = false) String status, @RequestParam(required = false) String type, @RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice, @RequestParam(required = false) String province, ModelMap model){
+    public String filterProperty(@RequestParam(required = false) String status,
+                                 @RequestParam(required = false) String type,
+                                 @RequestParam(required = false) Double minPrice,
+                                 @RequestParam(required = false) Double maxPrice,
+                                 @RequestParam(required = false) String province, ModelMap model){
         model.put("properties",propertyService.filterProperties(status,type,minPrice,maxPrice,province));
         return "properties";
     }
