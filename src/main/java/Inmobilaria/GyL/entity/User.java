@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -130,5 +131,24 @@ public class User {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return isActive == user.isActive &&
+                id.equals(user.id) && name.equals(user.name) &&
+                email.equals(user.email) &&
+                password.equals(user.password) &&
+                dni.equals(user.dni) && role == user.role
+                && Objects.equals(createDate, user.createDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, password, dni, isActive, role, createDate);
     }
 }

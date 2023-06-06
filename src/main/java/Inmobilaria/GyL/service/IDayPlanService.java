@@ -12,6 +12,8 @@ public interface IDayPlanService {
 
     DayPlan addDayPlan(Long propertyId, LocalDate timetableDay, LocalTime start, LocalTime end);
 
+    DayPlan updateDayPlan(Long id, LocalTime start, LocalTime end);
+
     List<DayPlan> findAllDayPlanByProperty(Long id);
 
     List<DayPlan> findAllDayPlanByUser(Long id);

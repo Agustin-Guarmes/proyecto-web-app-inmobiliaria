@@ -46,9 +46,9 @@ public class Appointment implements Comparable<Appointment> {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private DayPlan dayPlan;
 
-    public Appointment(LocalDate appointmentDate, User client, Property property,
+    public Appointment(LocalDate date, User client, Property property,
                        AppointmentStatus appointmentStatus, LocalDateTime start, LocalDateTime end) {
-        this.date = appointmentDate;
+        this.date = date;
         this.client = client;
         this.property = property;
         this.appointmentStatus = appointmentStatus;
@@ -56,9 +56,9 @@ public class Appointment implements Comparable<Appointment> {
         this.end = end;
     }
 
-    public Appointment(LocalDate appointmentDate, Property property, DayPlan dayPlan,
+    public Appointment(LocalDate date, Property property, DayPlan dayPlan,
                        AppointmentStatus appointmentStatus, LocalDateTime start, LocalDateTime end) {
-        this.date = appointmentDate;
+        this.date = date;
         this.property = property;
         this.dayPlan = dayPlan;
         this.appointmentStatus = appointmentStatus;
@@ -66,9 +66,9 @@ public class Appointment implements Comparable<Appointment> {
         this.end = end;
     }
 
-    public Appointment(LocalDate appointmentDate, Property property,
+    public Appointment(LocalDate date, Property property,
                        AppointmentStatus appointmentStatus, LocalDateTime start, LocalDateTime end) {
-        this.date = appointmentDate;
+        this.date = date;
         this.property = property;
         this.appointmentStatus = appointmentStatus;
         this.start = start;
@@ -132,8 +132,8 @@ public class Appointment implements Comparable<Appointment> {
         this.id = id;
     }
 
-    public void setDate(LocalDate appointmentDate) {
-        this.date = appointmentDate;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public void setClient(User client) {

@@ -9,7 +9,6 @@ import Inmobilaria.GyL.repository.DayPlanRepository;
 import Inmobilaria.GyL.service.IAppointmentService;
 import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
-import Inmobilaria.GyL.service.ITimePeriodService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,7 +24,7 @@ public class DayPlanService implements IDayPlanService {
 
     private final IAppointmentService appointmentService;
 
-    public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService, ITimePeriodService timePeriodService, IAppointmentService appointmentService) {
+    public DayPlanService(DayPlanRepository dayPlanRepository, IPropertyService propertyService, IAppointmentService appointmentService) {
         this.dayPlanRepository = dayPlanRepository;
         this.propertyService = propertyService;
         this.appointmentService = appointmentService;
@@ -46,6 +45,25 @@ public class DayPlanService implements IDayPlanService {
             return savedDayPlan;
         }
         return null;
+    }
+
+    @Override
+    public DayPlan updateDayPlan(Long id, LocalTime newStart, LocalTime newEnd) {
+        DayPlan dayPlan = dayPlanRepository.findById(id).get();
+        Property property = dayPlan.getProperty();
+        DayPlan newDayPlan = addDayPlan(dayPlan.getId(), dayPlan.getTimetableDay(), newStart, newEnd);
+        if (newDayPlan != null) {
+            List<Appointment> appointments = appointmentService.findAllByDayPlan(id);
+            for (Appointment appointment : appointments) {
+                if (appointment.getAppointmentStatus() == AppointmentStatus.BOOKED) {
+                    appointmentService.updateAppointment(appointment.getId(), AppointmentStatus.CANCELED);
+                } else {
+                    appointmentService.deleteAppointment(appointment.getId());
+                }
+            }
+            return dayPlanRepository.save(dayPlan);
+        }
+        return dayPlan;
     }
 
     private boolean dayPlanIsAvailable(Property property, LocalDate timetableDay, LocalTime start, LocalTime end) {

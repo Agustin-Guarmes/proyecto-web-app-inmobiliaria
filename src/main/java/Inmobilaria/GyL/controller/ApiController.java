@@ -1,9 +1,7 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Appointment;
-import Inmobilaria.GyL.entity.TimePeriod;
 import Inmobilaria.GyL.service.IAppointmentService;
-import Inmobilaria.GyL.service.ITimePeriodService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +15,8 @@ public class ApiController {
 
     private final IAppointmentService appointmentService;
 
-    private final ITimePeriodService timePeriodService;
-
-    public ApiController(IAppointmentService appointmentService, ITimePeriodService timePeriodService) {
+    public ApiController(IAppointmentService appointmentService) {
         this.appointmentService = appointmentService;
-        this.timePeriodService = timePeriodService;
     }
 
     @GetMapping("/user/{userId}/appointments")
