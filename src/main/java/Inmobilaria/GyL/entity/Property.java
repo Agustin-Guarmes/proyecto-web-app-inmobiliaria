@@ -35,8 +35,6 @@ public class Property {
     @JsonIgnore
     private List<ImageProperty> images;
 
-
-
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Offer> offers;
@@ -46,11 +44,11 @@ public class Property {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Appointment> appointments;
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<DayPlan> timetable;
 

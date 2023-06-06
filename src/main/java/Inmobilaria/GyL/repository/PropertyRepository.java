@@ -3,6 +3,7 @@ package Inmobilaria.GyL.repository;
 import Inmobilaria.GyL.entity.Appointment;
 import Inmobilaria.GyL.entity.DayPlan;
 import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.enums.PropertyStatus;
 import Inmobilaria.GyL.enums.PropertyType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -68,4 +69,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query("SELECT p FROM Property p WHERE p.user.name like :word%")
     List<Property> findByUserName(@Param("word") String word);
+
+    @Query("SELECT p FROM Property p WHERE p.address like :address%")
+    Property findByAddress(@Param("address") String address);
 }

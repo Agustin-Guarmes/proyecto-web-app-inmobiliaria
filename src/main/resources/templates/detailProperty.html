@@ -90,68 +90,124 @@
 
     </div>
 </main>
-
-<div class="container">
-    <h2>Solicitud de Turnos</h2>
-    <form>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="fecha">Fecha:</label>
-                    <input type="date" id="fecha" name="fecha" class="form-control" required>
+<div class="container" sec:authorize="hasRole('CLIENT')">
+    <h2>Reservar turno</h2>
+    <form method="post"
+          th:action="@{/propiedades/__${property.id}__/reservarTurno}">
+        <div class="container">
+            <div class="d-flex">
+                <div class='datepicker-container'>
+                    <div class="form-group">
+                        <div id='datetimepicker'></div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="hora">Hora:</label>
-                    <select id="hora" name="hora" class="form-control" required>
-                        <option hidden selected value="" class="">Seleccionar hora</option>
-                        <!-- Opciones de horarios disponibles generadas dinámicamente -->
-                        <option value="09:00">09:00</option>
-                        <option value="10:00">10:00</option>
-                        <option value="11:00">11:00</option>
-                        <!-- ... y así sucesivamente para cada horario disponible -->
+                <div class="" >
+                    <select name="appointmentId" id="available-appointments-select" th:data-property-id="${property.id}">
                     </select>
+                    <div id="available-appointments-text"></div>
                 </div>
             </div>
+                <button type="submit" class="d-flex btn btn-primary">
+                    Reservar Turno
+                </button>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" class="form-control" required>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" class="form-control" required pattern="[0-9]{9,}">
-                </div>
-            </div>
-            <!-- Puedes agregar más campos -->
-        </div>
-        <button type="submit" class="btn btn-success mt-2">Solicitar Turno</button>
     </form>
 </div>
-
-
 <footer th:replace="/fragments/footer :: footer"></footer>
 <script src="/js/theme.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
+<script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/moment.js"></script>
+<script type="text/javascript" src="/js/fullcalendar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+<script type="text/javascript"
+        src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript">
     function myFuction(propertyCardDetailImgSmall){
         let fullImg = document.getElementById('imageBox');
         fullImg.src = propertyCardDetailImgSmall.src;
+    }
+
+    $('#available-appointments-select').hide();
+    $('#available-appointments-text').hide();
+
+    $(function () {
+        $('#datetimepicker').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            icons: {
+                next: 'fa fa-chevron-circle-right',
+                previous: 'fa fa-chevron-circle-left'
+            },
+            // si se cambia a 'es' no funciona el evento click :/
+            locale: 'en',
+            format: 'yyyy-MM-dd',
+        });
+
+        markDaysWithAppointments();
+
+        $('div tbody').on('click', 'tr > .day', function () {
+            var selectedDate = $(this).data().day;
+            var propertyId = $('#available-appointments-select').attr('data-property-id');
+
+            $.ajax({
+                url: '/api/property/' + propertyId + '/availableAppointments',
+                type: 'GET',
+                data: {
+                    date: selectedDate
+                },
+                dataType: "json",
+                success: function (response) {
+                    markDaysWithAppointments();
+                    $("#available-appointments-select").empty();
+                    $.each(response, function (i, value) {
+                        let formattedStart = moment(value.start).format('HH:mm');
+                        $('#available-appointments-select').
+                        append('<option id="' + value.id + '" value=' + value.id + '>' + formattedStart + '</option>');
+                    });
+                    if ($("#available-appointments-select").children().length === 0) {
+                        $("#available-appointments-select").hide();
+                        $("#available-appointments-text").show();
+                        $("#available-appointments-text").html('<p> No exiten turnos disponibles </p>')
+                    } else {
+                        $("#available-appointments-text").hide();
+                        $("#available-appointments-select").show();
+                    }
+                }
+            })
+            $.ajax({
+                url: '/api/property/' + propertyId + '/availableAppointments',
+                type: 'GET',
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                }
+            });
+        });
+    });
+
+    function markDaysWithAppointments() {
+        var propertyId = $('#available-appointments-select').attr('data-property-id');
+        $('td.day').each(function () {
+            var date = $(this).data().day;
+            $.ajax({
+                url: '/api/property/' + propertyId + '/availableAppointments',
+                type: 'GET',
+                data: {
+                    date: date
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.length > 0) {
+                        $(this).addClass('has-appointments');
+                    }
+                }.bind(this) // Bind the success function to maintain the correct context
+            });
+        });
     }
 </script>
 </body>

@@ -101,24 +101,25 @@
                                                      aria-labelledby="appoinmentModalPropertyLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content p-3">
-                                                            <form>
+                                                            <form method="post"
+                                                                  th:action="@{/propiedades/disponibilidad/__${property.id}__}">
                                                                 <h3>Publicar Horarios Nuevos</h3>
                                                                 <div class="form-group mb-2">
                                                                     <label for="fecha" class="form-label">Fecha:</label>
-                                                                    <input type="date" id="fecha" name="fecha"
+                                                                    <input type="date" id="fecha" name="timetableDay"
                                                                            class="form-control" required>
                                                                 </div>
                                                                 <div class="form-group mb-2">
                                                                     <label for="hora_inicio" class="form-label">Hora de
                                                                         inicio:</label>
                                                                     <input type="time" id="hora_inicio"
-                                                                           name="hora_inicio"
+                                                                           name="start"
                                                                            class="form-control" step="1800" required>
                                                                 </div>
                                                                 <div class="form-group mb-2">
                                                                     <label for="hora_fin" class="form-label">Hora de
                                                                         fin:</label>
-                                                                    <input type="time" id="hora_fin" name="hora_fin"
+                                                                    <input type="time" id="hora_fin" name="end"
                                                                            class="form-control" step="1800" required>
                                                                 </div>
                                                                 <button type="submit" class="btn btn-primary">Publicar
@@ -182,8 +183,8 @@
                                                 <th scope="col">Confirmación</th>
                                             </tr>
                                             </thead>
-                                            <tbody th:each="offer : ${offers}">
-                                            <tr>
+                                            <tbody>
+                                            <tr th:each="offer : ${offers}">
                                                 <td th:text="${offer.property.address}"></td>
                                                 <td th:text="${offer.creationDate}"></td>
                                                 <td th:text="${offer.price}"></td>
@@ -226,44 +227,141 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr>
-                                                        <td>asdasd</td>
-                                                        <td>Fecha 1</td>
-                                                        <td>Hora de inicio 1</td>
-                                                        <td>Hora de fin 1</td>
+                                                    <tr th:each="dayPlan : ${timetable}">
+                                                        <td th:text="${dayPlan.property.address}"></td>
+                                                        <td th:text="${dayPlan.timetableDay}"></td>
+                                                        <td th:text="${dayPlan.start}"></td>
+                                                        <td th:text="${dayPlan.end}"></td>
                                                         <td>
+                                                            <!-- Botones de acciones (modificar, eliminar) -->
                                                             <button class="btn btn-sm btn-primary">Modificar</button>
-                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                                                            <button type="button" class="btn btn-danger"
+                                                                    data-bs-toggle="modal"
+                                                                    th:data-bs-target="'#deleteModalDayPlan' + ${dayPlan.id}">
+                                                                <i class="bi bi-trash icon" data-bs-toggle="tooltip"
+                                                                   data-bs-placement="right" title="Eliminar"></i>
+                                                            </button>
+                                                            <div class="modal fade" th:id="'deleteModalDayPlan' + ${dayPlan.id}"
+                                                                 tabindex="-1"
+                                                                 aria-labelledby="deleteModalDayPlanLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="deleteModalDayPlanLabel">
+                                                                                Confirmación de
+                                                                                eliminación</h5>
+                                                                            <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <h5>El horario disponible seleccionado, tiene los siguientes turnos asociados:</h5>
+                                                                            <table class="table">
+                                                                                <thead>
+                                                                                <tr>
+                                                                                    <th>Fecha</th>
+                                                                                    <th>Hora de inicio</th>
+                                                                                    <th>Hora de fin</th>
+                                                                                    <th>Cliente</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                <tr th:each="appointment : ${bookedAppointments}" th:if="${appointment.dayPlan.id} == ${dayPlan.id}">
+                                                                                    <td th:text="${appointment.date}"></td>
+                                                                                    <td th:text="${appointment.startTime}"></td>
+                                                                                    <td th:text="${appointment.endTime}"></td>
+                                                                                    <td th:text="${appointment.client.name}"></td>
+                                                                                </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <p>¿Está seguro de que desea eliminar el horario publicado?</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">
+                                                                                Cancelar
+                                                                            </button>
+                                                                            <a class="btn btn-primary"
+                                                                               th:href="@{/propiedades/disponibilidad/eliminar/__${dayPlan.id}__}">Eliminar</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Fin Modal Eliminar-->
                                                         </td>
                                                     </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="mis-turnos">
+                                        <h3 class="mb-4">Mis turnos</h3>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table class="table">
+                                                    <thead>
                                                     <tr>
-                                                        <td>asdasd</td>
-                                                        <td>Fecha 2</td>
-                                                        <td>Hora de inicio 2</td>
-                                                        <td>Hora de fin 2</td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary">Modificar</button>
-                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
-                                                        </td>
+                                                        <th>Dirección</th>
+                                                        <th>Fecha</th>
+                                                        <th>Hora de inicio</th>
+                                                        <th>Hora de fin</th>
+                                                        <th>Cliente</th>
+                                                        <th>Estado</th>
+                                                        <th>Acciones</th>
                                                     </tr>
-                                                    <tr>
-                                                        <td>asdasd</td>
-                                                        <td>Fecha 2</td>
-                                                        <td>Hora de inicio 2</td>
-                                                        <td>Hora de fin 2</td>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each="appointment : ${allAppointments}">
+                                                        <td th:text="${appointment.property.address}"></td>
+                                                        <td th:text="${appointment.date}"></td>
+                                                        <td th:text="${appointment.startTime}"></td>
+                                                        <td th:text="${appointment.endTime}"></td>
                                                         <td>
-                                                            <button class="btn btn-sm btn-primary">Modificar</button>
-                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                                                            <span th:if="${appointment.client == null}"></span>
+                                                            <span th:unless="${appointment.client == null}" th:text="${appointment.client.name}">-</span>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>asdasd</td>
-                                                        <td>Fecha 2</td>
-                                                        <td>Hora de inicio 2</td>
-                                                        <td>Hora de fin 2</td>
+                                                        <td th:text="${appointment.appointmentStatus.name() == 'AVAILABLE'}
+                                                    ?'Disponible':
+                                                    (${appointment.appointmentStatus.name()  == 'BOOKED'}
+                                                    ?'Reservado':'Cancelado')">
+                                                        </td>
                                                         <td>
-                                                            <button class="btn btn-sm btn-primary">Modificar</button>
-                                                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                                                            <!-- Botones de acciones (modificar, eliminar) -->
+                                                            <button type="button" class="btn btn-danger"
+                                                                    data-bs-toggle="modal"
+                                                                    th:data-bs-target="'#cancelModalAppointment' + ${appointment.id}">
+                                                                <i class="bi bi-x-circle" data-bs-toggle="tooltip"
+                                                                   data-bs-placement="right" title="Cancelar"></i>
+                                                            </button>
+                                                            <div class="modal fade" th:id="'cancelModalAppointment' + ${appointment.id}"
+                                                                 tabindex="-1"
+                                                                 aria-labelledby="cancelModalAppointmentLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="">
+                                                                                Confirmación de
+                                                                                cancelación</h5>
+                                                                            <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>¿Está seguro de que desea cancelar el turno seleccionado?</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                    data-bs-dismiss="modal">
+                                                                                Volver
+                                                                            </button>
+                                                                            <a class="btn btn-primary"
+                                                                               th:href="@{/propiedades/turnos/cancelar/__${appointment.id}__}">Cancelar Turno</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Fin Modal Eliminar-->
                                                         </td>
                                                     </tr>
                                                     </tbody>
@@ -273,6 +371,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                     </section>

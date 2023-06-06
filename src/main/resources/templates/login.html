@@ -22,7 +22,7 @@
                                             <label for="email" class="form-label">Correo electrónico</label>
                                             <input type="email" class="form-control" name="email" id="email" placeholder="Ingrese su correo electrónico" required>
                                             <div class="valid-feedback">
-                                                Correo electrónico correcto!
+                                                Correo electrónico ingresado!
                                             </div>
                                             <div class="invalid-feedback">
                                                 Por favor, ingrese su correo electrónico.
@@ -30,13 +30,20 @@
                                         </div>
                                         <div class="col-12">
                                             <label for="password" class="form-label">Contraseña</label>
-                                            <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
-                                            <div class="valid-feedback">
-                                                Contraseña ingresada!
+                                            <div class="input-group has-validation">
+                                                <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese una contraseña" required>
+                                                <button type="button" class="input-group-text" id="togglePassword">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <div class="invalid-feedback">
+                                                    Por favor, ingrese una contraseña.
+                                                </div>
                                             </div>
-                                            <div class="invalid-feedback">
-                                                Por favor, ingrese una contraseña.
-                                            </div>
+                                            <!-- no lo toma por culpa del input-group, si lo meto dentro del div rompe la parte final del input
+                                                <div class="valid-feedback">
+                                                    Contraseña ingresada!
+                                                </div>
+                                            -->
                                         </div>
                                         <div class="mb-2 d-grid">
                                             <button type="submit" class="btn btn-success">Iniciar sesión</button>

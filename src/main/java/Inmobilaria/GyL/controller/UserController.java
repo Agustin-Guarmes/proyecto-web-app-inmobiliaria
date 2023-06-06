@@ -1,7 +1,10 @@
 package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Property;
+import Inmobilaria.GyL.entity.User;
 import Inmobilaria.GyL.exception.AlreadyExistsException;
+import Inmobilaria.GyL.service.IAppointmentService;
+import Inmobilaria.GyL.service.IDayPlanService;
 import Inmobilaria.GyL.service.IPropertyService;
 import Inmobilaria.GyL.service.impl.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,10 +22,18 @@ import java.util.List;
 public class UserController {
 
     private final IPropertyService propertyService;
+
+    private final IDayPlanService dayPlanService;
+
+    private final IAppointmentService appointmentService;
+
     private final UserService userService;
 
-    public UserController(IPropertyService propertyService, UserService userService) {
+    public UserController(IPropertyService propertyService, IDayPlanService dayPlanService,
+                          IAppointmentService appointmentService, UserService userService) {
         this.propertyService = propertyService;
+        this.dayPlanService = dayPlanService;
+        this.appointmentService = appointmentService;
         this.userService = userService;
     }
 
@@ -137,10 +148,13 @@ public class UserController {
     }
 
     @GetMapping("/gestion/{id}")
-    public String dashboardEnte(@PathVariable Long id, ModelMap model){
+    public String dashboardEnte(@PathVariable Long id, ModelMap model, @SessionAttribute(required=false, name="userSession") User user){
+        model.put("allAppointments", appointmentService.findAllAppointmentByUser(user.getId()));
+        model.put("bookedAppointments", appointmentService.findAllBookedAppointmentByUser(user.getId()));
+        model.put("timetable", dayPlanService.findAllDayPlanByUser(user.getId()));
         model.put("offers", userService.findByEntityTheOffers(id));
         model.put("properties", propertyService.findByUser(id));
         model.put("title", "MrHouse | Gestión");
-        return "enteManagement2";
+        return "enteManagement";
     }
 }

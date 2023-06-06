@@ -8,6 +8,23 @@
     <nav th:replace="/fragments/nav :: nav"></nav>
 
     <main class="container mt-5">
+
+        <h1 class="mb-4 text-center card-title">Propiedades</h1>
+
+        <form th:action="@{/propiedades/direccion}" method="post" class="d-flex align-items-center justify-content-center mb-5">
+                <div class="input-group w-50 mx-auto d-flex align-items-center justify-content-center">
+                    <input type="text" name="address" class="form-control" placeholder="Calle false 123" required aria-label="Search">
+                    <button class="btn btn-success" type="submit">
+                        <i class="bi bi-search icon" data-bs-toggle="tooltip" data-bs-placement="right"
+                           title="Buscar"></i>
+                    </button>
+                    <a class="btn btn-secondary" th:href="@{/admin/}">
+                        <i class="bi bi-arrow-counterclockwise icon" data-bs-toggle="tooltip"
+                           data-bs-placement="right" title="Restablecer"></i>
+                    </a>
+                </div>
+        </form>
+
         <div class="row g-4 justify-content-center">
             <div class="card col-12 col-sm-6 col-lg-4 col-xl-3 m-3 p-1" th:each="property : ${properties}">
                 <div class="position-relative" style="height:250px">
