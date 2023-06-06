@@ -319,10 +319,10 @@
                                                         <td th:text="${appointment.endTime}"></td>
                                                         <td>
                                                             <span th:if="${appointment.client == null}"></span>
-                                                            <span th:unless="${appointment.client == null}" th:text="${appointment.client.name}"></span>
+                                                            <span th:unless="${appointment.client == null}" th:text="${appointment.client.name}">-</span>
                                                         </td>
                                                         <td th:text="${appointment.appointmentStatus.name() == 'AVAILABLE'}
-                                                    ?'Disponiblle':
+                                                    ?'Disponible':
                                                     (${appointment.appointmentStatus.name()  == 'BOOKED'}
                                                     ?'Reservado':'Cancelado')">
                                                         </td>

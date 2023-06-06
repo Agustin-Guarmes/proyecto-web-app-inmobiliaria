@@ -47,6 +47,25 @@ public class DayPlanService implements IDayPlanService {
         return null;
     }
 
+    @Override
+    public DayPlan updateDayPlan(Long id, LocalTime newStart, LocalTime newEnd) {
+        DayPlan dayPlan = dayPlanRepository.findById(id).get();
+        Property property = dayPlan.getProperty();
+        DayPlan newDayPlan = addDayPlan(dayPlan.getId(), dayPlan.getTimetableDay(), newStart, newEnd);
+        if (newDayPlan != null) {
+            List<Appointment> appointments = appointmentService.findAllByDayPlan(id);
+            for (Appointment appointment : appointments) {
+                if (appointment.getAppointmentStatus() == AppointmentStatus.BOOKED) {
+                    appointmentService.updateAppointment(appointment.getId(), AppointmentStatus.CANCELED);
+                } else {
+                    appointmentService.deleteAppointment(appointment.getId());
+                }
+            }
+            return dayPlanRepository.save(dayPlan);
+        }
+        return dayPlan;
+    }
+
     private boolean dayPlanIsAvailable(Property property, LocalDate timetableDay, LocalTime start, LocalTime end) {
         List<DayPlan> dayPlans = dayPlanRepository.findAllByUserAndTimetableDay(property.getUser().getId(), timetableDay);
         boolean isAvailable = true;
