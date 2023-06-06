@@ -33,4 +33,6 @@ public interface IAppointmentService {
     List<Appointment>  findAllAppointmentByUser(Long id);
 
     void cancelAppointment(Long id, User user);
+
+    List<Long> findAllUsersIdByProperty(Long id);
 }

@@ -24,7 +24,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     List<Appointment> findAllByDayPlan_Id(Long id);
 
-    List<Appointment> findAllByPropertyIdAndClientId(Long propertyId, Long client_id);
+    List<Appointment> findAllByPropertyIdAndClientId(Long propertyId, Long clientId);
 
     List<Appointment> findAllByProperty_User_Id(Long id);
+
+    @Query("SELECT a.client.id " +
+            "FROM Appointment a " +
+            "WHERE (a.property.id = :id) ")
+    List<Long> findAllUsersIdByProperty(@Param("id") Long id);
 }

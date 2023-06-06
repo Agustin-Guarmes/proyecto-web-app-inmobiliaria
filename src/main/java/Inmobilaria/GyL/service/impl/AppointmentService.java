@@ -125,4 +125,9 @@ public class AppointmentService implements IAppointmentService {
             appointmentRepository.save(appointment);
         }
     }
+
+    @Override
+    public List<Long> findAllUsersIdByProperty(Long id) {
+        return appointmentRepository.findAllUsersIdByProperty(id);
+    }
 }

@@ -85,8 +85,8 @@ public class PropertyController {
 
     @GetMapping("/{id}")
     public String findByProperty(@PathVariable Long id, ModelMap model) {
-        Property find = propertyService.findById(id);
-        model.put("property", find);
+        model.put("userWithAppointments", appointmentService.findAllUsersIdByProperty(id));
+        model.put("property", propertyService.findById(id));
         model.put("title", "MrHouse | Propiedad");
         return "detailProperty.html";
     }
