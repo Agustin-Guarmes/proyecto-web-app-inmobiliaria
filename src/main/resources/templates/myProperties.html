@@ -12,17 +12,17 @@
         <h1 class="mb-4 text-center card-title">Propiedades</h1>
 
         <form th:action="@{/propiedades/direccion}" method="post" class="d-flex align-items-center justify-content-center mb-5">
-            <div class="d-flex align-items-center justify-content-center gap-3">
-                <div>
-                    <input type="text" name="address" class="form-control" placeholder="Calle false 123" required>
-                </div>
-                <div class="w-25">
-                    <button type="submit" class="btn btn-success">
-                        <i class="bi bi-filter pe-2"></i>
-                        Filtrar
+                <div class="input-group w-50 mx-auto d-flex align-items-center justify-content-center">
+                    <input type="text" name="address" class="form-control" placeholder="Calle false 123" required aria-label="Search">
+                    <button class="btn btn-success" type="submit">
+                        <i class="bi bi-search icon" data-bs-toggle="tooltip" data-bs-placement="right"
+                           title="Buscar"></i>
                     </button>
+                    <a class="btn btn-secondary" th:href="@{/admin/}">
+                        <i class="bi bi-arrow-counterclockwise icon" data-bs-toggle="tooltip"
+                           data-bs-placement="right" title="Restablecer"></i>
+                    </a>
                 </div>
-            </div>
         </form>
 
         <div class="row g-4 justify-content-center">

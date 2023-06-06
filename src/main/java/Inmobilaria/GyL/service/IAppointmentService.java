@@ -29,4 +29,8 @@ public interface IAppointmentService {
     Appointment bookAppointment(Long id, User userSession);
 
     List<Appointment> findAllByDayPlan(Long id);
+
+    List<Appointment>  findAllAppointmentByUser(Long id);
+
+    void cancelAppointment(Long id, User user);
 }
