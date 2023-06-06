@@ -148,4 +148,12 @@ public class PropertyController {
         model.put("properties",propertyService.filterProperties(status,type,minPrice,maxPrice,province));
         return "properties";
     }
+
+    @PostMapping("/direccion")
+    public String findPropertyAddress(@RequestParam String address, ModelMap model) {
+        Property find = propertyService.findByAddress(address);
+        model.put("properties", find);
+        model.put("title", "MrHouse | Propiedad");
+        return "myProperties";
+    }
 }
