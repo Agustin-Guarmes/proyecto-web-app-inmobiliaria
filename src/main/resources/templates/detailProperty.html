@@ -90,7 +90,7 @@
 
     </div>
 </main>
-<div class="container">
+<div sec:authorize="hasAuthority('CLIENT')" class="container">
     <h2>Reservar turno</h2>
     <form method="post"
           th:action="@{/propiedades/__${property.id}__/reservarTurno}">
