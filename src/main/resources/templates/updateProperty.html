@@ -13,7 +13,7 @@
                 <div class="col-lg-6 col-md-8 col-12">
                     <div class="card">
                         <div class="card-header text-center">
-                            <h5 class="card-title mt-1">Editar propiedad</h5>
+                            <h2 class="card-title mt-1">Editar Propiedad</h2>
                         </div>
                         <div class="card-body">
                             <form th:action="@{/propiedades/modificar/__${session.userSession.id}__}" method="POST">
@@ -85,7 +85,7 @@
                                            maxlength="200" th:value="${property.description}" required>
                                 </div>
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Modificar</button>
+                                    <button type="submit" class="btn btn-primary">- Modificar -</button>
                                 </div>
                             </form>
                             <hr>
@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="row justify-content-center">
                                     <div class="col">
-                                        <button type="submit" class="btn btn-primary w-100">Subir imagenes</button>
+                                        <button type="submit" class="btn btn-primary w-100">- Subir Imagenes -</button>
                                     </div>
                                 </div>
                             </form>

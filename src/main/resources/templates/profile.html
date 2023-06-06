@@ -13,7 +13,7 @@
                 <div class="col-lg-6 col-md-8 offset-lg-1 offset-md-1">
                     <div class="card w-75">
                         <div class="card-header text-center">
-                            <h5 class="card-title mt-1">Editar perfil</h5>
+                            <h2 class="card-title mt-1">Editar Perfil</h2>
                         </div>
                         <div class="card-body">
                             <form th:action="@{/usuario/perfil/__${session.userSession.id}__}" method="POST" enctype="multipart/form-data">
@@ -49,10 +49,10 @@
                                     <input type="password" placeholder="Ingresá tu contraseña" class="form-control" name="password" id="password">
                                 </div>
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                    <button type="submit" class="btn btn-primary">- Guardar cambios -</button>
                                 </div>
                                 <div class="text-center mt-3">
-                                    <a th:href="@{/usuario/contraseña/__${session.userSession.id}__}" class="btn w-100 btn-outline-secondary">Restablecer contraseña</a>
+                                    <a th:href="@{/usuario/contraseña/__${session.userSession.id}__}" class="btn w-100 btn-outline-secondary">- Restablecer contraseña -</a>
                                 </div>
                             </form>
                         </div>
