@@ -35,24 +35,23 @@ public class Property {
     @JsonIgnore
     private List<ImageProperty> images;
 
-
-
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Offer> offers;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Appointment> appointments;
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<DayPlan> timetable;
+
     private boolean isRented;
     private boolean isActive;
     private Integer duration;
@@ -196,6 +195,23 @@ public class Property {
     public void setProvince(String province) {
         this.province = province;
     }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
+    public List<DayPlan> getTimetable() {
+        return timetable;
+    }
+
+    public void setTimetable(List<DayPlan> timetable) {
+        this.timetable = timetable;
+    }
+
     public List<ImageProperty> getImages() {
         return images;
     }

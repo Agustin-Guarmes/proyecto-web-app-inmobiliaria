@@ -2,11 +2,10 @@ package Inmobilaria.GyL.controller;
 
 import Inmobilaria.GyL.entity.Appointment;
 import Inmobilaria.GyL.service.IAppointmentService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -22,6 +21,15 @@ public class ApiController {
 
     @GetMapping("/user/{userId}/appointments")
     public List<Appointment> findAppointmentsForUser(@PathVariable("userId") Long userId) {
-        return appointmentService.findAppointmentByUserId(userId);
+        List<Appointment> appointments =  appointmentService.findAllBookedAppointmentByUser(userId);
+        return appointments;
     }
+
+    @GetMapping("/property/{propertyId}/availableAppointments")
+    public List<Appointment> findAvailableAppointmentsForProperty(@PathVariable("propertyId") Long propertyId,
+                                                                 @RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate date) {
+        return appointmentService.findAllAvailableAppointmentsByDayAndProperty(propertyId, date);
+    }
+
+
 }

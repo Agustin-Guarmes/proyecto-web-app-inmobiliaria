@@ -1,13 +1,14 @@
 package Inmobilaria.GyL.entity;
 
-import Inmobilaria.GyL.enums.AppointmentState;
+import Inmobilaria.GyL.enums.AppointmentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalTime;
 
 @Entity
 public class Appointment implements Comparable<Appointment> {
@@ -16,25 +17,23 @@ public class Appointment implements Comparable<Appointment> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @NotNull(message = ("Appointment Date is required"))
-    private Date appointmentDate;
+    private LocalDate date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     private User client;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Property property;
 
-    @OneToOne
-    private TimePeriod timePeriod;
-
     @Enumerated(EnumType.STRING)
-    private AppointmentState state;
+    private AppointmentStatus appointmentStatus;
 
     @CreationTimestamp
-    private Date creationDate;
+    private LocalDate creationDate;
 
     private LocalDateTime start;
 
@@ -42,17 +41,39 @@ public class Appointment implements Comparable<Appointment> {
 
     private String title;
 
-    public Appointment(Long id, Date appointmentDate, User client, Property property, DayPlan dayPlan, TimePeriod timePeriod, AppointmentState state, Date creationDate, LocalDateTime startTime, LocalDateTime endTime, String title) {
-        this.id = id;
-        this.appointmentDate = appointmentDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dayplan_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private DayPlan dayPlan;
+
+    public Appointment(LocalDate date, User client, Property property,
+                       AppointmentStatus appointmentStatus, LocalDateTime start, LocalDateTime end) {
+        this.date = date;
         this.client = client;
         this.property = property;
-        this.timePeriod = timePeriod;
-        this.state = state;
-        this.creationDate = creationDate;
-        this.start = startTime;
-        this.end = endTime;
-        this.title = title;
+        this.appointmentStatus = appointmentStatus;
+        this.start = start;
+        this.end = end;
+    }
+
+    public Appointment(LocalDate date, Property property, DayPlan dayPlan,
+                       AppointmentStatus appointmentStatus, LocalDateTime start, LocalDateTime end) {
+        this.date = date;
+        this.property = property;
+        this.dayPlan = dayPlan;
+        this.appointmentStatus = appointmentStatus;
+        this.start = start;
+        this.end = end;
+    }
+
+    public Appointment(LocalDate date, Property property,
+                       AppointmentStatus appointmentStatus, LocalDateTime start, LocalDateTime end) {
+        this.date = date;
+        this.property = property;
+        this.appointmentStatus = appointmentStatus;
+        this.start = start;
+        this.end = end;
+//        this.title = title;
     }
 
     public Appointment() {
@@ -71,6 +92,14 @@ public class Appointment implements Comparable<Appointment> {
         return start;
     }
 
+    public LocalTime getStartTime() {
+        return start.toLocalTime();
+    }
+
+    public LocalTime getEndTime() {
+        return end.toLocalTime();
+    }
+
     public void setStart(LocalDateTime startTime) {
         this.start = startTime;
     }
@@ -83,44 +112,36 @@ public class Appointment implements Comparable<Appointment> {
         this.property = property;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public Date getAppointmentDate() {
-        return appointmentDate;
+    public LocalDate getDate() {
+        return date;
     }
 
     public User getClient() {
         return client;
     }
 
-    public AppointmentState getState() {
-        return state;
+    public AppointmentStatus getAppointmentStatus() {
+        return appointmentStatus;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setAppointmentDate(Date appointmentDate) {
-        this.appointmentDate = appointmentDate;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public void setClient(User client) {
         this.client = client;
     }
 
-    public void setState(AppointmentState state) {
-        this.state = state;
+    public void setAppointmentStatus(AppointmentStatus state) {
+        this.appointmentStatus = state;
     }
 
     public String getTitle() {
@@ -129,6 +150,14 @@ public class Appointment implements Comparable<Appointment> {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public DayPlan getDayPlan() {
+        return dayPlan;
+    }
+
+    public void setDayPlan(DayPlan dayPlan) {
+        this.dayPlan = dayPlan;
     }
 
     @Override
