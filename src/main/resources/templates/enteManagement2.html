@@ -340,7 +340,9 @@
                                                                                     <td th:text="${dayPlan.end}"></td>
                                                                                     <td>
                                                                                         <!-- Botones de acciones (modificar, eliminar) -->
-                                                                                        <button class="btn btn-sm btn-primary">Modificar</button>
+                                                                                        <button class="btn btn-primary">
+                                                                                            <i class="bi bi-pencil-square"></i>
+                                                                                        </button>
                                                                                         <button type="button" class="btn btn-danger"
                                                                                                 data-bs-toggle="modal"
                                                                                                 th:data-bs-target="'#deleteModalDayPlan' + ${dayPlan.id}">
