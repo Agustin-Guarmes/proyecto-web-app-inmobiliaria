@@ -71,5 +71,5 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     List<Property> findByUserName(@Param("word") String word);
 
     @Query("SELECT p FROM Property p WHERE p.address like :address%")
-    Property findByAddress(@Param("address") String address);
+    List<Property> findByAddress(@Param("address") String address);
 }
