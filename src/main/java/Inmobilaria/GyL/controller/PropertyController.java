@@ -84,10 +84,18 @@ public class PropertyController {
     }
 
     @GetMapping("/{id}")
-    public String findByProperty(@PathVariable Long id, ModelMap model) {
-        Property find = propertyService.findById(id);
-        model.put("property", find);
+    public String findByProperty(@PathVariable Long id, ModelMap model, HttpSession session) {
+        User log = (User) session.getAttribute("userSession");
+        model.put("userWithAppointments", appointmentService.findAllUsersIdByProperty(id));
+        model.put("property", propertyService.findById(id));
         model.put("title", "MrHouse | Propiedad");
+        try{
+            if(appointmentService.findAllUsersIdByProperty(id).contains(log.getId())){
+                model.put("appoinment" ,appointmentService.findByUserAndProperty(log.getId(), id));
+            }
+        } catch(Exception ex) {
+            ex.getMessage();
+        }
         return "detailProperty.html";
     }
 
@@ -137,6 +145,15 @@ public class PropertyController {
                                 @SessionAttribute(required=false, name="userSession") User user) {
         appointmentService.cancelAppointment(id, user);
         return "redirect:/usuario/gestion/" + user.getId();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
+    @GetMapping("/turnosCliente/cancelar/{id}")
+    public String clientCancelAppointment(@PathVariable Long id,
+                                          @RequestParam Long propertyId,
+                                    @SessionAttribute(required=false, name="userSession") User user) {
+        appointmentService.clientCancelAppointment(id, user);
+        return "redirect:/propiedades/" + propertyId;
     }
 
     @PostMapping("/filtrar")

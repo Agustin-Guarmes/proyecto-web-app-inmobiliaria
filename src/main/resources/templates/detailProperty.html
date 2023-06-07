@@ -3,11 +3,36 @@
 <head th:replace="/fragments/head :: head">
 </head>
 <style>
-    .propertyCardDetailImgSmall img{ width : 100%; border: 1px solid rgba(0,0,0,0.2); padding: 8px; margin: 10px 5px; cursor: pointer;  object-fit: contain; width: 100%; }
-    .propertyCardDetailImgSmall{ width: 12%; display: flex; }
-    .propertyCardDetailImg img{ height: 460px; border-radius: 4px; object-fit: contain; width: 100%; }
-    .propertyCardDetailImg{ padding: 0 10px; width: 100%; }
-    .propertyCardDetail{ width: 59%; }
+    .propertyCardDetailImgSmall img {
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        padding: 8px;
+        margin: 10px 5px;
+        cursor: pointer;
+        object-fit: contain;
+        width: 100%;
+    }
+
+    .propertyCardDetailImgSmall {
+        width: 12%;
+        display: flex;
+    }
+
+    .propertyCardDetailImg img {
+        height: 460px;
+        border-radius: 4px;
+        object-fit: contain;
+        width: 100%;
+    }
+
+    .propertyCardDetailImg {
+        padding: 0 10px;
+        width: 100%;
+    }
+
+    .propertyCardDetail {
+        width: 59%;
+    }
 
 
 </style>
@@ -76,7 +101,8 @@
                 <form th:action="@{/usuario/invitado}" method="POST">
                     <div class="modal-body">
                         <label for="dni" class="form-label">DNI</label>
-                        <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI" required>
+                        <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI"
+                               required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary"
@@ -90,28 +116,45 @@
 
     </div>
 </main>
-<div class="container" sec:authorize="hasRole('CLIENT')">
-    <h2>Reservar turno</h2>
-    <form method="post"
-          th:action="@{/propiedades/__${property.id}__/reservarTurno}">
-        <div class="container">
-            <div class="d-flex">
-                <div class='datepicker-container'>
-                    <div class="form-group">
-                        <div id='datetimepicker'></div>
+
+<div class="container d-flex justify-content-center" sec:authorize="hasRole('CLIENT')">
+    <div th:unless="${#lists.contains(userWithAppointments, session.userSession.id)}" >
+        <h4>Reserve su turno para visitar esta propiedad</h4>
+        <form method="post"
+              th:action="@{/propiedades/__${property.id}__/reservarTurno}">
+            <div class="container">
+                <div class="d-flex gap-4">
+                    <div class='datepicker-container'>
+                        <div class="form-group">
+                            <div id='datetimepicker'></div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column gap-4" style="width:200px">
+                        <div style="width: 125px">
+                            <select class="form-select border border-success" name="appointmentId"
+                                    id="available-appointments-select" th:data-property-id="${property.id}">
+                            </select>
+                            <div id="available-appointments-text"></div>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-success" id="available-appointments-btn">
+                                Reservar Turno
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="" >
-                    <select name="appointmentId" id="available-appointments-select" th:data-property-id="${property.id}">
-                    </select>
-                    <div id="available-appointments-text"></div>
-                </div>
+
             </div>
-                <button type="submit" class="d-flex btn btn-primary">
-                    Reservar Turno
-                </button>
+        </form>
+    </div>
+    <div th:if="${#lists.contains(userWithAppointments, session.userSession.id)}" class="card " id="bookAppointment" style="width:fit-content">
+        <div class="card-body align-items-center mx-auto" >
+            <i class="bi bi-calendar-week pe-2 text-success"></i><span
+                th:text="|Ud. tiene un turno reservado para el ${#temporals.dayOfWeekName(appoinment.date)}, ${#temporals.day(appoinment.date)} de ${#temporals.monthName(appoinment.date)} del ${#temporals.year(appoinment.date)} a las ${#temporals.hour(appoinment.start)}:${#numbers.formatInteger(#temporals.minute(appoinment.start),2)}|"></span>
+            <a class="btn btn-primary btn-danger"
+               th:href="@{/propiedades/turnosCliente/cancelar/__${appoinment.id}__(propertyId=${property.id})}">Cancelar Turno</a>
         </div>
-    </form>
+    </div>
 </div>
 <footer th:replace="/fragments/footer :: footer"></footer>
 <script src="/js/theme.js"></script>
@@ -127,13 +170,15 @@
 <script type="text/javascript"
         src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript">
-    function myFuction(propertyCardDetailImgSmall){
+    function myFuction(propertyCardDetailImgSmall) {
         let fullImg = document.getElementById('imageBox');
         fullImg.src = propertyCardDetailImgSmall.src;
     }
 
+    $('#available-appointments-btn').hide();
     $('#available-appointments-select').hide();
     $('#available-appointments-text').hide();
+
 
     $(function () {
         $('#datetimepicker').datetimepicker({
@@ -166,16 +211,18 @@
                     $("#available-appointments-select").empty();
                     $.each(response, function (i, value) {
                         let formattedStart = moment(value.start).format('HH:mm');
-                        $('#available-appointments-select').
-                        append('<option id="' + value.id + '" value=' + value.id + '>' + formattedStart + '</option>');
+                        $('#available-appointments-select').append('<option id="' + value.id + '" value=' + value.id + '>' + formattedStart + '</option>');
                     });
                     if ($("#available-appointments-select").children().length === 0) {
                         $("#available-appointments-select").hide();
+                        $("#available-appointments-btn").hide();
                         $("#available-appointments-text").show();
-                        $("#available-appointments-text").html('<p> No exiten turnos disponibles </p>')
+                        $("#available-appointments-text").html('<p> No exiten turnos disponibles para el día seleccionado</p>')
                     } else {
                         $("#available-appointments-text").hide();
                         $("#available-appointments-select").show();
+                        $("#available-appointments-btn").show();
+
                     }
                 }
             })
@@ -205,7 +252,7 @@
                     if (response.length > 0) {
                         $(this).addClass('has-appointments');
                     }
-                }.bind(this) // Bind the success function to maintain the correct context
+                }.bind(this)
             });
         });
     }
