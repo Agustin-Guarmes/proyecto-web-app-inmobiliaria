@@ -6,7 +6,6 @@
 <body onload="loadTheme()" class="sb-nav-fixed">
 
 
-<nav th:replace="/fragments/nav :: nav"></nav>
 
 <div id="layoutSidenav">
   <div id="layoutSidenav_nav">
@@ -30,22 +29,7 @@
               <a class="nav-link" href="">Modificar Inmueble</a>
             </nav>
           </div>
-          <!--            HORARIOS-->
-          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-             data-bs-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts1">
-            <div class="sb-nav-link-icon">
-<!--              <i class="fa-solid fa-clock" style="margin-right: 5px"></i>-->
-            </div>
-            Horarios
-            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-          </a>
-          <div class="collapse" id="collapseLayouts1" aria-labelledby="headingOne"
-               data-bs-parent="#sidenavAccordion">
-            <nav class="sb-sidenav-menu-nested nav">
-              <a class="nav-link" href="">Horarios</a>
-              <a class="nav-link" href="">Ver Turnos</a>
-            </nav>
-          </div>
+
           <!--            OFERTAS-->
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
              data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts2">
@@ -62,6 +46,22 @@
               <a class="nav-link" href="">Respuestas a Ofertas</a>
             </nav>
           </div>
+          <!--            HORARIOS-->
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+             data-bs-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts1">
+            <div class="sb-nav-link-icon">
+              <!--              <i class="fa-solid fa-clock" style="margin-right: 5px"></i>-->
+            </div>
+            Horarios
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+          </a>
+          <div class="collapse" id="collapseLayouts1" aria-labelledby="headingOne"
+               data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav">
+              <a class="nav-link" href="">Horarios</a>
+              <a class="nav-link" href="">Ver Turnos</a>
+            </nav>
+          </div>
 
         </div>
       </div>
@@ -72,8 +72,9 @@
   </div>
 
   <div id="layoutSidenav_content">
+    <nav th:replace="/fragments/nav :: nav"></nav>
+    <div id="content-wrapper" class="container">
 
-      <div id="content-wrapper" class="container">
         <div class="container-fluid">
 
           <!--  OFFCANVAS-->
@@ -84,8 +85,8 @@
             </div>
             <button class="navbar-toggler bg-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
               <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-              <i class="fa-solid fa-bars-staggered"></i>
-<!--              <span class="navbar-toggler-icon"></span>-->
+              <i class="bi bi-person-lines-fill"></i>
+              <i class="bi bi-list-columns-reverse"></i>
             </button>
             <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
               <div class="offcanvas-header">
@@ -148,16 +149,16 @@
 <!--            </nav>-->
 <!--          </div>-->
 
-          <div class="col-md-9">
+          <div class="col">
             <main class="flex-grow-1">
-              <div class="container">
+              <div>
                 <div class="row">
 
-                  <div class="col-md-9">
+                  <div class="col">
                     <section>
                       <div class="row">
-                        <div class="container mt-3">
-                          <h2 class="mt-4 mb-4">Gestión de inmuebles</h2>
+                        <div >
+                          <h2 class="mt-4 mb-4 text-center fs-1">Gestión de inmuebles</h2>
                           <h3 class="mb-4">Mis inmuebles</h3>
                           <div class="table-responsive">
                             <table class="table table-hover">
@@ -183,17 +184,16 @@
                                        class="rounded-circle img_into ms-2">
                                 </td>
                                 <td class="ps-1" style="max-width: 100px;">
-                                  <div class="btn-group" role="group">
-                                    <div class="btn btn-primary">
-                                      <a th:href="@{/propiedades/modificar/__${property.id}__}"><i
-                                              class="bi bi-pencil-square"></i></a>
-                                    </div>
-                                  </div>
-                                  <button type="button" class="btn btn-success" data-bs-toggle="modal"
+
+                                  <button type="button" class="btn btn-primary m-1" th:href="@{/propiedades/modificar/__${property.id}__}">
+                                        <i class="bi bi-pencil-square"></i>
+                                  </button>
+
+                                  <button type="button" class="btn btn-success m-1" data-bs-toggle="modal"
                                           th:data-bs-target="'#appoinmentModalProperty' + ${property.id}">
                                     <i class="bi bi-calendar-plus"></i>
                                   </button>
-                                  <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                  <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal"
                                           th:data-bs-target="'#deleteModalProperty' + ${property.id}">
                                     <i class="bi bi-trash icon" data-bs-toggle="tooltip"
                                        data-bs-placement="right" title="Eliminar"></i>
@@ -207,7 +207,7 @@
                                       <div class="modal-content p-3">
                                         <form method="post"
                                               th:action="@{/propiedades/disponibilidad/__${property.id}__}">
-                                          <h3>Publicar Horarios Nuevos</h3>
+                                          <h3 >Publicar Horarios Nuevos</h3>
                                           <div class="form-group mb-2">
                                             <label for="fecha" class="form-label">Fecha:</label>
                                             <input type="date" id="fecha" name="timetableDay"
@@ -272,11 +272,11 @@
                       </div>
 
                       <div id="gestion-ofertas">
-                        <h2 class="mt-4 mb-4">Gestión de ofertas</h2>
+                        <h2 class="mt-4 mb-4 text-center fs-1">Gestión de ofertas</h2>
                         <div id="ofertas-recibidas">
                           <h3 class="mb-4">Ofertas recibidas</h3>
                           <div class="row">
-                            <div class="container col-12">
+                            <div class="col-12">
                               <table class="table table-hover col-12">
                                 <thead>
                                 <tr>
@@ -315,7 +315,7 @@
                              class="scrollspy-example-2"
                              tabindex="0">
                           <div id="administrar-horarios">
-                            <h2 class="mt-4 mb-4">Administración de horarios</h2>
+                            <h2 class="mt-4 mb-4 text-center fs-1">Gestión de horarios</h2>
                             <div id="mis-horarios">
                               <h3 class="mb-4">Mis horarios publicados</h3>
                               <div class="row">
