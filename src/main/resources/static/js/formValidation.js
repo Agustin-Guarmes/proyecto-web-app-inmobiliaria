@@ -25,6 +25,7 @@ const error1Feedback = document.getElementById('error1');
 //const error2Feedback = document.getElementById('error2');
 const iconValidatorSize = document.getElementById('icon');
 
+if (iconValidatorSize) {
 iconValidatorSize.addEventListener('change',
   function (){
         if(iconValidatorSize.files[0].size >= 1048576){
@@ -34,12 +35,11 @@ iconValidatorSize.addEventListener('change',
         }
         fileValidation();
   })
+}
 
   function fileValidation(){
       let filePath = iconValidatorSize.value,
           allowefExtensions = /(.jpg|.jpeg|.png)$/i;
-
-          console.log(filePath + "  Estoy acaaaaaaaaaaaaaaa!");
 
       if(!allowefExtensions.exec(filePath)){
           const $divCustomError = document.querySelector('.invalid-iconCustom');
