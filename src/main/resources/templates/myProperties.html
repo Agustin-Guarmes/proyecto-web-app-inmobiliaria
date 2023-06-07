@@ -11,7 +11,7 @@
 
         <h1 class="mb-4 text-center card-title">Propiedades</h1>
 
-        <form th:action="@{/propiedades/direccion}" method="post" class="d-flex align-items-center justify-content-center mb-5">
+        <form th:action="@{/propiedades/direccion/_${session.userSession.id}_}" method="post" class="d-flex align-items-center justify-content-center mb-5">
                 <div class="input-group w-50 mx-auto d-flex align-items-center justify-content-center">
                     <input type="text" name="address" class="form-control" placeholder="Calle false 123" required aria-label="Search">
                     <button class="btn btn-success" type="submit">
