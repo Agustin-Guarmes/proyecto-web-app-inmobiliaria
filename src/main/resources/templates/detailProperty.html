@@ -117,7 +117,7 @@
     </div>
 </main>
 
-<div class="container" sec:authorize="hasRole('CLIENT')">
+<div class="container d-flex justify-content-center" sec:authorize="hasRole('CLIENT')">
     <div th:unless="${#lists.contains(userWithAppointments, session.userSession.id)}" >
         <h4>Reserve su turno para visitar esta propiedad</h4>
         <form method="post"
@@ -129,15 +129,15 @@
                             <div id='datetimepicker'></div>
                         </div>
                     </div>
-                    <div class="d-flex gap-4">
-                        <div style="width: 100px">
+                    <div class="d-flex flex-column gap-4" style="width:200px">
+                        <div style="width: 125px">
                             <select class="form-select border border-success" name="appointmentId"
                                     id="available-appointments-select" th:data-property-id="${property.id}">
                             </select>
                             <div id="available-appointments-text"></div>
                         </div>
                         <div>
-                            <button type="submit" class="d-flex btn btn-primary btn-success">
+                            <button type="submit" class="btn btn-primary btn-success" id="available-appointments-btn">
                                 Reservar Turno
                             </button>
                         </div>
@@ -147,11 +147,13 @@
             </div>
         </form>
     </div>
-    <div th:if="${#lists.contains(userWithAppointments, session.userSession.id)}" class="card" id="bookAppointment">
-        <div class="card-body">
-            Ud. tiene un turno reservado para el Viernes, 09 de Julio, 2023.
+    <div th:if="${#lists.contains(userWithAppointments, session.userSession.id)}" class="card " id="bookAppointment" style="width:fit-content">
+        <div class="card-body align-items-center mx-auto" >
+            <i class="bi bi-calendar-week pe-2 text-success"></i><span
+                th:text="|Ud. tiene un turno reservado para el ${#temporals.dayOfWeekName(appoinment.date)}, ${#temporals.day(appoinment.date)} de ${#temporals.monthName(appoinment.date)} del ${#temporals.year(appoinment.date)} a las ${#temporals.hour(appoinment.start)}:${#numbers.formatInteger(#temporals.minute(appoinment.start),2)}|"></span>
+            <a class="btn btn-primary btn-danger"
+               th:href="@{/propiedades/turnosCliente/cancelar/__${appoinment.id}__(propertyId=${property.id})}">Cancelar Turno</a>
         </div>
-        <a class="btn btn-primary btn-danger">Cancelar Turno</a>
     </div>
 </div>
 <footer th:replace="/fragments/footer :: footer"></footer>
@@ -173,8 +175,10 @@
         fullImg.src = propertyCardDetailImgSmall.src;
     }
 
+    $('#available-appointments-btn').hide();
     $('#available-appointments-select').hide();
     $('#available-appointments-text').hide();
+
 
     $(function () {
         $('#datetimepicker').datetimepicker({
@@ -211,11 +215,14 @@
                     });
                     if ($("#available-appointments-select").children().length === 0) {
                         $("#available-appointments-select").hide();
+                        $("#available-appointments-btn").hide();
                         $("#available-appointments-text").show();
                         $("#available-appointments-text").html('<p> No exiten turnos disponibles para el día seleccionado</p>')
                     } else {
                         $("#available-appointments-text").hide();
                         $("#available-appointments-select").show();
+                        $("#available-appointments-btn").show();
+
                     }
                 }
             })

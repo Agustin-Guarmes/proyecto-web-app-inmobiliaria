@@ -22,6 +22,8 @@ public interface IAppointmentService {
 
     List<Appointment> findAllBookedAppointmentByUser(Long id);
 
+    Appointment findByUserAndProperty(Long clientId, Long propertyId);
+
     List<Appointment> findAllAvailableAppointmentsByDayAndProperty(Long id, LocalDate date);
 
     List<Appointment> saveAvailableAppointments(DayPlan dayPlan, Property property);
@@ -34,5 +36,8 @@ public interface IAppointmentService {
 
     void cancelAppointment(Long id, User user);
 
+    void clientCancelAppointment(Long id, User user);
+
     List<Long> findAllUsersIdByProperty(Long id);
+
 }

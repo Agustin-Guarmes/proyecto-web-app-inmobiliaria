@@ -60,6 +60,11 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
+    public Appointment findByUserAndProperty(Long clientId, Long propertyId) {
+        return appointmentRepository.findByClient_IdAndProperty_Id(clientId, propertyId);
+    }
+
+    @Override
     public List<Appointment> findAllAvailableAppointmentsByDayAndProperty(Long id, LocalDate date) {
         List<Appointment> availableAppointments = appointmentRepository.findAllAvailableAppointmentsByDayAndProperty(id, date);
         return availableAppointments;
@@ -122,6 +127,17 @@ public class AppointmentService implements IAppointmentService {
         Appointment appointment = appointmentRepository.findById(id).get();
         if(appointment.getAppointmentStatus()!=AppointmentStatus.CANCELED && appointment.getProperty().getUser().equals(user)) {
             appointment.setAppointmentStatus(AppointmentStatus.CANCELED);
+            appointment.setClient(null);
+            appointmentRepository.save(appointment);
+        }
+    }
+
+    @Override
+    public void clientCancelAppointment(Long id, User user) {
+        Appointment appointment = appointmentRepository.findById(id).get();
+        if(appointment.getAppointmentStatus()!=AppointmentStatus.CANCELED ) {
+            appointment.setAppointmentStatus(AppointmentStatus.AVAILABLE);
+            appointment.setClient(null);
             appointmentRepository.save(appointment);
         }
     }

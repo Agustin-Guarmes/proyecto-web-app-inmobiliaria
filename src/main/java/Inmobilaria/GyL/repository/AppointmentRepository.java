@@ -30,6 +30,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Query("SELECT a.client.id " +
             "FROM Appointment a " +
-            "WHERE (a.property.id = :id) ")
+            "WHERE (a.property.id = :id) " +
+            "AND (a.client is not null) ")
     List<Long> findAllUsersIdByProperty(@Param("id") Long id);
+
+    Appointment findByClient_IdAndProperty_Id(Long clientId, Long propertyId);
 }
