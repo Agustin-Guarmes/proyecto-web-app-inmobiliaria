@@ -194,7 +194,7 @@ public class PropertyService implements IPropertyService {
         return properties;
     }
 
-    public Property findByAddress(String address){
+    public List<Property> findByAddress(String address){
         return pr.findByAddress(address);
     }
 }

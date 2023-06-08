@@ -151,7 +151,7 @@ public class PropertyController {
 
     @PostMapping("/direccion")
     public String findPropertyAddress(@RequestParam String address, ModelMap model) {
-        Property find = propertyService.findByAddress(address);
+        List<Property> find = propertyService.findByAddress(address);
         model.put("properties", find);
         model.put("title", "MrHouse | Propiedad");
         return "myProperties";
