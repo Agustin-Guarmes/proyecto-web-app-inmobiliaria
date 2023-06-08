@@ -3,123 +3,128 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<!--<html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
-<head th:replace="/fragments/head :: head"></head>
-<body onload="loadTheme()">
-<nav th:replace="/fragments/nav :: nav"></nav>
+    <!--<html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+    <head th:replace="/fragments/head :: head"></head>
+    <body onload="loadTheme()">
+        <nav th:replace="/fragments/nav :: nav"></nav>
 
-<header class="bg-dark text-white text-center header-video">
-    <video src="/videos/Ciudad.m4v" autoplay muted loop></video>
+        <header class="bg-dark text-white text-center header-video">
+            <video src="/videos/Ciudad.m4v" autoplay muted loop></video>
 
-    <div class="header-content d-flex align-items-center justify-content-center">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col">
-                    <h1 class="display-4">Mr House</h1>
-                    <p class="lead">¡Encuentra tu lugar en el mundo!</p>
-                    <a th:href="@{/propiedades/lista}" class="btn btn-success btn-lg">Ver Propiedades</a>
+            <div class="header-content d-flex align-items-center justify-content-center">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h1 class="display-4">Mr House</h1>
+                            <p class="lead">¡Encuentra tu lugar en el mundo!</p>
+                            <a th:href="@{/propiedades/lista}" class="btn btn-success btn-lg">Ver Propiedades</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</header>
+        </header>
 
-<section>
-    <div class="container mt-5">
-        <h2 class="mb-4 text-center">Inmuebles más recientes</h2>
+        <section>
+            <div class="container mt-5">
+                <h2 class="mb-4 text-center">Inmuebles más recientes</h2>
 
-        <div class="row d-flex align-items-center justify-content-center">
+                <div class="row d-flex align-items-center justify-content-center">
 
-            <div class="card p-1 col-12 col-sm-6 col-lg-4 col-xl-3 m-3" th:each="property : ${properties}">
-                <div class="position-relative" style="height:250px">
-                    <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top h-100"
-                         alt="Imagen del inmueble">
-                    <span class="badge bg-success position-absolute top-0 end-0"
-                          th:text="${property.status.name()} == 'FOR_SALE' ? 'En venta' : 'En Alquiler'"></span>
+                    <div class="card p-1 col-12 col-sm-6 col-lg-4 col-xl-3 m-3" th:each="property : ${properties}">
+                        <div class="position-relative" style="height:250px">
+                            <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top h-100"
+                                 alt="Imagen del inmueble">
+                                <!--<span class="badge bg-success position-absolute top-0 end-0"
+                                      th:text="${property.status.name()} == 'FOR_SALE' ? 'En venta' : 'En Alquiler'"></span>-->
+                                <div class="ribbon ribbon-top-right">
+                                    <span th:class="${property.status.name() == 'FOR_SALE' ? 'bg-dark-green bg-gradient' : 'bg-success bg-gradient'}">
+                                        [[${property.status.name() == 'FOR_SALE' ? 'En venta' : 'En Alquiler'}]]
+                                    </span>
+                                </div>
+                        </div>
+                        <div class="card-body pt-1">
+                            <h5 class="card-title" th:text="${property.address}"></h5>
+                            <h6 class="card-subtitle mb-2 text-muted"
+                                th:text="${property.location} + ' - ' + ${property.province}"></h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex flex-direcction-row align-items-center">
+                                    <i class="fas fa-bed me-2"></i>
+                                    <div th:text="'Habitaciones: ' + ${property.bedrooms}"></div>
+                                </li>
+                                <li class="list-group-item d-flex flex-direcction-row align-items-center">
+                                    <i class="fas fa-bath me-2"></i>
+                                    <div th:text="'Baños: ' + ${property.bathrooms}"></div>
+                                </li>
+                                <li class="list-group-item d-flex flex-direcction-row align-items-center">
+                                    <i class="fas fa-chart-area me-2"></i>
+                                    <div th:text="'Área Total: ' + ${property.surface}"></div>
+                                </li>
+                            </ul>
+                            <div class="text-muted" th:text="'$ ' + ${property.price}"></div>
+                        </div>
+                        <a class="card-footer btn btn-success mt-1 border-success" th:href="@{/propiedades/__${property.id}__}">
+                            Leer más
+                        </a>
+                    </div>
                 </div>
-                <div class="card-body pt-1">
-                    <h5 class="card-title" th:text="${property.address}"></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"
-                        th:text="${property.location} + ' - ' + ${property.province}"></h6>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex flex-direcction-row align-items-center">
-                            <i class="fas fa-bed me-2"></i>
-                            <div th:text="'Habitaciones: ' + ${property.bedrooms}"></div>
-                        </li>
-                        <li class="list-group-item d-flex flex-direcction-row align-items-center">
-                            <i class="fas fa-bath me-2"></i>
-                            <div th:text="'Baños: ' + ${property.bathrooms}"></div>
-                        </li>
-                        <li class="list-group-item d-flex flex-direcction-row align-items-center">
-                            <i class="fas fa-chart-area me-2"></i>
-                            <div th:text="'Área Total: ' + ${property.surface}"></div>
-                        </li>
-                    </ul>
-                    <div class="text-muted" th:text="'$ ' + ${property.price}"></div>
+            </div>
+
+        </section>
+
+
+        <section class="ftco-section ftco-services-2" id="services-section">
+            <div class="container">
+                <div class="row justify-content-center mt-5 mb-3">
+                    <div class="col-md-12 heading-section text-center">
+                        <h2 class="mb-4"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nuestros Servicios</font></font></h2>
+                    </div>
                 </div>
-                <a class="card-footer btn btn-success mt-1 border-success" th:href="@{/propiedades/__${property.id}__}">
-                    Leer más
-                </a>
-            </div>
-        </div>
-    </div>
-
-</section>
-
-
-<section class="ftco-section ftco-services-2" id="services-section">
-    <div class="container">
-        <div class="row justify-content-center mt-5 mb-3">
-            <div class="col-md-12 heading-section text-center">
-                <h2 class="mb-4"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nuestros Servicios</font></font></h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 col-sm-6 col-lg-3 d-flex align-self-stretch">
-                <div class="media block-6 services text-center d-block">
-                    <div class="icon1 justify-content-center align-items-center d-flex"><i class="bi1 bi-calendar2-check text-white"></i></div>
-                    <div class="media-body">
-                        <h3 class="heading mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Organiza Visitas</font></font></h3>
-                        <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Programá tu reserva rápida y sencillo. Evita perder tiempo al momento de acercarte a nuestras oficinas.</font></font></p>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-lg-3 d-flex align-self-stretch">
+                        <div class="media block-6 services text-center d-block">
+                            <div class="icon1 justify-content-center align-items-center d-flex"><i class="bi1 bi-calendar2-check text-white"></i></div>
+                            <div class="media-body">
+                                <h3 class="heading mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Organiza Visitas</font></font></h3>
+                                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Programá tu reserva rápida y sencillo. Evita perder tiempo al momento de acercarte a nuestras oficinas.</font></font></p>
+                            </div>
+                        </div>      
                     </div>
-                </div>      
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3 d-flex align-self-stretch">
-                <div class="media block-6 services text-center d-block">
-                    <div class="icon1 justify-content-center align-items-center d-flex"><i class="bi1 bi-house-heart text-white"></i></div>
-                    <div class="media-body">
-                        <h3 class="heading mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Compra y Alquiler</font></font></h3>
-                        <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Principales opciones para adquirir o alquilar propiedad. Aprovecha esta oportunidad única para lograr conseguir tu primer inmueble.</font></font></p>
+                    <div class="col-12 col-sm-6 col-lg-3 d-flex align-self-stretch">
+                        <div class="media block-6 services text-center d-block">
+                            <div class="icon1 justify-content-center align-items-center d-flex"><i class="bi1 bi-house-heart text-white"></i></div>
+                            <div class="media-body">
+                                <h3 class="heading mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Compra y Alquiler</font></font></h3>
+                                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Principales opciones para adquirir o alquilar propiedad. Aprovecha esta oportunidad única para lograr conseguir tu primer inmueble.</font></font></p>
+                            </div>
+                        </div>      
                     </div>
-                </div>      
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3 d-flex align-self-stretch">
-                <div class="media block-6 services text-center d-block">
-                    <div class="icon1 justify-content-center align-items-center d-flex"><i class="bi1 bi-bag-dash text-white"></i></div>
-                    <div class="media-body">
-                        <h3 class="heading mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Página Segura</font></font></h3>
-                        <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tu seguridad es la nuestra. Brindamos garantia al realizar compras en nuestra web.</font></font></p>
+                    <div class="col-12 col-sm-6 col-lg-3 d-flex align-self-stretch">
+                        <div class="media block-6 services text-center d-block">
+                            <div class="icon1 justify-content-center align-items-center d-flex"><i class="bi1 bi-bag-dash text-white"></i></div>
+                            <div class="media-body">
+                                <h3 class="heading mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Página Segura</font></font></h3>
+                                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tu seguridad es la nuestra. Brindamos garantia al realizar compras en nuestra web.</font></font></p>
+                            </div>
+                        </div>      
                     </div>
-                </div>      
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3 d-flex align-self-stretch">
-                <div class="media block-6 services text-center d-block">
-                    <div class="icon1 justify-content-center align-items-center d-flex"><i class="bi1 bi-people text-white"></i></div>
-                    <div class="media-body">
-                        <h3 class="heading mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Asesoramiento</font></font></h3>
-                        <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Orientación y formación para adquirir conocimientos sobre la compra-venta de propiedades inmobiliarias.</font></font></p>
+                    <div class="col-12 col-sm-6 col-lg-3 d-flex align-self-stretch">
+                        <div class="media block-6 services text-center d-block">
+                            <div class="icon1 justify-content-center align-items-center d-flex"><i class="bi1 bi-people text-white"></i></div>
+                            <div class="media-body">
+                                <h3 class="heading mb-3"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Asesoramiento</font></font></h3>
+                                <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Orientación y formación para adquirir conocimientos sobre la compra-venta de propiedades inmobiliarias.</font></font></p>
+                            </div>
+                        </div>      
                     </div>
-                </div>      
+                </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
 
-<footer th:replace="/fragments/footer :: footer"></footer>
-<script src="/js/theme.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script src="/js/theme.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-</body>
+    </body>
 </html>
