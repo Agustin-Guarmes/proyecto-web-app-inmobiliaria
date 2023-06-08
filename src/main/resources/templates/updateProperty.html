@@ -1,136 +1,138 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="/fragments/head :: head"></head>
+    <head th:replace="/fragments/head :: head"></head>
 
-<body onload="loadTheme()">
+    <body onload="loadTheme()">
 
-<div class="d-flex flex-column min-vh-100">
-    <nav th:replace="/fragments/nav :: nav"></nav>
+        <div class="d-flex flex-column min-vh-100">
+            <nav th:replace="/fragments/nav :: nav"></nav>
 
-    <main class="flex-grow-1 d-flex align-items-center justify-content-center">
-        <div class="container">
-            <div class="row justify-content-center my-3">
-                <div class="col-lg-6 col-md-8 col-12">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            <h2 class="card-title mt-1">Editar Propiedad</h2>
-                        </div>
-                        <div class="card-body">
-                            <form th:action="@{/propiedades/modificar/__${session.userSession.id}__}" method="POST">
-                                <input type="number" name="id" hidden th:value="${property.id}">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Dirección</label>
-                                    <input type="text" class="form-control" name="address" id="name"
-                                           th:value="${property.address}" required>
+            <main class="flex-grow-1 d-flex align-items-center justify-content-center">
+                <div class="container">
+                    <div class="row justify-content-center my-3">
+                        <div class="col-lg-6 col-md-8 col-12">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <h2 class="card-title mt-1">Editar Propiedad</h2>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="selectProvincias" class="form-label">Provincia</label>
-                                    <select name="province" id="selectProvincias" class="form-select" required>
-                                        <option th:value="${property.province}" th:text="${property.province}"
-                                                selected></option>
-                                    </select>
-                                </div>
-                                <span></span>
-                                <div class="mb-3">
-                                    <label for="selectLocalidades" class="form-label">Localidad</label>
-                                    <select name="location" id="selectLocalidades" class="form-select" required>
-                                        <option th:value="${property.location}" th:text="${property.location}"
-                                                selected></option>
-                                    </select>
-                                </div>
-                                <span></span>
-                                <div class="mb-3">
-                                    <label for="status" class="form-label">Estado</label>
-                                    <select name="status" id="status" class="form-select" required>
-                                        <option th:selected="${property.status.name() == 'FOR_SALE'}" value="FOR_SALE">
-                                            Venta
-                                        </option>
-                                        <option th:selected="${property.status.name() == 'FOR_RENT'}" value="FOR_RENT">
-                                            Alquiler
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="type" class="form-label">Tipo</label>
-                                    <select id="type" name="type" class="form-select">
-                                        <option selected th:value="${property.type.name()}"
-                                                th:text="${property.type.name()} == 'CASA' ? 'Casa' : (${property.type.name()} == 'DEPARTAMENTO' ? 'Departamento' : 'Piso')"></option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Precio</label>
-                                    <input type="number" class="form-control" name="price" id="email"
-                                           th:value="${property.price}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="dni" class="form-label">Superficie</label>
-                                    <input type="number" class="form-control" name="surface" id="dni"
-                                           th:value="${property.surface}" required>
-                                </div>
+                                <form th:action="@{/propiedades/modificar/__${session.userSession.id}__}" method="POST">
+                                    <div class="row g-3 card-body">
+                                        <input type="number" name="id" hidden th:value="${property.id}">
+                                        <div class="col-12">
+                                            <label for="name" class="form-label">Dirección</label>
+                                            <input type="text" class="form-control" name="address" id="name"
+                                                   th:value="${property.address}" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="selectProvincias" class="form-label">Provincia</label>
+                                            <select name="province" id="selectProvincias" class="form-select" required>
+                                                <option th:value="${property.province}" th:text="${property.province}"
+                                                        selected></option>
+                                            </select>
+                                        </div>
+                                        <span></span>
+                                        <div class="col-12">
+                                            <label for="selectLocalidades" class="form-label">Localidad</label>
+                                            <select name="location" id="selectLocalidades" class="form-select" required>
+                                                <option th:value="${property.location}" th:text="${property.location}"
+                                                        selected></option>
+                                            </select>
+                                        </div>
+                                        <span></span>
+                                        <div class="col-12">
+                                            <label for="status" class="form-label">Estado</label>
+                                            <select name="status" id="status" class="form-select" required>
+                                                <option th:selected="${property.status.name() == 'FOR_SALE'}" value="FOR_SALE">
+                                                    Venta
+                                                </option>
+                                                <option th:selected="${property.status.name() == 'FOR_RENT'}" value="FOR_RENT">
+                                                    Alquiler
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="type" class="form-label">Tipo</label>
+                                            <select id="type" name="type" class="form-select">
+                                                <option selected th:value="${property.type.name()}"
+                                                        th:text="${property.type.name()} == 'CASA' ? 'Casa' : (${property.type.name()} == 'DEPARTAMENTO' ? 'Departamento' : 'Piso')"></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="email" class="form-label">Precio</label>
+                                            <input type="number" class="form-control" name="price" id="email"
+                                                   th:value="${property.price}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="dni" class="form-label">Superficie</label>
+                                            <input type="number" class="form-control" name="surface" id="dni"
+                                                   th:value="${property.surface}" required>
+                                        </div>
 
-                                <div class="mb-3">
-                                    <label for="bedrooms" class="form-label">Habitaciones</label>
-                                    <input type="number" name="bedrooms" class="form-control" id="bedrooms"
-                                           th:value="${property.bedrooms}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="bathrooms" class="form-label">Baños</label>
-                                    <input type="number" name="bathrooms" class="form-control" id="bathrooms"
-                                           th:value="${property.bathrooms}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">Descripción</label>
-                                    <input type="text-area" row="2" name="description" class="form-control"
-                                           id="description"
-                                           maxlength="200" th:value="${property.description}" required>
-                                </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">- Modificar -</button>
-                                </div>
-                            </form>
-                            <hr>
-                            <div class="card-header text-center">
-                                <h5 class="card-title mt-1">Editar imagenes de propiedad</h5>
-                            </div>
-                            <div class="propertyCardDetailImgSmall pe-2 ps-2 mt-3">
-                                <div class="row">
-                                    <div class="col col-4 position-relative mb-3 p-0 pe-1 ps-1"
-                                         th:each="image : ${property.images}">
-                                        <img class="img-fluid w-100 rounded"
-                                             th:src="@{/image/propiedades/__${image.id}__}" style="height: 150px;">
-                                        <a th:class="${#lists.size(property.images)} > 1 ? 'btn-close btn-close-white me-1 position-absolute top-0 end-0' : 'd-none'"
-                                           aria-label="Close" style="color: blue;"
-                                           th:href="@{/image/eliminar/idImg/{idImg}/idProp/{idProp}(idImg = ${image.id}, idProp = ${property.id})}"></a>
+                                        <div class="col-md-6">
+                                            <label for="bedrooms" class="form-label">Habitaciones</label>
+                                            <input type="number" name="bedrooms" class="form-control" id="bedrooms"
+                                                   th:value="${property.bedrooms}" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="bathrooms" class="form-label">Baños</label>
+                                            <input type="number" name="bathrooms" class="form-control" id="bathrooms"
+                                                   th:value="${property.bathrooms}" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="description" class="form-label">Descripción</label>
+                                            <input type="text-area" row="2" name="description" class="form-control"
+                                                   id="description"
+                                                   maxlength="200" th:value="${property.description}" required>
+                                        </div>
+                                        <div class="d-grid my-3">
+                                            <button type="submit" class="btn btn-success">Modificar</button>
+                                        </div>
                                     </div>
+                                </form>
+                                <hr class="m-0">
+                                <div class="card-header text-center">
+                                    <h5 class="card-title mt-1">Editar imagenes de propiedad</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="propertyCardDetailImgSmall pe-2 ps-2 mt-3">
+                                        <div class="row">
+                                            <div class="col col-4 position-relative mb-3 p-0 pe-1 ps-1"
+                                                 th:each="image : ${property.images}">
+                                                <img class="img-fluid w-100 rounded"
+                                                     th:src="@{/image/propiedades/__${image.id}__}" style="height: 150px;">
+                                                <a th:class="${#lists.size(property.images)} > 1 ? 'btn-close btn-close-white me-1 position-absolute top-0 end-0' : 'd-none'"
+                                                   aria-label="Close" style="color: blue;"
+                                                   th:href="@{/image/eliminar/idImg/{idImg}/idProp/{idProp}(idImg = ${image.id}, idProp = ${property.id})}"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form th:action="@{/propiedades/usuarioAgregaImagenes}" method="POST"
+                                          enctype="multipart/form-data">
+                                        <input type="number" name="id" hidden th:value="${property.id}">
+                                        <div class="mb-3">
+                                            <label for="files" class="form-label">Elegir imagenes</label>
+                                            <input type="file" multiple name="files" class="form-control" id="files"
+                                                   accept="image/*" required>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-success w-100">Agregar imagenes</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <form th:action="@{/propiedades/usuarioAgregaImagenes}" method="POST"
-                                  enctype="multipart/form-data">
-                                <input type="number" name="id" hidden th:value="${property.id}">
-                                <div class="mb-3">
-                                    <label for="files" class="form-label">Elegir imagen</label>
-                                    <input type="file" multiple name="files" class="form-control" id="files"
-                                           accept="image/*" required>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col">
-                                        <button type="submit" class="btn btn-primary w-100">- Subir Imagenes -</button>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
+            <footer th:replace="/fragments/footer :: footer"></footer>
         </div>
-    </main>
-    <footer th:replace="/fragments/footer :: footer"></footer>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-<script src="/js/registerProperty.js"></script>
-<script src="/js/theme.js"></script>
-</body>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="/js/registerProperty.js"></script>
+        <script src="/js/theme.js"></script>
+    </body>
 </html>

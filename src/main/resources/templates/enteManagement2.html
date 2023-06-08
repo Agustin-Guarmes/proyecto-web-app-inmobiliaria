@@ -67,7 +67,8 @@
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small" th:text="${session.userSession.name}"></div>
+                        <span class="small" >Usuario: </span>
+                        <span th:text="${session.userSession.name}"></span>
                     </div>
                 </nav>
             </div>
@@ -84,10 +85,10 @@
                             <div class="right-nav">
 
                             </div>
-                            <button class="navbar-toggler bg-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                            <button class="navbar-toggler bg-dark mt-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
                                 <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
-                                <i class="bi bi-person-lines-fill"></i>
-                                <i class="bi bi-list-columns-reverse"></i>
+                                <i class="bi bi-person-lines-fill fs-2"></i>
+                                <i class="bi bi-list-columns-reverse fs-2"></i>
                             </button>
                             <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
                                 <div class="offcanvas-header">
@@ -103,9 +104,6 @@
                                             <ul class="dropdown-menu dropdown-menu-dark">
                                                 <li><a class="dropdown-item" href="#">Agregar Inmueble</a></li>
                                                 <li><a class="dropdown-item" href="#">Modificar Inmueble</a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
                                             </ul>
                                         </li>
                                         <li class="nav-item dropdown">
@@ -115,9 +113,6 @@
                                             <ul class="dropdown-menu dropdown-menu-dark">
                                                 <li><a class="dropdown-item" href="#">Ver Horarios</a></li>
                                                 <li><a class="dropdown-item" href="#">Ver Turnos</a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
                                             </ul>
                                         </li>
                                         <li class="nav-item dropdown">
@@ -127,9 +122,6 @@
                                             <ul class="dropdown-menu dropdown-menu-dark">
                                                 <li><a class="dropdown-item" href="#">Ofertas Recibidas</a></li>
                                                 <li><a class="dropdown-item" href="#">Respuestas a Ofertas</a></li>
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -184,9 +176,9 @@
                                                                             <img th:src="@{/image/propiedades/__${property.images[0].id}__}"
                                                                                  class="rounded-circle img_into ms-2">
                                                                         </td>
-                                                                        <td class="ps-1" style="max-width: 100px;">
+                                                                        <td class="ps-1">
 
-                                                                                <a type="button" class="btn btn-primary m-1"  th:href="@{/propiedades/modificar/__${property.id}__}">
+                                                                                <a type="button" class="btn btn-primary"  th:href="@{/propiedades/modificar/__${property.id}__}">
                                                                                     
                                                                                 <i class="bi bi-pencil-square"></i>
                                                                                 </a>
@@ -195,7 +187,7 @@
                                                                                     th:data-bs-target="'#appoinmentModalProperty' + ${property.id}">
                                                                                 <i class="bi bi-calendar-plus"></i>
                                                                             </button>
-                                                                            <button type="button" class="btn btn-danger m-1" data-bs-toggle="modal"
+                                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                                                     th:data-bs-target="'#deleteModalProperty' + ${property.id}">
                                                                                 <i class="bi bi-trash icon" data-bs-toggle="tooltip"
                                                                                    data-bs-placement="right" title="Eliminar"></i>
@@ -228,7 +220,7 @@
                                                                                                 <input type="time" id="hora_fin" name="end"
                                                                                                        class="form-control" step="1800" required>
                                                                                             </div>
-                                                                                            <button type="submit" class="btn btn-primary">Publicar
+                                                                                            <button type="submit" class="btn btn-success">Publicar
                                                                                                 Horarios
                                                                                             </button>
                                                                                         </form>
@@ -258,7 +250,7 @@
                                                                                                     data-bs-dismiss="modal">
                                                                                                 Cancelar
                                                                                             </button>
-                                                                                            <a class="btn btn-primary"
+                                                                                            <a class="btn btn-success"
                                                                                                th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
                                                                                         </div>
                                                                                     </div>
@@ -389,7 +381,7 @@
                                                                                                                 data-bs-dismiss="modal">
                                                                                                             Cancelar
                                                                                                         </button>
-                                                                                                        <a class="btn btn-primary"
+                                                                                                        <a class="btn btn-success"
                                                                                                            th:href="@{/propiedades/disponibilidad/eliminar/__${dayPlan.id}__}">Eliminar</a>
                                                                                                     </div>
                                                                                                 </div>

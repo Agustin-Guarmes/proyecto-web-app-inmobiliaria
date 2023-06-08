@@ -1,261 +1,261 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="/fragments/head :: head">
-</head>
-<style>
-    .propertyCardDetailImgSmall img {
-        width: 100%;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        padding: 8px;
-        margin: 10px 5px;
-        cursor: pointer;
-        object-fit: contain;
-        width: 100%;
-    }
+    <head th:replace="/fragments/head :: head"></head>
+    <style>
+        .propertyCardDetailImgSmall img {
+            width: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            padding: 8px;
+            margin: 10px 5px;
+            cursor: pointer;
+            object-fit: contain;
+            width: 100%;
+        }
 
-    .propertyCardDetailImgSmall {
-        width: 12%;
-        display: flex;
-    }
+        .propertyCardDetailImgSmall {
+            width: 12%;
+            display: flex;
+        }
 
-    .propertyCardDetailImg img {
-        height: 460px;
-        border-radius: 4px;
-        object-fit: contain;
-        width: 100%;
-    }
+        .propertyCardDetailImg img {
+            height: 460px;
+            border-radius: 4px;
+            object-fit: contain;
+            width: 100%;
+        }
 
-    .propertyCardDetailImg {
-        padding: 0 10px;
-        width: 100%;
-    }
+        .propertyCardDetailImg {
+            padding: 0 10px;
+            width: 100%;
+        }
 
-    .propertyCardDetail {
-        width: 59%;
-    }
+        .propertyCardDetail {
+            width: 59%;
+        }
 
 
-</style>
-<body onload="loadTheme()">
-<nav th:replace="/fragments/nav :: nav"></nav>
-<main>
-    <div class="container__card">
-        <div class="propertyCardDetail">
-            <div class="propertyCardDetailImg">
-                <img id="imageBox" th:src="@{/image/propiedades/__${property.images[0].id}__}">
-            </div>
-            <div class="d-flex flex-direction-row flex-wrap">
-                <div th:each="image : ${property.images}" class="propertyCardDetailImgSmall me-2 col-2"
-                     style="height:100px; max-height:100px;">
-                    <img th:src="@{/image/propiedades/__${image.id}__}"
-                         onclick="myFuction(this)">
-                </div>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem; height: 535px;">
-            <div class="card-header">
-                <h5 class="card-title" th:text="'Dirección - ' + ${property.address}"></h5>
-                <p class="card-text" th:text="'Tipo - ' + ${property.type}"></p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item" th:text="'Descripción - ' + ${property.description}"></li>
-
-                <li class="list-group-item" th:text="'Localidad - ' + ${property.location}"></li>
-                <li class="list-group-item" th:text="'Superficie - ' + ${property.surface}"></li>
-                <li class="list-group-item" th:text="'Baños - ' + ${property.bathrooms}"></li>
-                <li class="list-group-item" th:text="'Habitaciones - ' + ${property.bedrooms}"></li>
-                <li class="list-group-item" th:text="'Precio $ ' + ${property.price}"></li>
-            </ul>
-
-            <div class="card-body d-flex" style="height:50px; max-height:50px;">
-                <a th:if="${session.userSession != null}" type="button" class="btn btn-outline-secondary w-100 me-1"
-                   style="height:38px;"
-                   th:href="@{/ofertas/realizar/user/{userId}/property/{propertyId}(userId=${session.userSession.id}, propertyId=${property.id})}">
-                    Oferta
-                </a>
-                <a th:if="${session.userSession == null}" class="btn btn-outline-secondary w-100 me-1"
-                   style="height:38px;"
-                   data-bs-toggle="modal" data-bs-target="#dniModal">
-                    Oferta
-                </a>
-                <a th:if="${session.userSession != null}" type="button" class="btn btn-outline-secondary w-100"
-                   style="height:38px;"
-                   href="#">
-                    Turnos
-                </a>
-            </div>
-
-        </div>
-    </div>
-
-    <!--    Modal oferta guest-->
-    <div class="modal fade" id="dniModal" tabindex="-1"
-         aria-labelledby="dniModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="dniModalLabel">Ingrese su DNI</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                </div>
-                <form th:action="@{/usuario/invitado}" method="POST">
-                    <div class="modal-body">
-                        <label for="dni" class="form-label">DNI</label>
-                        <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI"
-                               required>
+    </style>
+    <body onload="loadTheme()">
+        <nav th:replace="/fragments/nav :: nav"></nav>
+        <main>
+            <h1 class="text-center my-5">Información de la propiedad</h1>
+            <div class="container__card">
+                <div class="propertyCardDetail">
+                    <div class="propertyCardDetailImg">
+                        <img id="imageBox" th:src="@{/image/propiedades/__${property.images[0].id}__}">
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary"
-                                data-bs-dismiss="modal">Cancelar
-                        </button>
-                        <button type="submit" class="btn btn-success">Buscar</button>
+                    <div class="d-flex flex-direction-row flex-wrap">
+                        <div th:each="image : ${property.images}" class="propertyCardDetailImgSmall me-2 col-2"
+                             style="height:100px; max-height:100px;">
+                            <img th:src="@{/image/propiedades/__${image.id}__}"
+                                 onclick="myFuction(this)">
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem; height: 535px;">
+                    <div class="card-header">
+                        <h5 class="card-title" th:text="'Dirección - ' + ${property.address}"></h5>
+                        <p class="card-text" th:text="'Tipo - ' + ${property.type}"></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:text="'Descripción - ' + ${property.description}"></li>
+
+                        <li class="list-group-item" th:text="'Localidad - ' + ${property.location}"></li>
+                        <li class="list-group-item" th:text="'Superficie - ' + ${property.surface}"></li>
+                        <li class="list-group-item" th:text="'Baños - ' + ${property.bathrooms}"></li>
+                        <li class="list-group-item" th:text="'Habitaciones - ' + ${property.bedrooms}"></li>
+                        <li class="list-group-item" th:text="'Precio $ ' + ${property.price}"></li>
+                    </ul>
+
+                    <div class="card-body d-flex" style="height:50px; max-height:50px;">
+                        <a th:if="${session.userSession != null}" type="button" class="btn btn-outline-secondary w-100 me-1 mt-5"
+                           style="height:38px;"
+                           th:href="@{/ofertas/realizar/user/{userId}/property/{propertyId}(userId=${session.userSession.id}, propertyId=${property.id})}">
+                            Ofertar
+                        </a>
+                        <a th:if="${session.userSession == null}" class="btn btn-outline-secondary w-100 me-1 mt-5"
+                           style="height:38px;"
+                           data-bs-toggle="modal" data-bs-target="#dniModal">
+                            Ofertar
+                        </a>
+                        <!--<a th:if="${session.userSession != null}" type="button" class="btn btn-outline-secondary w-100"
+                           style="height:38px;"
+                           href="#">
+                            Turnos
+                        </a>-->
+                    </div>
+
+                </div>
+            </div>
+
+            <!--    Modal oferta guest-->
+            <div class="modal fade" id="dniModal" tabindex="-1"
+                 aria-labelledby="dniModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dniModalLabel">Ingrese su DNI</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <form th:action="@{/usuario/invitado}" method="POST">
+                            <div class="modal-body">
+                                <label for="dni" class="form-label">DNI</label>
+                                <input type="number" class="form-control" id="dni" name="dni" placeholder="Ingrese su DNI"
+                                       required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                        data-bs-dismiss="modal">Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-success">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <div class="container d-flex justify-content-center" sec:authorize="hasRole('CLIENT')">
+            <div th:unless="${#lists.contains(userWithAppointments, session.userSession.id)}" >
+                <h3 class="mb-4">Reserve su turno para visitar esta propiedad</h3>
+                <form method="post"
+                      th:action="@{/propiedades/__${property.id}__/reservarTurno}">
+                    <div class="container">
+                        <div class="d-flex gap-4">
+                            <div class='datepicker-container'>
+                                <div class="form-group">
+                                    <div id='datetimepicker'></div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column gap-4" style="width:200px">
+                                <div style="width: 125px">
+                                    <select class="form-select border border-success" name="appointmentId"
+                                            id="available-appointments-select" th:data-property-id="${property.id}">
+                                    </select>
+                                    <div id="available-appointments-text"></div>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-primary btn-success" id="available-appointments-btn">
+                                        Reservar Turno
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </form>
             </div>
-        </div>
-
-    </div>
-</main>
-
-<div class="container d-flex justify-content-center" sec:authorize="hasRole('CLIENT')">
-    <div th:unless="${#lists.contains(userWithAppointments, session.userSession.id)}" >
-        <h4>Reserve su turno para visitar esta propiedad</h4>
-        <form method="post"
-              th:action="@{/propiedades/__${property.id}__/reservarTurno}">
-            <div class="container">
-                <div class="d-flex gap-4">
-                    <div class='datepicker-container'>
-                        <div class="form-group">
-                            <div id='datetimepicker'></div>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column gap-4" style="width:200px">
-                        <div style="width: 125px">
-                            <select class="form-select border border-success" name="appointmentId"
-                                    id="available-appointments-select" th:data-property-id="${property.id}">
-                            </select>
-                            <div id="available-appointments-text"></div>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary btn-success" id="available-appointments-btn">
-                                Reservar Turno
-                            </button>
-                        </div>
-                    </div>
+            <div th:if="${#lists.contains(userWithAppointments, session.userSession.id)}" class="card " id="bookAppointment" style="width:fit-content">
+                <div class="card-body align-items-center mx-auto" >
+                    <i class="bi bi-calendar-week pe-2 text-success"></i><span
+                        th:text="|Ud. tiene un turno reservado para el ${#temporals.dayOfWeekName(appoinment.date)}, ${#temporals.day(appoinment.date)} de ${#temporals.monthName(appoinment.date)} del ${#temporals.year(appoinment.date)} a las ${#temporals.hour(appoinment.start)}:${#numbers.formatInteger(#temporals.minute(appoinment.start),2)}|"></span>
+                    <a class="btn btn-primary btn-danger"
+                       th:href="@{/propiedades/turnosCliente/cancelar/__${appoinment.id}__(propertyId=${property.id})}">Cancelar Turno</a>
                 </div>
-
             </div>
-        </form>
-    </div>
-    <div th:if="${#lists.contains(userWithAppointments, session.userSession.id)}" class="card " id="bookAppointment" style="width:fit-content">
-        <div class="card-body align-items-center mx-auto" >
-            <i class="bi bi-calendar-week pe-2 text-success"></i><span
-                th:text="|Ud. tiene un turno reservado para el ${#temporals.dayOfWeekName(appoinment.date)}, ${#temporals.day(appoinment.date)} de ${#temporals.monthName(appoinment.date)} del ${#temporals.year(appoinment.date)} a las ${#temporals.hour(appoinment.start)}:${#numbers.formatInteger(#temporals.minute(appoinment.start),2)}|"></span>
-            <a class="btn btn-primary btn-danger"
-               th:href="@{/propiedades/turnosCliente/cancelar/__${appoinment.id}__(propertyId=${property.id})}">Cancelar Turno</a>
         </div>
-    </div>
-</div>
-<footer th:replace="/fragments/footer :: footer"></footer>
-<script src="/js/theme.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        <footer th:replace="/fragments/footer :: footer"></footer>
+        <script src="/js/theme.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-<script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/moment.js"></script>
-<script type="text/javascript" src="/js/fullcalendar.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-<script type="text/javascript"
+        <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/fullcalendar.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+        <script type="text/javascript"
         src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript">
-    function myFuction(propertyCardDetailImgSmall) {
-        let fullImg = document.getElementById('imageBox');
-        fullImg.src = propertyCardDetailImgSmall.src;
-    }
+        <script type="text/javascript">
+            function myFuction(propertyCardDetailImgSmall) {
+            let fullImg = document.getElementById('imageBox');
+            fullImg.src = propertyCardDetailImgSmall.src;
+            }
 
-    $('#available-appointments-btn').hide();
-    $('#available-appointments-select').hide();
-    $('#available-appointments-text').hide();
+            $('#available-appointments-btn').hide();
+            $('#available-appointments-select').hide();
+            $('#available-appointments-text').hide();
 
 
-    $(function () {
-        $('#datetimepicker').datetimepicker({
+            $(function () {
+            $('#datetimepicker').datetimepicker({
             inline: true,
             sideBySide: true,
             icons: {
-                next: 'fa fa-chevron-circle-right',
-                previous: 'fa fa-chevron-circle-left'
+            next: 'fa fa-chevron-circle-right',
+            previous: 'fa fa-chevron-circle-left'
             },
             // si se cambia a 'es' no funciona el evento click :/
             locale: 'en',
             format: 'yyyy-MM-dd',
-        });
+            });
 
-        markDaysWithAppointments();
+            markDaysWithAppointments();
 
-        $('div tbody').on('click', 'tr > .day', function () {
+            $('div tbody').on('click', 'tr > .day', function () {
             var selectedDate = $(this).data().day;
             var propertyId = $('#available-appointments-select').attr('data-property-id');
 
             $.ajax({
-                url: '/api/property/' + propertyId + '/availableAppointments',
-                type: 'GET',
-                data: {
-                    date: selectedDate
-                },
-                dataType: "json",
-                success: function (response) {
-                    markDaysWithAppointments();
-                    $("#available-appointments-select").empty();
-                    $.each(response, function (i, value) {
-                        let formattedStart = moment(value.start).format('HH:mm');
-                        $('#available-appointments-select').append('<option id="' + value.id + '" value=' + value.id + '>' + formattedStart + '</option>');
-                    });
-                    if ($("#available-appointments-select").children().length === 0) {
-                        $("#available-appointments-select").hide();
-                        $("#available-appointments-btn").hide();
-                        $("#available-appointments-text").show();
-                        $("#available-appointments-text").html('<p> No exiten turnos disponibles para el día seleccionado</p>')
-                    } else {
-                        $("#available-appointments-text").hide();
-                        $("#available-appointments-select").show();
-                        $("#available-appointments-btn").show();
+            url: '/api/property/' + propertyId + '/availableAppointments',
+            type: 'GET',
+            data: {
+            date: selectedDate
+            },
+            dataType: "json",
+            success: function (response) {
+            markDaysWithAppointments();
+            $("#available-appointments-select").empty();
+            $.each(response, function (i, value) {
+            let formattedStart = moment(value.start).format('HH:mm');
+            $('#available-appointments-select').append('<option id="' + value.id + '" value=' + value.id + '>' + formattedStart + '</option>');
+            });
+            if ($("#available-appointments-select").children().length === 0) {
+            $("#available-appointments-select").hide();
+            $("#available-appointments-btn").hide();
+            $("#available-appointments-text").show();
+            $("#available-appointments-text").html('<p> No exiten turnos disponibles para el día seleccionado</p>')
+            } else {
+            $("#available-appointments-text").hide();
+            $("#available-appointments-select").show();
+            $("#available-appointments-btn").show();
 
-                    }
-                }
+            }
+            }
             })
             $.ajax({
-                url: '/api/property/' + propertyId + '/availableAppointments',
-                type: 'GET',
-                dataType: "json",
-                success: function (response) {
-                    console.log(response)
-                }
+            url: '/api/property/' + propertyId + '/availableAppointments',
+            type: 'GET',
+            dataType: "json",
+            success: function (response) {
+            console.log(response)
+            }
             });
-        });
-    });
+            });
+            });
 
-    function markDaysWithAppointments() {
-        var propertyId = $('#available-appointments-select').attr('data-property-id');
-        $('td.day').each(function () {
+            function markDaysWithAppointments() {
+            var propertyId = $('#available-appointments-select').attr('data-property-id');
+            $('td.day').each(function () {
             var date = $(this).data().day;
             $.ajax({
-                url: '/api/property/' + propertyId + '/availableAppointments',
-                type: 'GET',
-                data: {
-                    date: date
-                },
-                dataType: "json",
-                success: function (response) {
-                    if (response.length > 0) {
-                        $(this).addClass('has-appointments');
-                    }
-                }.bind(this)
+            url: '/api/property/' + propertyId + '/availableAppointments',
+            type: 'GET',
+            data: {
+            date: date
+            },
+            dataType: "json",
+            success: function (response) {
+            if (response.length > 0) {
+            $(this).addClass('has-appointments');
+            }
+            }.bind(this)
             });
-        });
-    }
-</script>
-</body>
+            });
+            }
+        </script>
+    </body>
 </html>
