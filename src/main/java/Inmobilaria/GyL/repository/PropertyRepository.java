@@ -70,6 +70,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("SELECT p FROM Property p WHERE p.user.name like :word%")
     List<Property> findByUserName(@Param("word") String word);
 
-    @Query("SELECT p FROM Property p WHERE p.address like :address%")
-    Property findByAddress(@Param("address") String address);
+    @Query("SELECT p FROM Property p WHERE p.address like :address% AND p.user.id = :id" )
+    List<Property> findByAddress(@Param("address") String address, @Param("id") Long id);
+
 }

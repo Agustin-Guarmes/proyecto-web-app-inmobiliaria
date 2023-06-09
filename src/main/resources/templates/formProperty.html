@@ -1,109 +1,99 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="/fragments/head :: head"></head>
-<body onload="loadTheme()">
-<div class="d-flex flex-column min-vh-100">
-    <nav th:replace="/fragments/nav :: nav"></nav>
+    <head th:replace="/fragments/head :: head"></head>
+    <body onload="loadTheme()">
+        <div class="d-flex flex-column min-vh-100">
+            <nav th:replace="/fragments/nav :: nav"></nav>
 
-    <section class="flex-grow-1">
-        <div class="container my-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-6 col-md-8 col-12">
-                    <div class="card">
-                        <div class="card-header pt-2">
-                            <h2 class="card-title">Registrar propiedad</h2>
-                        </div>
-                        <div class="card-body">
-                            <form th:action="@{/usuario/agregarPropiedad}" method="POST" enctype="multipart/form-data">
-                                <input type="number" name="idUser" th:value="${session.userSession.id}" hidden>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Dirección</label>
-                                    <input type="text" name="address" class="form-control" id="address" placeholder="Calle false 123" required>
+            <section class="flex-grow-1">
+                <div class="container my-5">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 col-md-8 col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2 class="card-title text-center mt-1">Registro de Propiedad</h2>
                                 </div>
-                                <!--                                        <div class="mb-3">-->
-                                <!--                                            <label for="location" class="form-label">Localidad | Provincia</label>-->
-                                <!--                                            <input type="text" name="location" class="form-control" id="location" placeholder="La plata, Buenos Aires" required>-->
-                                <!--                                        </div>-->
-                                <!--Preguntar si les parece bien!-->
-                                <div class="mb-3">
-                                    <label for="selectProvincias" class="form-label">Provincia</label>
-                                    <select name="province" id="selectProvincias" class="form-select" required>
-                                        <option hidden >Seleccionar una provincia</option>
-                                    </select>
-                                </div>
-                                <span></span>
+                                <form th:action="@{/usuario/agregarPropiedad}" method="POST" enctype="multipart/form-data">
+                                    <input type="number" name="idUser" th:value="${session.userSession.id}" hidden>
+                                    <div class="row g-3 card-body">
+                                        <div class="col-12">
+                                            <label for="address" class="form-label">Dirección</label>
+                                            <input type="text" name="address" class="form-control" id="address" placeholder="Dirección de la propiedad" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="selectProvincias" class="form-label">Provincia</label>
+                                            <select name="province" id="selectProvincias" class="form-select" required>
+                                                <option hidden >Seleccionar una provincia</option>
+                                            </select>
+                                        </div>
 
-                                <div class="mb-3">
-                                    <label for="selectLocalidades" class="form-label">Localidad</label>
-                                    <select name="location" id="selectLocalidades" class="form-select" required>
-                                        <option hidden selected>Seleccionar una localidad</option>
-                                    </select>
-                                </div>
-                                <span></span>
-                                <!--fin pregunta-->
+                                        <div class="col-12">
+                                            <label for="selectLocalidades" class="form-label">Localidad</label>
+                                            <select name="location" id="selectLocalidades" class="form-select" required>
+                                                <option hidden selected>Seleccionar una localidad</option>
+                                            </select>
+                                        </div>
 
-                                <div class="mb-3">
-                                    <label for="status" class="form-label">Estado</label>
-                                    <select name="status" id="status" class="form-select" required>
-                                        <option hidden selected>Seleccionar estado</option>
-                                        <option value="FOR_SALE">Venta</option>
-                                        <option value="FOR_RENT">Alquiler</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="type" class="form-label">Tipo</label>
-                                    <select name="type" id="type" class="form-select" required>
-                                        <option hidden selected>Seleccionar tipo</option>
-                                        <option value="CASA">Casa</option>
-                                        <option value="DEPARTAMENTO">Departamento</option>
-                                        <option value="PISO">Piso</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="surface" class="form-label">Superficie</label>
-                                    <input type="number" name="surface" class="form-control" id="surface" placeholder="123" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="bedrooms" class="form-label">Habitaciones</label>
-                                    <input type="number" name="bedrooms" class="form-control" id="bedrooms" placeholder="3" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="bathrooms" class="form-label">Baños</label>
-                                    <input type="number" name="bathrooms" class="form-control" id="bathrooms" placeholder="2" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="price" class="form-label">Precio</label>
-                                    <input type="number" name="price" class="form-control" id="price" placeholder="120000" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="description" class="form-label">Descripción</label>
-                                    <input type="text" name="description" class="form-control" id="description" maxlength="200" placeholder="Casa moderna con vistas naturales, pileta y cochera al aire libre con techo." required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="files" class="form-label">Elegir imagen</label>
-                                    <input type="file" multiple name="files" class="form-control" id="files" accept="image/*" required>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col">
-                                        <button type="submit" class="btn btn-primary my-3 w-100">Registrar propiedad</button>
+                                        <div class="col-12">
+                                            <label for="status" class="form-label">Estado</label>
+                                            <select name="status" id="status" class="form-select" required>
+                                                <option hidden selected>Seleccionar estado</option>
+                                                <option value="FOR_SALE">Venta</option>
+                                                <option value="FOR_RENT">Alquiler</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="type" class="form-label">Tipo</label>
+                                            <select name="type" id="type" class="form-select" required>
+                                                <option hidden selected>Seleccionar tipo</option>
+                                                <option value="CASA">Casa</option>
+                                                <option value="DEPARTAMENTO">Departamento</option>
+                                                <option value="PISO">Piso</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="surface" class="form-label">Superficie</label>
+                                            <input type="number" name="surface" class="form-control" id="surface" placeholder="123" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="bedrooms" class="form-label">Habitaciones</label>
+                                            <input type="number" name="bedrooms" class="form-control" id="bedrooms" placeholder="3" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="bathrooms" class="form-label">Baños</label>
+                                            <input type="number" name="bathrooms" class="form-control" id="bathrooms" placeholder="2" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="price" class="form-label">Precio</label>
+                                            <input type="number" name="price" class="form-control" id="price" placeholder="120000" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="description" class="form-label">Descripción</label>
+                                            <input type="text" name="description" class="form-control" id="description" maxlength="200" placeholder="Casa moderna con vistas naturales, pileta y cochera al aire libre con techo." required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="files" class="form-label">Elegir imagenes</label>
+                                            <input type="file" multiple name="files" class="form-control" id="files" accept="image/*" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-success w-100 my-2">Registrar Propiedad</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
+
+
+            <footer th:replace="/fragments/footer :: footer"></footer>
         </div>
-    </section>
-
-
-
-    <footer th:replace="/fragments/footer :: footer"></footer>
-</div>
-<script src="/js/theme.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        <script src="/js/theme.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-<script src="/js/registerProperty.js"></script>
-</body>
+        <script src="/js/registerProperty.js"></script>
+    </body>
 </html>

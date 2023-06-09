@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary">
+<nav class="navbar sticky-top navbar-expand-md bg-body-tertiary">
     <div class="container">
         <a class="navbar-brand navbar-logo" th:href="@{/}">
             <img src="/img/logo.svg" alt="logo" class="navbar-img">
@@ -50,7 +50,7 @@
                         <li sec:authorize="hasRole('ENTITY')">
                             <a class="dropdown-item" th:href="@{/propiedades/formulario}">
                                 <i class="bi bi-house-add pe-2"></i>
-                                Vender
+                                Publicar propiedad
                             </a>
                         </li>
                     </ul>

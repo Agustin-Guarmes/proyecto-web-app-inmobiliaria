@@ -8,7 +8,7 @@
                 <h1 class="mt-5 mb-4 text-center">Propiedades</h1>
                 <form th:action="@{/propiedades/filtrar}" method="post">
                     <div class="container mt-5 d-flex align-items-center justify-content-center gap-3 ">
-                        <div class="w-50">
+                        <div class="">
                             <select name="province" id="selectProvincias" class="form-select border border-success">
                                 <option hidden>Seleccionar una provincia</option>
                             </select>
@@ -56,8 +56,13 @@
                             <div class="position-relative" style="height:250px">
                                 <img th:src="@{/image/propiedades/__${property.images[0].id}__}" class="card-img-top h-100"
                                      alt="Imagen del inmueble">
-                                <span class="badge bg-success position-absolute top-0 end-0"
-                                      th:text="${property.status.name()} == 'FOR_SALE' ? 'En venta' : 'En Alquiler'"></span>
+                                <!--<span class="badge bg-success position-absolute top-0 end-0"
+                                      th:text="${property.status.name()} == 'FOR_SALE' ? 'En venta' : 'En Alquiler'"></span>-->
+                                <div class="ribbon ribbon-top-right">
+                                    <span th:class="${property.status.name() == 'FOR_SALE' ? 'bg-dark-green bg-gradient' : 'bg-success bg-gradient'}">
+                                        [[${property.status.name() == 'FOR_SALE' ? 'En venta' : 'En Alquiler'}]]
+                                    </span>
+                                </div>
                             </div>
                             <div class="card-body pt-1">
                                 <h5 class="card-title" th:text="${property.address}"></h5>

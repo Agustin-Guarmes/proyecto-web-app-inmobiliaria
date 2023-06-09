@@ -1,718 +1,493 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="/fragments/head :: head"></head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>Admin</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="./style.css" type="text/css">
-  <link href="css/stylessidenav.css" rel="stylesheet" />
-  <link href="css/enteManagement.css" rel="stylesheet" type="text/css"/>
-  <head th:replace="/fragments/head :: head"></head>
-</head>
+    <head th:replace="/fragments/head :: head"><title>Gestiones</title></head>
 
-<body class="sb-nav-fixed">
+    <body onload="loadTheme()" class="sb-nav-fixed">
 
 
-<style>
-  .fixed-top, .sb-nav-fixed #layoutSidenav #layoutSidenav_nav, .sb-nav-fixed .sb-topnav {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 1030;
-  }
-  #layoutSidenav {
-    display: flex;
-  }
-  #layoutSidenav #layoutSidenav_nav {
-    flex-basis: 225px;
-    flex-shrink: 0;
-    transition: transform 0.15s ease-in-out;
-    z-index: 1038;
-    transform: translateX(-225px);
-  }
-  #layoutSidenav #layoutSidenav_content {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-width: 0;
-    flex-grow: 1;
-    min-height: calc(100vh - 56px);
-    margin-left: -225px;
-  }
 
-  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
-    transform: translateX(0);
-  }
-  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    z-index: 1037;
-    opacity: 0.5;
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  @media (min-width: 992px) {
-    #layoutSidenav #layoutSidenav_nav {
-      transform: translateX(0);
-    }
-    #layoutSidenav #layoutSidenav_content {
-      margin-left: 0;
-      transition: margin 0.15s ease-in-out;
-    }
-    .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
-      transform: translateX(-225px);
-    }
-    .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
-      margin-left: -225px;
-    }
-    .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
-      display: none;
-    }
-  }
-  .sb-nav-fixed .sb-topnav {
-    z-index: 1039;
-  }
-  .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
-    width: 225px;
-    height: 100vh;
-    z-index: 1038;
-  }
-  .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav {
-    padding-top: 56px;
-  }
-  .sb-nav-fixed #layoutSidenav #layoutSidenav_nav .sb-sidenav .sb-sidenav-menu {
-    overflow-y: auto;
-  }
-  .sb-nav-fixed #layoutSidenav #layoutSidenav_content {
-    padding-left: 225px;
-    top: 56px;
-  }
-  .sb-topnav {
-    padding-left: 0;
-    height: 56px;
-    z-index: 1039;
-  }
-  .sb-topnav .navbar-brand {
-    width: 225px;
-    margin: 0;
-  }
-  .sb-topnav.navbar-dark #sidebarToggle {
-    color: rgba(255, 255, 255, 0.5);
-  }
-  .sb-topnav.navbar-light #sidebarToggle {
-    color: #212529;
-  }
-
-  .sb-sidenav {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    flex-wrap: nowrap;
-  }
-  .sb-sidenav .sb-sidenav-menu {
-    flex-grow: 1;
-  }
-  .sb-sidenav .sb-sidenav-menu .nav {
-    flex-direction: column;
-    flex-wrap: nowrap;
-  }
-  .sb-sidenav .sb-sidenav-menu .nav .sb-sidenav-menu-heading {
-    padding: 1.75rem 1rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  .sb-sidenav .sb-sidenav-menu .nav .nav-link {
-    display: flex;
-    align-items: center;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    position: relative;
-  }
-  .sb-sidenav .sb-sidenav-menu .nav .nav-link .sb-nav-link-icon {
-    font-size: 0.9rem;
-  }
-  .sb-sidenav .sb-sidenav-menu .nav .nav-link .sb-sidenav-collapse-arrow {
-    display: inline-block;
-    margin-left: auto;
-    transition: transform 0.15s ease;
-  }
-  .sb-sidenav .sb-sidenav-menu .nav .nav-link.collapsed .sb-sidenav-collapse-arrow {
-    transform: rotate(-90deg);
-  }
-  .sb-sidenav .sb-sidenav-menu .nav .sb-sidenav-menu-nested {
-    margin-left: 1.5rem;
-    flex-direction: column;
-  }
-  .sb-sidenav .sb-sidenav-footer {
-    padding: 0.75rem;
-    flex-shrink: 0;
-  }
-
-  .sb-sidenav-dark {
-    background-color: #212529;
-    color: rgba(255, 255, 255, 0.5);
-  }
-  .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
-    color: rgba(255, 255, 255, 0.25);
-  }
-  .sb-sidenav-dark .sb-sidenav-menu .nav-link {
-    color: rgba(255, 255, 255, 0.5);
-  }
-  .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon {
-    color: rgba(255, 255, 255, 0.25);
-  }
-  .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-sidenav-collapse-arrow {
-    color: rgba(255, 255, 255, 0.25);
-  }
-  .sb-sidenav-dark .sb-sidenav-menu .nav-link:hover {
-    color: #fff;
-  }
-  .sb-sidenav-dark .sb-sidenav-menu .nav-link.active {
-    color: #fff;
-  }
-  .sb-sidenav-dark .sb-sidenav-menu .nav-link.active .sb-nav-link-icon {
-    color: #fff;
-  }
-  .sb-sidenav-dark .sb-sidenav-footer {
-    background-color: #343a40;
-  }
-
-  .sb-sidenav-light {
-    background-color: #f8f9fa;
-    color: #212529;
-  }
-  .sb-sidenav-light .sb-sidenav-menu .sb-sidenav-menu-heading {
-    color: #adb5bd;
-  }
-  .sb-sidenav-light .sb-sidenav-menu .nav-link {
-    color: #212529;
-  }
-  .sb-sidenav-light .sb-sidenav-menu .nav-link .sb-nav-link-icon {
-    color: #adb5bd;
-  }
-  .sb-sidenav-light .sb-sidenav-menu .nav-link .sb-sidenav-collapse-arrow {
-    color: #adb5bd;
-  }
-  .sb-sidenav-light .sb-sidenav-menu .nav-link:hover {
-    color: #0d6efd;
-  }
-  .sb-sidenav-light .sb-sidenav-menu .nav-link.active {
-    color: #0d6efd;
-  }
-  .sb-sidenav-light .sb-sidenav-menu .nav-link.active .sb-nav-link-icon {
-    color: #0d6efd;
-  }
-  .sb-sidenav-light .sb-sidenav-footer {
-    background-color: #e9ecef;
-  }
-</style>
-
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-  <div class="container">
-<!--    <a class="navbar-brand navbar-logo" th:href="@{/}">-->
-<!--      <img src="/img/logo.svg" alt="logo" class="navbar-img">-->
-<!--    </a>-->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto d-flex align-items-center">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/}">
-            Inicio
-          </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Propiedades
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a th:if="${session.userSession == null}" class="dropdown-item" th:href="@{/propiedades/lista/}">
-                <i class="bi bi-shop pe-2"></i>
-                Comprar propiedades
-              </a>
-              <a th:if="${session.userSession != null}" class="dropdown-item" th:href="@{/propiedades/lista/__${session.userSession.id}__}">
-                <i class="bi bi-shop pe-2"></i>
-                Comprar propiedades
-              </a>
-
-            </li>
-            <li sec:authorize="hasRole('ENTITY')">
-              <a class="dropdown-item" th:href="@{/usuario/propiedades/__${session.userSession.id}__}">
-                <i class="bi bi-houses pe-2"></i>
-                Mis propiedades
-              </a>
-            </li>
-            <li sec:authorize="hasRole('CLIENT')">
-              <a class="dropdown-item" th:href="@{/usuario/propiedadesCliente/__${session.userSession.id}__}">
-                <i class="bi bi-houses pe-2"></i>
-                Mis propiedades
-              </a>
-            </li>
-            <li sec:authorize="hasRole('CLIENT')">
-              <a class="dropdown-item" th:href="@{/ofertas/listaCliente/__${session.userSession.id}__}">
-                <i class="bi bi-megaphone pe-2"></i>
-                Mis ofertas
-              </a>
-            </li>
-            <li sec:authorize="hasRole('ENTITY')">
-              <a class="dropdown-item" th:href="@{/propiedades/formulario}">
-                <i class="bi bi-house-add pe-2"></i>
-                Vender
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i th:if="${session.userSession == null}" class="bi bi-person fs-4"></i>
-            <div th:if="${session.userSession != null}" class="nav-link d-flex align-items-center">
-              <i class="bi bi-person-fill fs-4 me-2"></i>
-              <div th:text="${session.userSession.name}" class="fs-6"></div>
-            </div>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li th:if="${session.userSession == null}">
-              <a class="dropdown-item" th:href="@{/usuario/iniciarSesion}">
-                <i class="bi bi-box-arrow-in-right pe-2"></i>
-                Iniciar sesión
-              </a>
-            </li>
-            <li th:if="${session.userSession == null}">
-              <a class="dropdown-item" th:href="@{/usuario/registrarse}">
-                <i class="bi bi-person-add pe-2"></i>
-                Registrarse
-              </a>
-            </li>
-            <li th:if="${session.userSession != null}">
-              <a class="dropdown-item" th:href="@{/usuario/perfil}">
-                <i class="bi bi-person-vcard pe-2"></i>
-                Perfil
-              </a>
-            </li>
-            <li th:if="${session.userSession != null}" sec:authorize="hasRole('ADMIN')">
-              <a class="dropdown-item" th:href="@{/admin/}">
-                <i class="bi bi-people pe-2"></i>
-                Gestiones
-              </a>
-            </li>
-            <li th:if="${session.userSession != null}" sec:authorize="hasRole('ENTITY')">
-              <a class="dropdown-item" th:href="@{/usuario/gestion/__${session.userSession.id}__}">
-                <i class="bi bi-bar-chart pe-2"></i>
-                Mis gestiones</a>
-            </li>
-            <li th:if="${session.userSession != null}">
-              <a class="dropdown-item" th:href="@{/logout}">
-                <i class="bi bi-box-arrow-left pe-2"></i>
-                Salir
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle border-start ps-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-circle-half pe-2"></i>
-            Tema
-          </a>
-          <ul class="dropdown-menu">
-            <li style="cursor: pointer;">
-              <a onclick="clearTheme()" class="dropdown-item">
-                <i class="bi bi-brightness-high-fill pe-2"></i>
-                Claro
-              </a>
-            </li>
-            <li style="cursor: pointer;">
-              <a onclick="darkTheme()" class="dropdown-item">
-                <i class="bi bi-moon-stars-fill pe-2"></i>
-                Oscuro
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <!-- Sidebar Toggle-->
-  <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 btn-success " id="sidebarToggle" href="#!"><i
-          class="fas fa-bars"></i></button>
-</nav>
-<div id="layoutSidenav">
-  <div id="layoutSidenav_nav">
-    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-      <div class="sb-sidenav-menu">
-        <div class="nav">
-
-          <div class="sb-sidenav-menu-heading">Gestión</div>
-          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-             data-bs-target="#inmuebles" aria-expanded="false" aria-controls="inmuebles">
-            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-            Inmuebles
-            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-          </a>
-
-          <div class="collapse" id="inmuebles" aria-labelledby="headingOne"
-               data-bs-parent="#sidenavAccordion">
-            <nav class="sb-sidenav-menu-nested nav">
-              <div class="nav-link d-flex align-items-center justify-content-center m-2">
-                <a class="nav-link d-flex align-items-center justify-content-center" href="#ofertas-recibidas">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house-add-fill" viewBox="0 0 16 16">
-                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 1 1-1 0v-1h-1a.5.5 0 1 1 0-1h1v-1a.5.5 0 0 1 1 0Z"/>
-                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5Z"/>
-                    <path d="m8 3.293 4.712 4.712A4.5 4.5 0 0 0 8.758 15H3.5A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/>
-                  </svg>
-                  <span class="ml-1">Publicar Inmueble</span>
-                </a>
-              </div>
-              <div class="nav-link d-flex align-items-center justify-content-center m-2">
-                <a class="nav-link d-flex align-items-center justify-content-center" href="#ofertas-recibidas">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house-gear-fill" viewBox="0 0 16 16">
-                    <path d="M7.293 1.5a1 1 0 0 1 1.414 0L11 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l2.354 2.353a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5Z"/>
-                    <path d="M11.07 9.047a1.5 1.5 0 0 0-1.742.26l-.02.021a1.5 1.5 0 0 0-.261 1.742 1.5 1.5 0 0 0 0 2.86 1.504 1.504 0 0 0-.12 1.07H3.5A1.5 1.5 0 0 1 2 13.5V9.293l6-6 4.724 4.724a1.5 1.5 0 0 0-1.654 1.03Z"/>
-                    <path d="m13.158 9.608-.043-.148c-.181-.613-1.049-.613-1.23 0l-.043.148a.64.64 0 0 1-.921.382l-.136-.074c-.561-.306-1.175.308-.87.869l.075.136a.64.64 0 0 1-.382.92l-.148.045c-.613.18-.613 1.048 0 1.229l.148.043a.64.64 0 0 1 .382.921l-.074.136c-.306.561.308 1.175.869.87l.136-.075a.64.64 0 0 1 .92.382l.045.149c.18.612 1.048.612 1.229 0l.043-.15a.64.64 0 0 1 .921-.38l.136.074c.561.305 1.175-.309.87-.87l-.075-.136a.64.64 0 0 1 .382-.92l.149-.044c.612-.181.612-1.049 0-1.23l-.15-.043a.64.64 0 0 1-.38-.921l.074-.136c.305-.561-.309-1.175-.87-.87l-.136.075a.64.64 0 0 1-.92-.382ZM12.5 14a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/>
-                  </svg>
-                  <span class="ml-1">Modificar Inmueble</span>
-                </a>
-              </div>
-            </nav>
-          </div>
-
-          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-             data-bs-target="#horarios" aria-expanded="false" aria-controls="horarios">
-            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-            Horarios
-            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-          </a>
-          <div class="collapse" id="horarios" aria-labelledby="headingOne"
-               data-bs-parent="#sidenavAccordion">
-            <nav class="sb-sidenav-menu-nested nav">
-              <div class="nav-link d-flex align-items-center justify-content-center m-2">
-                <a class="nav-link d-flex align-items-center justify-content-center" href="#ofertas-recibidas">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                  </svg>
-                  <span class="ml-1">Mis Horarios</span>
-                </a>
-              </div>
-              <div class="nav-link d-flex align-items-center justify-content-center m-2">
-                <a class="nav-link d-flex align-items-center justify-content-center" href="#ofertas-recibidas">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-journal-text" viewBox="0 0 16 16">
-                    <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                    <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
-                    <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
-                  </svg>
-                  <span class="ml-1">Publicar Horarios</span>
-                </a>
-              </div>
-            </nav>
-          </div>
-
-          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-             data-bs-target="#ofertas" aria-expanded="false" aria-controls="ofertas">
-            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-            Ofertas
-            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-          </a>
-          <div class="collapse" id="ofertas" aria-labelledby="headingOne"
-               data-bs-parent="#sidenavAccordion">
-            <nav class="sb-sidenav-menu-nested nav">
-              <div class="nav-link d-flex align-items-center justify-content-center m-2">
-                <a class="nav-link d-flex align-items-center justify-content-center" href="#ofertas-recibidas">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16" style="margin-right: 10px">
-                    <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"/>
-                    <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z"/>
-                    <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z"/>
-                    <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z"/>
-                  </svg>
-                    <span class="ml-1">Ofertas Recibidas</span>
-                </a>
-              </div>
-              <div class="nav-link d-flex align-items-center justify-content-center m-2">
-                <a class="nav-link d-flex align-items-center justify-content-center" href="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16" style="margin-right: 10px">
-                      <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                    </svg>
-                    <span class="ml-1">Respuestas a Ofertas</span>
-                </a>
-              </div>
-            </nav>
-          </div>
-
-        </div>
-      </div>
-      <div class="sb-sidenav-footer">
-        <div class="small">Nombre del ADMIN</div>
-      </div>
-    </nav>
-  </div>
-  <div id="layoutSidenav_content">
-
-      <div id="content-wrapper">
-        <div class="container-fluid">
-
-          <div class="col-md-3">
-            <nav class="navbar navbar-expand-md navbar-light h-100">
-              <button class="btn btn-outline-dark p-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none collapsed"
-                      type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                      aria-expanded="false" aria-controls="navbarNav">
-                Contenido de la página <i class="fa fa-arrows-up-down mx-2"></i>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-
-
-              </div>
-            </nav>
-          </div>
-          <div class="col-md-9">
-            <main>
-              <div class="row">
-                <div class="container mt-3">
-                  <h2 class="mt-4 mb-4">Gestión de inmuebles</h2>
-                  <h3 class="mb-4">Mis inmuebles</h3>
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead>
-                      <tr>
-                        <th scope="col">Dirección</th>
-                        <th scope="col">Provincia</th>
-                        <th scope="col">Localidad</th>
-                        <th scope="col">Precio</th>
-                        <th scope="col">Imagen</th>
-                        <th scope="col">Acciones</th>
-                      </tr>
-                      </thead>
-                      <tbody th:each="property : ${properties}">
-                      <tr>
-                        <td th:text="${property.address}" style="max-width: 100px;"></td>
-                        <td th:text="${property.province}" style="max-width: 100px;"></td>
-                        <td th:text="${property.location}" style="max-width: 100px;"></td>
-                        <td th:text="${property.price}" style="max-width: 100px;">
-                        </td>
-                        <td style="max-width: 100px;">
-                          <img th:src="@{/image/propiedades/__${property.images[0].id}__}"
-                               class="rounded-circle img_into ms-2">
-                        </td>
-                        <td class="ps-1" style="max-width: 100px;">
-                          <div class="btn-group" role="group">
-                            <div class="btn btn-primary">
-                              <a th:href="@{/propiedades/modificar/__${property.id}__}"><i
-                                      class="bi bi-pencil-square"></i></a>
-                            </div>
-                          </div>
-                          <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                  th:data-bs-target="'#appoinmentModalProperty' + ${property.id}">
-                            <i class="bi bi-calendar-plus"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                  th:data-bs-target="'#deleteModalProperty' + ${property.id}">
-                            <i class="bi bi-trash icon" data-bs-toggle="tooltip"
-                               data-bs-placement="right" title="Eliminar"></i>
-                          </button>
-                          <!--Modal Turno-->
-                          <div class="modal fade"
-                               th:id="'appoinmentModalProperty' + ${property.id}"
-                               tabindex="-1"
-                               aria-labelledby="appoinmentModalPropertyLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content p-3">
-                                <form>
-                                  <h3>Publicar Horarios Nuevos</h3>
-                                  <div class="form-group mb-2">
-                                    <label for="fecha" class="form-label">Fecha:</label>
-                                    <input type="date" id="fecha" name="fecha"
-                                           class="form-control" required>
-                                  </div>
-                                  <div class="form-group mb-2">
-                                    <label for="hora_inicio" class="form-label">Hora de
-                                      inicio:</label>
-                                    <input type="time" id="hora_inicio"
-                                           name="hora_inicio"
-                                           class="form-control" step="1800" required>
-                                  </div>
-                                  <div class="form-group mb-2">
-                                    <label for="hora_fin" class="form-label">Hora de
-                                      fin:</label>
-                                    <input type="time" id="hora_fin" name="hora_fin"
-                                           class="form-control" step="1800" required>
-                                  </div>
-                                  <button type="submit" class="btn btn-primary">Publicar
-                                    Horarios
-                                  </button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                          <!--Fin Modal Turno-->
-                          <!--Modal Eliminar-->
-                          <div class="modal fade" th:id="'deleteModalProperty' + ${property.id}"
-                               tabindex="-1"
-                               aria-labelledby="deleteModalPropertyLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="deleteModalPropertyLabel">
-                                    Confirmación de
-                                    eliminación</h5>
-                                  <button type="button" class="btn-close"
-                                          data-bs-dismiss="modal"
-                                          aria-label="Close"></button>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Gestiones</div>
+                            <!--            INMUEBLES-->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                               data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon">
+                                    <!--              <i class="fa-solid fa-house-circle-check" style="margin-right: 5px"></i>-->
                                 </div>
-                                <div class="modal-body">
-                                  <p>¿Está seguro de que desea eliminar los cambios?</p>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary"
-                                          data-bs-dismiss="modal">
-                                    Cancelar
-                                  </button>
-                                  <a class="btn btn-primary"
-                                     th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
-                                </div>
-                              </div>
+                                Inmuebles
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                                 data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="">Agregar Inmueble</a>
+                                    <a class="nav-link" href="">Modificar Inmueble</a>
+                                </nav>
                             </div>
-                          </div>
-                          <!--Fin Modal Eliminar-->
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
 
-              <div id="gestion-ofertas">
-                <h2 class="mt-4 mb-4">Gestión de ofertas</h2>
-                <div id="ofertas-recibidas">
-                  <h3 class="mb-4">Ofertas recibidas</h3>
-                  <div class="row">
-                    <div class="container col-12">
-                      <table class="table table-hover col-12">
-                        <thead>
-                        <tr>
-                          <th scope="col">Dirección</th>
-                          <th scope="col">Dia oferta</th>
-                          <th scope="col">Precio propiedad</th>
-                          <th scope="col">Estado</th>
-                          <th scope="col">Confirmación</th>
-                        </tr>
-                        </thead>
-                        <tbody th:each="offer : ${offers}">
-                        <tr>
-                          <td th:text="${offer.property.address}"></td>
-                          <td th:text="${offer.creationDate}"></td>
-                          <td th:text="${offer.price}"></td>
-                          <td th:text="${offer.offerStatus.name() == 'CLIENT_OFFER'}
-                                                    ?'Pendiente':
-                                                    (${offer.offerStatus.name() == 'ENTITY_ACCEPTED'}
-                                                    ?'Confirmar':(${offer.offerStatus.name() == 'ENTITY_REJECTED'}
-                                                    ?'Rechazado' : 'Finalizado')
-                                                    )">
-                          </td>
-                          <td th:class="${offer.offerStatus.name() == 'CLIENT_OFFER'} ? ' ': 'd-none'">
-                            <a class="btn btn-success"
-                               th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Accept')}">Confirmar</a>
-                            <a class="btn btn-danger"
-                               th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Decline')}">Rechazar</a>
-                          </td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <div data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="0"
-                     class="scrollspy-example-2"
-                     tabindex="0">
-                  <div id="administrar-horarios">
-                    <h2 class="mt-4 mb-4">Administración de horarios</h2>
-                    <div id="mis-horarios">
-                      <h3 class="mb-4">Mis horarios publicados</h3>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <table class="table">
-                            <thead>
-                            <tr>
-                              <th>Dirección</th>
-                              <th>Fecha</th>
-                              <th>Hora de inicio</th>
-                              <th>Hora de fin</th>
-                              <th>Acciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                              <td>asdasd</td>
-                              <td>Fecha 1</td>
-                              <td>Hora de inicio 1</td>
-                              <td>Hora de fin 1</td>
-                              <td>
-                                <button class="btn btn-sm btn-primary">Modificar</button>
-                                <button class="btn btn-sm btn-danger">Eliminar</button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>asdasd</td>
-                              <td>Fecha 2</td>
-                              <td>Hora de inicio 2</td>
-                              <td>Hora de fin 2</td>
-                              <td>
-                                <button class="btn btn-sm btn-primary">Modificar</button>
-                                <button class="btn btn-sm btn-danger">Eliminar</button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>asdasd</td>
-                              <td>Fecha 2</td>
-                              <td>Hora de inicio 2</td>
-                              <td>Hora de fin 2</td>
-                              <td>
-                                <button class="btn btn-sm btn-primary">Modificar</button>
-                                <button class="btn btn-sm btn-danger">Eliminar</button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>asdasd</td>
-                              <td>Fecha 2</td>
-                              <td>Hora de inicio 2</td>
-                              <td>Hora de fin 2</td>
-                              <td>
-                                <button class="btn btn-sm btn-primary">Modificar</button>
-                                <button class="btn btn-sm btn-danger">Eliminar</button>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table>
+                            <!--            OFERTAS-->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                               data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts2">
+                                <div class="sb-nav-link-icon">
+                                    <!--              <i class="fa-solid fa-sack-dollar" style="margin-right: 5px"></i>-->
+                                </div>
+                                Ofertas
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne"
+                                 data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="">Ofertas Recibidas</a>
+                                    <a class="nav-link" href="">Respuestas a Ofertas</a>
+                                </nav>
+                            </div>
+                            <!--            HORARIOS-->
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                               data-bs-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts1">
+                                <div class="sb-nav-link-icon">
+                                    <!--              <i class="fa-solid fa-clock" style="margin-right: 5px"></i>-->
+                                </div>
+                                Horarios
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts1" aria-labelledby="headingOne"
+                                 data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="">Horarios</a>
+                                    <a class="nav-link" href="">Ver Turnos</a>
+                                </nav>
+                            </div>
+
                         </div>
-                      </div>
                     </div>
-                  </div>
+                    <div class="sb-sidenav-footer">
+                        <span class="small" >Usuario: </span>
+                        <span th:text="${session.userSession.name}"></span>
+                    </div>
+                </nav>
+            </div>
+
+            <div id="layoutSidenav_content">
+                <nav th:replace="/fragments/nav :: nav"></nav>
+                <div id="content-wrapper" class="container">
+
+                    <div class="container-fluid">
+
+                        <!--  OFFCANVAS-->
+                        <nav class="navbar navbar-dark block res-navbar">
+                            <!--            <div class="container-fluid">-->
+                            <div class="right-nav">
+
+                            </div>
+                            <button class="navbar-toggler bg-dark mt-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                                <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+                                <i class="bi bi-person-lines-fill fs-2"></i>
+                                <i class="bi bi-list-columns-reverse fs-2"></i>
+                            </button>
+                            <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                                <div class="offcanvas-header">
+                                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Gestiones</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Inmuebles
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-dark">
+                                                <li><a class="dropdown-item" href="#">Agregar Inmueble</a></li>
+                                                <li><a class="dropdown-item" href="#">Modificar Inmueble</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Horarios
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-dark">
+                                                <li><a class="dropdown-item" href="#">Ver Horarios</a></li>
+                                                <li><a class="dropdown-item" href="#">Ver Turnos</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Ofertas
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-dark">
+                                                <li><a class="dropdown-item" href="#">Ofertas Recibidas</a></li>
+                                                <li><a class="dropdown-item" href="#">Respuestas a Ofertas</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                        <!--  OFFCANVAS-->
+
+                        <!--          <div class="col-md-3">-->
+                        <!--            <nav class="navbar navbar-expand-md navbar-light h-100">-->
+                        <!--              <button class="btn btn-outline-dark p-0 mb-2 mb-md-0 text-decoration-none bd-toc-toggle d-md-none collapsed"-->
+                        <!--                      type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"-->
+                        <!--                      aria-expanded="false" aria-controls="navbarNav">-->
+                        <!--                Contenido de la página <i class="fa fa-arrows-up-down mx-2"></i>-->
+                        <!--              </button>-->
+                        <!--              <div class="collapse navbar-collapse" id="navbarNav">-->
+                        <!--              </div>-->
+                        <!--            </nav>-->
+                        <!--          </div>-->
+
+                        <div class="col">
+                            <main class="flex-grow-1">
+                                <div>
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <section>
+                                                <div class="row">
+                                                    <div >
+                                                        <h2 class="mt-4 mb-4 text-center fs-1">Gestión de inmuebles</h2>
+                                                        <h3 class="mb-4">Mis inmuebles</h3>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">Dirección</th>
+                                                                        <th scope="col">Provincia</th>
+                                                                        <th scope="col">Localidad</th>
+                                                                        <th scope="col">Precio</th>
+                                                                        <th scope="col">Imagen</th>
+                                                                        <th scope="col">Acciones</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody th:each="property : ${properties}">
+                                                                    <tr>
+                                                                        <td th:text="${property.address}" style="max-width: 100px;"></td>
+                                                                        <td th:text="${property.province}" style="max-width: 100px;"></td>
+                                                                        <td th:text="${property.location}" style="max-width: 100px;"></td>
+                                                                        <td th:text="${property.price}" style="max-width: 100px;">
+                                                                        </td>
+                                                                        <td style="max-width: 100px;">
+                                                                            <img th:src="@{/image/propiedades/__${property.images[0].id}__}"
+                                                                                 class="rounded-circle img_into ms-2">
+                                                                        </td>
+                                                                        <td class="ps-1">
+
+                                                                                <a type="button" class="btn btn-primary"  th:href="@{/propiedades/modificar/__${property.id}__}">
+                                                                                    
+                                                                                <i class="bi bi-pencil-square"></i>
+                                                                                </a>
+
+                                                                            <button type="button" class="btn btn-success m-1" data-bs-toggle="modal"
+                                                                                    th:data-bs-target="'#appoinmentModalProperty' + ${property.id}">
+                                                                                <i class="bi bi-calendar-plus"></i>
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                                                    th:data-bs-target="'#deleteModalProperty' + ${property.id}">
+                                                                                <i class="bi bi-trash icon" data-bs-toggle="tooltip"
+                                                                                   data-bs-placement="right" title="Eliminar"></i>
+                                                                            </button>
+                                                                            <!--Modal Turno-->
+                                                                            <div class="modal fade"
+                                                                                 th:id="'appoinmentModalProperty' + ${property.id}"
+                                                                                 tabindex="-1"
+                                                                                 aria-labelledby="appoinmentModalPropertyLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content p-3">
+                                                                                        <form method="post"
+                                                                                              th:action="@{/propiedades/disponibilidad/__${property.id}__}">
+                                                                                            <h3 >Publicar Horarios Nuevos</h3>
+                                                                                            <div class="form-group mb-2">
+                                                                                                <label for="fecha" class="form-label">Fecha:</label>
+                                                                                                <input type="date" id="fecha" name="timetableDay"
+                                                                                                       class="form-control" required>
+                                                                                            </div>
+                                                                                            <div class="form-group mb-2">
+                                                                                                <label for="hora_inicio" class="form-label">Hora de
+                                                                                                    inicio:</label>
+                                                                                                <input type="time" id="hora_inicio"
+                                                                                                       name="start"
+                                                                                                       class="form-control" step="1800" required>
+                                                                                            </div>
+                                                                                            <div class="form-group mb-2">
+                                                                                                <label for="hora_fin" class="form-label">Hora de
+                                                                                                    fin:</label>
+                                                                                                <input type="time" id="hora_fin" name="end"
+                                                                                                       class="form-control" step="1800" required>
+                                                                                            </div>
+                                                                                            <button type="submit" class="btn btn-success">Publicar
+                                                                                                Horarios
+                                                                                            </button>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--Fin Modal Turno-->
+                                                                            <!--Modal Eliminar-->
+                                                                            <div class="modal fade" th:id="'deleteModalProperty' + ${property.id}"
+                                                                                 tabindex="-1"
+                                                                                 aria-labelledby="deleteModalPropertyLabel" aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title" id="deleteModalPropertyLabel">
+                                                                                                Confirmación de
+                                                                                                eliminación</h5>
+                                                                                            <button type="button" class="btn-close"
+                                                                                                    data-bs-dismiss="modal"
+                                                                                                    aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <p>¿Está seguro de que desea eliminar los cambios?</p>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="button" class="btn btn-secondary"
+                                                                                                    data-bs-dismiss="modal">
+                                                                                                Cancelar
+                                                                                            </button>
+                                                                                            <a class="btn btn-success"
+                                                                                               th:href="@{/propiedades/eliminar/__${property.id}__}">Eliminar</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!--Fin Modal Eliminar-->
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="gestion-ofertas">
+                                                    <h2 class="mt-4 mb-4 text-center fs-1">Gestión de ofertas</h2>
+                                                    <div id="ofertas-recibidas">
+                                                        <h3 class="mb-4">Ofertas recibidas</h3>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <table class="table table-hover col-12">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">Dirección</th>
+                                                                            <th scope="col">Dia oferta</th>
+                                                                            <th scope="col">Precio propiedad</th>
+                                                                            <th scope="col">Estado</th>
+                                                                            <th scope="col">Confirmación</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr th:each="offer : ${offers}">
+                                                                            <td th:text="${offer.property.address}"></td>
+                                                                            <td th:text="${offer.creationDate}"></td>
+                                                                            <td th:text="${offer.price}"></td>
+                                                                            <td th:text="${offer.offerStatus.name() == 'CLIENT_OFFER'}
+                                                                                ?'Pendiente':
+                                                                                (${offer.offerStatus.name() == 'ENTITY_ACCEPTED'}
+                                                                                ?'Confirmar':(${offer.offerStatus.name() == 'ENTITY_REJECTED'}
+                                                                                ?'Rechazado' : 'Finalizado')
+                                                                                )">
+                                                                            </td>
+                                                                            <td th:class="${offer.offerStatus.name() == 'CLIENT_OFFER'} ? ' ': 'd-none'">
+                                                                                <a class="btn btn-success"
+                                                                                   th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Accept')}">Confirmar</a>
+                                                                                <a class="btn btn-danger"
+                                                                                   th:href="@{/ofertas/respuesta/user/{userId}/offer/{offerId}/response/{response}(userId=${session.userSession.id}, offerId=${offer.id}, response = 'Decline')}">Rechazar</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-offset="0"
+                                                         class="scrollspy-example-2"
+                                                         tabindex="0">
+                                                        <div id="administrar-horarios">
+                                                            <h2 class="mt-4 mb-4 text-center fs-1">Gestión de horarios</h2>
+                                                            <div id="mis-horarios">
+                                                                <h3 class="mb-4">Mis horarios publicados</h3>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table class="table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Dirección</th>
+                                                                                    <th>Fecha</th>
+                                                                                    <th>Hora de inicio</th>
+                                                                                    <th>Hora de fin</th>
+                                                                                    <th>Acciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr th:each="dayPlan : ${timetable}">
+                                                                                    <td th:text="${dayPlan.property.address}"></td>
+                                                                                    <td th:text="${dayPlan.timetableDay}"></td>
+                                                                                    <td th:text="${dayPlan.start}"></td>
+                                                                                    <td th:text="${dayPlan.end}"></td>
+                                                                                    <td>
+                                                                                        <!-- Botones de acciones (modificar, eliminar) -->
+                                                                                        <button class="btn btn-primary">
+                                                                                            <i class="bi bi-pencil-square"></i>
+                                                                                        </button>
+                                                                                        <button type="button" class="btn btn-danger"
+                                                                                                data-bs-toggle="modal"
+                                                                                                th:data-bs-target="'#deleteModalDayPlan' + ${dayPlan.id}">
+                                                                                            <i class="bi bi-trash icon" data-bs-toggle="tooltip"
+                                                                                               data-bs-placement="right" title="Eliminar"></i>
+                                                                                        </button>
+                                                                                        <div class="modal fade" th:id="'deleteModalDayPlan' + ${dayPlan.id}"
+                                                                                             tabindex="-1"
+                                                                                             aria-labelledby="deleteModalDayPlanLabel" aria-hidden="true">
+                                                                                            <div class="modal-dialog">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header">
+                                                                                                        <h5 class="modal-title" id="deleteModalDayPlanLabel">
+                                                                                                            Confirmación de
+                                                                                                            eliminación</h5>
+                                                                                                        <button type="button" class="btn-close"
+                                                                                                                data-bs-dismiss="modal"
+                                                                                                                aria-label="Close"></button>
+                                                                                                    </div>
+                                                                                                    <div class="modal-body">
+                                                                                                        <h5>El horario disponible seleccionado, tiene los siguientes turnos asociados:</h5>
+                                                                                                        <table class="table">
+                                                                                                            <thead>
+                                                                                                                <tr>
+                                                                                                                    <th>Fecha</th>
+                                                                                                                    <th>Hora de inicio</th>
+                                                                                                                    <th>Hora de fin</th>
+                                                                                                                    <th>Cliente</th>
+                                                                                                                </tr>
+                                                                                                            </thead>
+                                                                                                            <tbody>
+                                                                                                                <tr th:each="appointment : ${bookedAppointments}" th:if="${appointment.dayPlan.id} == ${dayPlan.id}">
+                                                                                                                    <td th:text="${appointment.date}"></td>
+                                                                                                                    <td th:text="${appointment.startTime}"></td>
+                                                                                                                    <td th:text="${appointment.endTime}"></td>
+                                                                                                                    <td th:text="${appointment.client.name}"></td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                        <p>¿Está seguro de que desea eliminar el horario publicado?</p>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn btn-secondary"
+                                                                                                                data-bs-dismiss="modal">
+                                                                                                            Cancelar
+                                                                                                        </button>
+                                                                                                        <a class="btn btn-success"
+                                                                                                           th:href="@{/propiedades/disponibilidad/eliminar/__${dayPlan.id}__}">Eliminar</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!--Fin Modal Eliminar-->
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="mis-turnos">
+                                                                <h3 class="mb-4">Mis turnos</h3>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table class="table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Dirección</th>
+                                                                                    <th>Fecha</th>
+                                                                                    <th>Hora de inicio</th>
+                                                                                    <th>Hora de fin</th>
+                                                                                    <th>Cliente</th>
+                                                                                    <th>Estado</th>
+                                                                                    <th>Acciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr th:each="appointment : ${allAppointments}">
+                                                                                    <td th:text="${appointment.property.address}"></td>
+                                                                                    <td th:text="${appointment.date}"></td>
+                                                                                    <td th:text="${appointment.startTime}"></td>
+                                                                                    <td th:text="${appointment.endTime}"></td>
+                                                                                    <td>
+                                                                                        <span th:if="${appointment.client == null}"></span>
+                                                                                        <span th:unless="${appointment.client == null}" th:text="${appointment.client.name}">-</span>
+                                                                                    </td>
+                                                                                    <td th:text="${appointment.appointmentStatus.name() == 'AVAILABLE'}
+                                                                                        ?'Disponible':
+                                                                                        (${appointment.appointmentStatus.name()  == 'BOOKED'}
+                                                                                        ?'Reservado':'Cancelado')">
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <!-- Botones de acciones (modificar, eliminar) -->
+                                                                                        <button type="button" class="btn btn-danger"
+                                                                                                data-bs-toggle="modal"
+                                                                                                th:data-bs-target="'#cancelModalAppointment' + ${appointment.id}">
+                                                                                            <i class="bi bi-x-circle" data-bs-toggle="tooltip"
+                                                                                               data-bs-placement="right" title="Cancelar"></i>
+                                                                                        </button>
+                                                                                        <div class="modal fade" th:id="'cancelModalAppointment' + ${appointment.id}"
+                                                                                             tabindex="-1"
+                                                                                             aria-labelledby="cancelModalAppointmentLabel" aria-hidden="true">
+                                                                                            <div class="modal-dialog">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header">
+                                                                                                        <h5 class="modal-title" id="">
+                                                                                                            Confirmación de
+                                                                                                            cancelación</h5>
+                                                                                                        <button type="button" class="btn-close"
+                                                                                                                data-bs-dismiss="modal"
+                                                                                                                aria-label="Close"></button>
+                                                                                                    </div>
+                                                                                                    <div class="modal-body">
+                                                                                                        <p>¿Está seguro de que desea cancelar el turno seleccionado?</p>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn btn-secondary"
+                                                                                                                data-bs-dismiss="modal">
+                                                                                                            Volver
+                                                                                                        </button>
+                                                                                                        <a class="btn btn-success"
+                                                                                                           th:href="@{/propiedades/turnos/cancelar/__${appointment.id}__}">Cancelar Turno</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <!--Fin Modal Eliminar-->
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <footer th:replace="/fragments/footer :: footer"></footer>
+            </div>
 
         </div>
-      </div>
-
-
-      <footer th:replace="/fragments/footer :: footer"></footer>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-      <script src="js/scripts.js"></script>
-
-
-  </body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="/js/theme.js"></script>
+    </body>
 </html>

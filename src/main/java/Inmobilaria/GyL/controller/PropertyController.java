@@ -30,14 +30,14 @@ public class PropertyController {
     private final IAppointmentService appointmentService;
 
     public PropertyController(IPropertyService propertyService, IDayPlanService dayPlanService,
-                              IAppointmentService appointmentService) {
+            IAppointmentService appointmentService) {
         this.propertyService = propertyService;
         this.dayPlanService = dayPlanService;
         this.appointmentService = appointmentService;
     }
 
     @GetMapping("/lista/{id}")
-    public String propiedadesFiltradas(@PathVariable Long id,ModelMap model) {
+    public String propiedadesFiltradas(@PathVariable Long id, ModelMap model) {
         model.put("properties", propertyService.filteredProperties(id));
         model.put("title", "MrHouse | Propiedades");
         return "properties.html";
@@ -69,8 +69,8 @@ public class PropertyController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
     @PostMapping("/modificar/{idUser}")
     public String modifyProperty(@PathVariable Long idUser, @RequestParam Long id, @RequestParam String address, @RequestParam String location, @RequestParam String province,
-                                 @RequestParam String status, @RequestParam String type, @RequestParam int surface,
-                                 @RequestParam Double price, @RequestParam String description, @RequestParam int bathrooms, @RequestParam int bedrooms) {
+            @RequestParam String status, @RequestParam String type, @RequestParam int surface,
+            @RequestParam Double price, @RequestParam String description, @RequestParam int bathrooms, @RequestParam int bedrooms) {
         propertyService.updateProperty(id, address, location, province, status, type, surface, price, description, bathrooms, bedrooms);
         return "redirect:/usuario/propiedades/" + idUser;
     }
@@ -84,10 +84,18 @@ public class PropertyController {
     }
 
     @GetMapping("/{id}")
-    public String findByProperty(@PathVariable Long id, ModelMap model) {
-        Property find = propertyService.findById(id);
-        model.put("property", find);
+    public String findByProperty(@PathVariable Long id, ModelMap model, HttpSession session) {
+        User log = (User) session.getAttribute("userSession");
+        model.put("userWithAppointments", appointmentService.findAllUsersIdByProperty(id));
+        model.put("property", propertyService.findById(id));
         model.put("title", "MrHouse | Propiedad");
+        try {
+            if (appointmentService.findAllUsersIdByProperty(id).contains(log.getId())) {
+                model.put("appoinment", appointmentService.findByUserAndProperty(log.getId(), id));
+            }
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
         return "detailProperty.html";
     }
 
@@ -96,13 +104,14 @@ public class PropertyController {
         propertyService.addImageToProperty(id, Arrays.asList(files));
         return "redirect:/propiedades/modificar/" + id;
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ENTITY')")
     @PostMapping("/disponibilidad/{propertyId}")
     public String addDayPlan(@PathVariable("propertyId") Long propertyId,
-                             @RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate timetableDay,
-                             @RequestParam LocalTime start,
-                             @RequestParam LocalTime end,
-                             @SessionAttribute(required=false, name="userSession") User user) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate timetableDay,
+            @RequestParam LocalTime start,
+            @RequestParam LocalTime end,
+            @SessionAttribute(required = false, name = "userSession") User user) {
         dayPlanService.addDayPlan(propertyId, timetableDay, start, end);
         return "redirect:/usuario/gestion/" + user.getId();
     }
@@ -110,7 +119,7 @@ public class PropertyController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
     @GetMapping("/disponibilidad/eliminar/{id}")
     public String deleteDayPlan(@PathVariable Long id,
-                                @SessionAttribute(required=false, name="userSession") User user) {
+            @SessionAttribute(required = false, name = "userSession") User user) {
         dayPlanService.deleteDayPlan(id, user);
         return "redirect:/usuario/gestion/" + user.getId();
     }
@@ -118,40 +127,49 @@ public class PropertyController {
     @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     @PostMapping("/{propertyId}/reservarTurno")
     public String makeAnAppointment(@PathVariable("propertyId") Long propertyId,
-                                    @RequestParam Long appointmentId,
-                                    @SessionAttribute(required=false, name="userSession") User user) {
+            @RequestParam Long appointmentId,
+            @SessionAttribute(required = false, name = "userSession") User user) {
         appointmentService.bookAppointment(appointmentId, user);
         return "redirect:/propiedades/" + propertyId;
     }
 
     @GetMapping("/turnos/{id}")
-    public String appointment(@PathVariable Long id, ModelMap model){
+    public String appointment(@PathVariable Long id, ModelMap model) {
         List<Property> properties = propertyService.findByUser(id);
-        model.put("properties",properties);
+        model.put("properties", properties);
         return "appointmentProperty.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_ENTITY')")
     @GetMapping("/turnos/cancelar/{id}")
     public String cancelAppointment(@PathVariable Long id,
-                                @SessionAttribute(required=false, name="userSession") User user) {
+            @SessionAttribute(required = false, name = "userSession") User user) {
         appointmentService.cancelAppointment(id, user);
         return "redirect:/usuario/gestion/" + user.getId();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
+    @GetMapping("/turnosCliente/cancelar/{id}")
+    public String clientCancelAppointment(@PathVariable Long id,
+            @RequestParam Long propertyId,
+            @SessionAttribute(required = false, name = "userSession") User user) {
+        appointmentService.clientCancelAppointment(id, user);
+        return "redirect:/propiedades/" + propertyId;
+    }
+
     @PostMapping("/filtrar")
     public String filterProperty(@RequestParam(required = false) String status,
-                                 @RequestParam(required = false) String type,
-                                 @RequestParam(required = false) Double minPrice,
-                                 @RequestParam(required = false) Double maxPrice,
-                                 @RequestParam(required = false) String province, ModelMap model){
-        model.put("properties",propertyService.filterProperties(status,type,minPrice,maxPrice,province));
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String province, ModelMap model) {
+        model.put("properties", propertyService.filterProperties(status, type, minPrice, maxPrice, province));
         return "properties";
     }
 
-    @PostMapping("/direccion")
-    public String findPropertyAddress(@RequestParam String address, ModelMap model) {
-        Property find = propertyService.findByAddress(address);
+    @PostMapping("/direccion/{id}")
+    public String findPropertyAddress(@RequestParam String address, @PathVariable Long id, ModelMap model) {
+        List<Property> find = propertyService.findByAddress(address, id);
         model.put("properties", find);
         model.put("title", "MrHouse | Propiedad");
         return "myProperties";

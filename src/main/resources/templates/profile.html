@@ -1,73 +1,113 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="/fragments/head :: head"></head>
-<body onload="loadTheme()">
+    <head th:replace="/fragments/head :: head"></head>
+    <body onload="loadTheme()">
 
-<div class="d-flex flex-column min-vh-100">
-    <nav th:replace="/fragments/nav :: nav"></nav>
+        <div class="d-flex flex-column min-vh-100">
+            <nav th:replace="/fragments/nav :: nav"></nav>
 
-    <section class="flex-grow-1">
+            <!-- Mensaje de éxito -->
+            <div class="alert alert-success alert-dismissible fade d-none container col-lg-6 col-md-8 col-12 mt-3" role="alert" id="successMessage">
+                <span>La solicitud ha sido enviada correctamente.</span>
+                <span>En las siguientes 24 horas, su tipo de usuario será cambiado a propietario.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
-        <div class="container">
-            <div class="row justify-content-center my-4 ">
-                <div class="col-lg-6 col-md-8 offset-lg-1 offset-md-1">
-                    <div class="card w-75">
-                        <div class="card-header text-center">
-                            <h5 class="card-title mt-1">Editar perfil</h5>
-                        </div>
-                        <div class="card-body">
-                            <form th:action="@{/usuario/perfil/__${session.userSession.id}__}" method="POST" enctype="multipart/form-data">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" name="name" id="name" th:value="${session.userSession.name}">
+            <section class="flex-grow-1">
+
+                <div class="container">
+                    <div class="row justify-content-center my-4 ">
+                        <div class="col-lg-6 col-md-8 offset-lg-1 offset-md-1">
+                            <div class="card w-75">
+                                <div class="card-header text-center">
+                                    <h2 class="card-title mt-1">Editar Perfil</h2>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" th:value="${session.userSession.email}" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="dni" class="form-label">DNI</label>
-                                    <input type="number" class="form-control" id="dni" th:value="${session.userSession.dni}" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="create" class="form-label">Día de alta</label>
-                                    <input type="date" class="form-control" id="create" th:value="${session.userSession.createDate}" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Tipo de usuario</label>
-                                    <input type="text" class="form-control" id="role" th:value="${session.userSession.role.name()=='ENTITY'}
+                                <div class="card-body">
+                                    <form th:action="@{/usuario/perfil/__${session.userSession.id}__}" method="POST" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Nombre</label>
+                                            <input type="text" class="form-control" name="name" id="name" th:value="${session.userSession.name}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" th:value="${session.userSession.email}" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="dni" class="form-label">DNI</label>
+                                            <input type="number" class="form-control" id="dni" th:value="${session.userSession.dni}" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="create" class="form-label">Día de alta</label>
+                                            <input type="date" class="form-control" id="create" th:value="${session.userSession.createDate}" disabled>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="role" class="form-label">Tipo de usuario</label>
+                                            <input type="text" class="form-control" id="role" th:value="${session.userSession.role.name()=='ENTITY'}
                                                    ?'Propietario':
                                                    (${session.userSession.role.name()=='CLIENT'}
                                                    ?'Cliente':'Admin')" disabled>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-outline-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#roleModal">
+                                                Solicitar cambio de usuario
+                                            </button>
+                                        </div>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="roleModalLabel">Confirmación</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        ¿Está seguro de que desea solicitar el cambio de usuario a propietario?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                        <button type="button" class="btn btn-success" id="confirmReset" data-bs-dismiss="modal">Si</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 d-flex flex-column justify-content-center align-items-center" >
+                                            <img th:src="@{/image/profile/__${session.userSession.id}__}" class="img-thumbnail img_profile mb-3" style="width: 100px; height: 100px; border-radius: 50%;">
+                                            <input name="icon" type="file" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Ingresá tu contraseña</label><span class="text-muted small"> (Para persistir los cambios)</span>
+                                            <input type="password" placeholder="Ingresá tu contraseña" class="form-control" name="password" id="password">
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-success">Guardar cambios</button>
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <a th:href="@{/usuario/contraseña/__${session.userSession.id}__}" class="btn w-100 btn-outline-secondary">Restablecer contraseña</a>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="mb-3 d-flex flex-column justify-content-center align-items-center" >
-                                    <img th:src="@{/image/profile/__${session.userSession.id}__}" class="img-thumbnail img_profile mb-3" style="width: 100px; height: 100px; border-radius: 50%;">
-                                    <input name="icon" type="file" class="form-control">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Ingresá tu contraseña</label><span class="text-muted small"> (Para persistir los cambios)</span>
-                                    <input type="password" placeholder="Ingresá tu contraseña" class="form-control" name="password" id="password">
-                                </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                                </div>
-                                <div class="text-center mt-3">
-                                    <a th:href="@{/usuario/contraseña/__${session.userSession.id}__}" class="btn w-100 btn-outline-secondary">Restablecer contraseña</a>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <footer th:replace="/fragments/footer :: footer"></footer>
-</div>
-<script src="/js/theme.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            <footer th:replace="/fragments/footer :: footer"></footer>
+        </div>
+        <script src="/js/theme.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-</body>
+        <script>
+            document.getElementById('confirmReset').addEventListener('click', function() {
+
+            // Una vez que se haya completado la solicitud, muestra el mensaje de éxito
+            document.getElementById('successMessage').classList.remove('d-none');
+            document.getElementById('successMessage').classList.add('show');
+
+            });
+        </script>
+    </body>
 
 </html>
