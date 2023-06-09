@@ -46,5 +46,5 @@ public interface IPropertyService {
 
     void setPropertyState(Property p);
     List<Property> filterProperties(String propertyStatus, String propertyType, Double minPrice, Double maxPrice, String province);
-    List<Property> findByAddress(String address);
+    List<Property> findByAddress(String address,Long id);
 }

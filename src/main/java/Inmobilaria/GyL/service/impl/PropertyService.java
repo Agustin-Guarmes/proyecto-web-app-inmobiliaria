@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class PropertyService implements IPropertyService {
+
     private final PropertyRepository pr;
     private final IImagePropertyService ips;
 
@@ -171,14 +172,18 @@ public class PropertyService implements IPropertyService {
     @Override
     public List<Property> filterProperties(String propertyStatus, String propertyType, Double minPrice, Double maxPrice, String province) {
         List<Property> availableProperties = pr.findAllEntity();
-        if (!province.equals("null"))
+        if (!province.equals("null")) {
             availableProperties = availableProperties.stream().filter(p -> p.getProvince().equals(province)).collect(Collectors.toList());
-        if (!propertyStatus.equals("null"))
+        }
+        if (!propertyStatus.equals("null")) {
             availableProperties = availableProperties.stream().filter(p -> p.getStatus() == PropertyStatus.valueOf(propertyStatus)).collect(Collectors.toList());
-        if (!propertyType.equals("null"))
+        }
+        if (!propertyType.equals("null")) {
             availableProperties = availableProperties.stream().filter(p -> p.getType() == PropertyType.valueOf(propertyType)).collect(Collectors.toList());
-        if (minPrice != null || maxPrice != null)
+        }
+        if (minPrice != null || maxPrice != null) {
             availableProperties = priceFilter(availableProperties, minPrice, maxPrice);
+        }
 
         return availableProperties;
     }
@@ -194,7 +199,7 @@ public class PropertyService implements IPropertyService {
         return properties;
     }
 
-    public List<Property> findByAddress(String address){
-        return pr.findByAddress(address);
+    public List<Property> findByAddress(String address, Long id) {
+        return pr.findByAddress(address, id);
     }
 }

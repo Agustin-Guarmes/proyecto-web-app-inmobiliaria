@@ -59,6 +59,13 @@ public class UserController {
         model.put("title", "MrHouse | Ingreso");
         return "login.html";
     }
+    
+    @GetMapping("/recuperarContrasena")
+    public String recoverPassword(ModelMap model) {
+        model.put("title", "MrHouse | Recuperar contraseña");
+        return "recoverPassword.html";
+    }
+    
     @PreAuthorize("hasAnyRole('ROLE_CLIENT','ROLE_ADMIN','ROLE_ENTITY')")
     @GetMapping("/restablecerContrasena")
     public String resetPassword(ModelMap model) {
